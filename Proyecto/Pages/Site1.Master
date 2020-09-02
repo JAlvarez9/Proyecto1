@@ -1,159 +1,46 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Proyecto.Site1" %>
 
-<!DOCTYPE html>
-<html lang="en" class="no-js">
+<!DOCTYPE html >
 
+<html>
 <head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Blueprint: Multi-Level Menu</title>
-	<meta name="description" content="Blueprint: A basic template for a responsive multi-level menu" />
-	<meta name="keywords" content="blueprint, template, html, css, menu, responsive, mobile-friendly" />
-	<meta name="author" content="Codrops" />
-	<link rel="shortcut icon" href="stuff/favicon.ico">
-	<!-- food icons -->
-	<link rel="stylesheet" type="text/css" href="stuff/css/organicfoodicons.css" />
-	<!-- demo styles -->
-	<link rel="stylesheet" type="text/css" href="stuff/css/demo.css" />
-	<!-- menu styles -->
-	<link rel="stylesheet" type="text/css" href="stuff/css/component.css" />
-	<script src="stuff/js/modernizr-custom.js"></script>
-</head>
 
-<body>
-	<form id="form1" runat="server">
-	<!-- Main container -->
-	<div class="container">
-		<!-- Blueprint header -->
-		<header class="bp-header cf">
-			<div class="dummy-logo">
-				<div class="dummy-icon foodicon foodicon--coconut"></div>
-				<h2 class="dummy-heading">Usac Games</h2>
-			</div>
-			<div class="bp-header__main">
-				<span class="bp-header__present">USAC <span class="bp-tooltip bp-icon bp-icon--about" data-content="The Blueprints are a collection of basic and minimal website concepts, components, plugins and layouts with minimal style for easy adaption and usage, or simply for inspiration."></span></span>
-				<h1 class="bp-header__title">Othelo Online</h1>
-				<nav class="bp-nav">
-					<a class="bp-nav__item bp-icon bp-icon--prev" href="http://tympanus.net/Blueprints/PageStackNavigation/" data-info="previous Blueprint"><span>Previous Blueprint</span></a>
-					<!--a class="bp-nav__item bp-icon bp-icon--next" href="" data-info="next Blueprint"><span>Next Blueprint</span></a-->
-					<a class="bp-nav__item bp-icon bp-icon--drop" href="http://tympanus.net/codrops/?p=25521" data-info="back to the Codrops article"><span>back to the Codrops article</span></a>
-					<a class="bp-nav__item bp-icon bp-icon--archive" href="http://tympanus.net/codrops/category/blueprints/" data-info="Blueprints archive"><span>Go to the archive</span></a>
-				</nav>
-			</div>
-		</header>
-		<button class="action action--open" aria-label="Open Menu"><span class="icon icon--menu"></span></button>
-		<nav id="ml-menu" class="menu">
-			<button class="action action--close" aria-label="Close Menu"><span class="icon icon--cross"></span></button>
-			<div class="menu__wrap">
-				<ul data-menu="main" class="menu__level" tabindex="-1" role="menu" aria-label="Menu Principal">
-					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-1" aria-owns="submenu-1" href="#">Jugar solitario</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-2" aria-owns="submenu-2" href="#">Multijugador</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-3" aria-owns="submenu-3" href="#">Torneos</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-4" aria-owns="submenu-4" href="#">My Info</a></li>
-				</ul>
-				<!-- Submenu 1 -->
-				<ul data-menu="submenu-1" id="submenu-1" class="menu__level" tabindex="-1" role="menu" aria-label="Vegetables">
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Nueva Partida</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Cargar Partida</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Guardar Partida</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-1-1" aria-owns="submenu-1-1" href="#">Sale %</a></li>
-				</ul>
-				<!-- Submenu 1-1 -->
-				<ul data-menu="submenu-1-1" id="submenu-1-1" class="menu__level" tabindex="-1" role="menu" aria-label="Sale %">
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Fair Trade Roots</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Dried Veggies</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Our Brand</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Homemade</a></li>
-				</ul>
-				<!-- Submenu 2 -->
-				<ul data-menu="submenu-2" id="submenu-2" class="menu__level" tabindex="-1" role="menu" aria-label="Multijugador">
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Juego con Amigo</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Juego jugador aleatorio</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-2-1" aria-owns="submenu-2-1" href="#">Special Selection</a></li>
-					
-				</ul>
-				<!-- Submenu 2-1 -->
-				<ul data-menu="submenu-2-1" id="submenu-2-1" class="menu__level" tabindex="-1" role="menu" aria-label="Special Selection">
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Exotic Mixes</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Wild Pick</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Vitamin Boosters</a></li>
-				</ul>
-				<!-- Submenu 3 -->
-				<ul data-menu="submenu-3" id="submenu-3" class="menu__level" tabindex="-1" role="menu" aria-label="Grains">
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Unirse a Torneo</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-3-1" aria-owns="submenu-3-1" href="#">Crear Torneo</a></li>
-				</ul>
-				<!-- Submenu 3-1 -->
-				<ul data-menu="submenu-3-1" id="submenu-3-1" class="menu__level" tabindex="-1" role="menu" aria-label="Crear Torneo">
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">4 Jugadores</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">8 Jugadores</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">16 Jugadores</a></li>
-				</ul>
-				<!-- Submenu 4 -->
-				<ul data-menu="submenu-4" id="submenu-4" class="menu__level" tabindex="-1" role="menu" aria-label="My Info">
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Information</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Juegos</a></li>
-					<li class="menu__item" role="menuitem"><a class="menu__link" href="#">Torneos</a></li>
-				</ul>				
-			</div>
-		</nav>
-		<div class="content">
-			<asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+<title runat="server">Othello Online</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
             </asp:ContentPlaceHolder>
-			<!-- Ajax loaded content here -->
-		</div>
-	</div>
-	<!-- /view -->
-	<script src="stuff/js/classie.js"></script>
-	<script src="stuff/js/dummydata.js"></script>
-	<script src="stuff/js/main.js"></script>
-	<script>
-	(function() {
-		var menuEl = document.getElementById('ml-menu'),
-			mlmenu = new MLMenu(menuEl, {
-				// breadcrumbsCtrl : true, // show breadcrumbs
-				// initialBreadcrumb : 'all', // initial breadcrumb text
-				backCtrl : false, // show back button
-				// itemsDelayInterval : 60, // delay between each menu item sliding animation
-				onItemClick: loadDummyData // callback: item that doesn´t have a submenu gets clicked - onItemClick([event], [inner HTML of the clicked item])
-			});
 
-		// mobile menu toggle
-		var openMenuCtrl = document.querySelector('.action--open'),
-			closeMenuCtrl = document.querySelector('.action--close');
+<link href="stuff/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">
+<div id="menu">
+	<ul>
+		<li><a href="Inicio.aspx" accesskey="1" title="">Home</a></li>
+		<li><a href="Solitario.aspx" accesskey="2" title="">Solitario</a></li>
+		<li><a href="#" accesskey="3" title="">Multijugador</a></li>
+		<li><a href="#" accesskey="4" title="">Torneos</a></li>
+		<li><a href="#" accesskey="5" title="">My Info</a></li>
+	</ul>
+</div>
+<div id="header">
+	<h1><a href="#">Othello Online</a></h1>
+</div>
+<div id="content">
+    
+	<div style="clear: both; height: 484px;" id="dentro">
+        <asp:ContentPlaceHolder ID="conte" runat="server">
+            </asp:ContentPlaceHolder>
+    </div>
+        
+</div>
+<div id="footer">
+    
+	
+</div>
 
-		openMenuCtrl.addEventListener('click', openMenu);
-		closeMenuCtrl.addEventListener('click', closeMenu);
-
-		function openMenu() {
-			classie.add(menuEl, 'menu--open');
-			closeMenuCtrl.focus();
-		}
-
-		function closeMenu() {
-			classie.remove(menuEl, 'menu--open');
-			openMenuCtrl.focus();
-		}
-
-		// simulate grid content loading
-		var gridWrapper = document.querySelector('.content');
-
-		function loadDummyData(ev, itemName) {
-			ev.preventDefault();
-
-			closeMenu();
-			gridWrapper.innerHTML = '';
-			classie.add(gridWrapper, 'content--loading');
-			setTimeout(function() {
-				classie.remove(gridWrapper, 'content--loading');
-				gridWrapper.innerHTML = '<ul class="products">' + dummyData[itemName] + '<ul>';
-			}, 700);
-		}
-	})();
-	</script>
     </form>
 </body>
-
 </html>
+
+   
 

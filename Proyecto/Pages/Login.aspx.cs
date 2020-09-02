@@ -27,7 +27,7 @@ namespace Proyecto
             if (num == 1)
             {
                 Session["Nombres"] = dvSql;
-                Response.Redirect("MenuPrincipal.aspx");
+                Response.Redirect("Inicio.aspx");
             }
         }
     }

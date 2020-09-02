@@ -69,25 +69,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Gestionar.cs" />
+    <Content Include="Pages\Estilos\Style1.css" />
     <Content Include="Pages\Formulario.aspx" />
+    <Content Include="Pages\Inicio.aspx" />
     <Content Include="Pages\Login.aspx" />
-    <Content Include="Pages\MenuPrincipal.aspx" />
+    <Content Include="Pages\Solitario.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\Inicio.aspx.cs">
+      <DependentUpon>Inicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Inicio.aspx.designer.cs">
+      <DependentUpon>Inicio.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MenuPrincipal.aspx.cs">
-      <DependentUpon>MenuPrincipal.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\MenuPrincipal.aspx.designer.cs">
-      <DependentUpon>MenuPrincipal.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
@@ -104,6 +106,13 @@
     </Compile>
     <Compile Include="Pages\Formulario.aspx.designer.cs">
       <DependentUpon>Formulario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Solitario.aspx.cs">
+      <DependentUpon>Solitario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Solitario.aspx.designer.cs">
+      <DependentUpon>Solitario.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
