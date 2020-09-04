@@ -10,6 +10,11 @@
             </asp:ContentPlaceHolder>
 
 <link href="stuff/default.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .auto-style1 {
+            height: 527px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -27,7 +32,7 @@
 </div>
 <div id="content">
     
-	<div style="clear: both; height: 484px;" id="dentro">
+	<div style="clear: both; " id="dentro" class="auto-style1">
         <asp:ContentPlaceHolder ID="conte" runat="server">
             </asp:ContentPlaceHolder>
     </div>
