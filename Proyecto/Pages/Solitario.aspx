@@ -95,7 +95,7 @@
                         <tr style="background-color:#006602">
                             <td style="background-color:#8E5800">2</td>
                             <td class="auto-style20">
-                                <asp:ImageButton ID="i9" runat="server" ImageUrl="stuff\tans.png" Height="35px" OnClick="ImageButton1_Click" Width="45px"/>
+                                <asp:ImageButton ID="i09" runat="server" ImageUrl="stuff\tans.png" Height="35px" OnClick="ImageButton1_Click" Width="45px"/>
                             </td>
                             <td class="auto-style20">
                                 <asp:ImageButton ID="i10" runat="server" ImageUrl="stuff\tans.png" Height="35px" OnClick="ImageButton1_Click" Width="45px"/>

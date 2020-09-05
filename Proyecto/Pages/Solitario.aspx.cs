@@ -21,18 +21,21 @@ namespace Proyecto.Pages
         string[] turnos = new string[2];
         string turnoactual = "";
         Ficaha[,] tablero = new Ficaha[8,8];
+        ImageButton[,] botones = new ImageButton[8, 8];
+        
         
         
         protected void Page_Load(object sender, EventArgs e)
         {
             Button3.Enabled = false;
+            tablero[7, 7] = null;
             
 
         }
 
         protected void Button3_Click(object sender, EventArgs e)
         {
-            Label6.Text = "Si entre al if";
+            //Label6.Text = "Si entre al if";
             tablero = (Ficaha[,])Session["tab"];
             XmlWriterSettings set = new XmlWriterSettings();
             set.Indent = true;
@@ -56,7 +59,7 @@ namespace Proyecto.Pages
                         xmlWriter.WriteString(tablero[i, j].x);
                         xmlWriter.WriteEndElement();
                         xmlWriter.WriteStartElement("fila");
-                        xmlWriter.WriteString(tablero[i, j].y.ToString());
+                        xmlWriter.WriteString((tablero[i, j].y+1).ToString());
                         xmlWriter.WriteEndElement();
                         xmlWriter.WriteEndElement();
 
@@ -99,13 +102,13 @@ namespace Proyecto.Pages
             Ficaha pred1 = new Ficaha();
             pred1.color = "blanco";
             pred1.x = "D";
-            pred1.y = 4;
+            pred1.y = 3;
             tablero[3, 3] = pred1;
 
             Ficaha pred2 = new Ficaha();
             pred2.color = "negro";
             pred2.x = "E";
-            pred2.y = 4;
+            pred2.y = 3;
             tablero[3, 4] = pred2;
 
             Ficaha pred3 = new Ficaha();
@@ -117,11 +120,11 @@ namespace Proyecto.Pages
             Ficaha pred4 = new Ficaha();
             pred4.color = "blanco";
             pred4.x = "E";
-            pred4.y = 5;
+            pred4.y = 4;
             tablero[4, 4] = pred4;
 
             Session["tab"] = tablero;
-
+            
             i28.ImageUrl = ("stuff\\blanca.jpg");
             i29.ImageUrl = ("stuff\\negra.jpg");
             i36.ImageUrl = ("stuff\\negra.jpg");
@@ -131,6 +134,7 @@ namespace Proyecto.Pages
             i36.Enabled = false;
             i37.Enabled = false;
 
+            llenado();
             Label1.Text = actual.NmUsuario;
             Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
@@ -172,7 +176,7 @@ namespace Proyecto.Pages
                     agre.color = color;
                     agre.x = x;
                     agre.x1 = leer(x);
-                    agre.y = y;
+                    agre.y = y -1 ;
                     Ficaha[,] ta = new Ficaha[8, 8];
                     ta[(int) agre.y,agre.x1] = agre;
                     color = "";
@@ -181,6 +185,7 @@ namespace Proyecto.Pages
                 }
 
             }
+            
             //Button3.Enabled = true;
         }
 
@@ -191,14 +196,32 @@ namespace Proyecto.Pages
             int id;
             Label5.Text = turnoactual;
             ImageButton clickedButton = (ImageButton)sender;
-            
+            botones = (ImageButton[,])Session["botones"];
             turnoactual = (string)Session["turnac"];
+
             if (turnoactual == "negro") {
 
                 int scoren =(int) Session["scoren"];
                 int scoreb = (int)Session["scoreb"];
-                clickedButton.ImageUrl = ("stuff\\negra.jpg");
-                clickedButton.Enabled = false;
+                string l = clickedButton.ID;
+                for(int i =0; i < 8; i++)
+                {
+                    for(int j =0; j<8; j++)
+                    {
+                        //Label6.Text = "Si entre al for";
+                        string k = botones[i, j].ID;
+                        if (l == k)
+                        {
+                            //clickedButton.ImageUrl = ("stuff\\negra.jpg");
+                            Label6.Text = "Si entre negro";
+                            //botones[i, j] = (ImageButton)sender;
+                            botones[i,j].ImageUrl = ("stuff\\negra.jpg");
+                            botones[i,j].Enabled = false;
+                        }
+                    }
+                }
+                Session["botones"] = botones;
+
                 Session["turnac"] = "blanco";
                  
                 Label2.Text = scoren.ToString();
@@ -217,8 +240,23 @@ namespace Proyecto.Pages
             {
                 int scoreb = (int)Session["scoreb"];
                 int scoren = (int)Session["scoren"];
-                clickedButton.ImageUrl = ("stuff\\blanca.jpg");
-                clickedButton.Enabled = false;
+                string l = clickedButton.ID;
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        //Label6.Text = "Si entre al for";
+                        string k = botones[i, j].ID;
+                        if (l == k)
+                        {
+                            Label6.Text = "Si entre blanco";
+                            //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
+                            botones[i, j].Enabled = false;
+                        }
+                    }
+                }
+                Session["botones"] = botones;
                 Session["turnac"] = "negro";
                 //Session["scoreb"] = score2 + 1;
 
@@ -243,9 +281,19 @@ namespace Proyecto.Pages
             if(color == "negro")
             {
                 nueva.color = "negra";
-                nueva.y = Math.Ceiling((double)id / 8);
-                int res = (id % 8) - 1;
+               
+                nueva.y = Math.Floor((double)id / 8);
+                int res = (id % 8)-1;
                 nueva.x1 = res;
+                if (id == 8 | id == 16 | id == 24 | id == 32 | id == 40 | id == 48 | id == 56 | id == 64)
+                {
+                    nueva.y = (id / 8) - 1;
+                    nueva.x = "H";
+                    nueva.x1 = 7;
+                    return nueva;
+                }
+               
+
                 switch (res)
                 {
                     case 0:
@@ -269,10 +317,8 @@ namespace Proyecto.Pages
                     case 6:
                         nueva.x = "G";
                         break;
-                    case 7:
-                        nueva.x = "H";
-                        break;
-                        
+                    
+
                 }
 
                 return nueva;
@@ -281,8 +327,20 @@ namespace Proyecto.Pages
             if (color == "blanco")
             {
                 nueva.color = "blanco";
-                nueva.y = Math.Ceiling((double)id / 8);
+                
+                nueva.y = Math.Floor((double)id / 8);
                 int res = (id % 8) - 1;
+                if(id == 8 | id == 16 | id ==24 | id == 32 | id == 40 | id == 48 | id==56 | id==64)
+                {
+                    nueva.y = (id / 8) - 1;
+                    nueva.x = "H";
+                    nueva.x1 = 7;
+                    return nueva;
+                }
+                nueva.x1 = res;
+
+               
+               
                 switch (res)
                 {
                     case 0:
@@ -306,9 +364,7 @@ namespace Proyecto.Pages
                     case 6:
                         nueva.x = "G";
                         break;
-                    case 7:
-                        nueva.x = "H";
-                        break;
+                    
 
                 }
 
@@ -353,7 +409,75 @@ namespace Proyecto.Pages
             return x1;
         }
 
+        public void llenado()
+        {
+            botones[0,0] = i01;
+            botones[0, 1] = i02;
+            botones[0, 2] = i03;
+            botones[0, 3] = i04;
+            botones[0, 4] = i05;
+            botones[0, 5] = i06;
+            botones[0, 6] = i07;
+            botones[0, 7] = i08;
+            botones[1, 0] = i09;
+            botones[1, 1] = i10;
+            botones[1, 2] = i11;
+            botones[1, 3] = i12;
+            botones[1, 4] = i13;
+            botones[1, 5] = i14;
+            botones[1, 6] = i15;
+            botones[1, 7] = i16;
+            botones[2, 0] = i17;
+            botones[2, 1] = i18;
+            botones[2, 2] = i19;
+            botones[2, 3] = i20;
+            botones[2, 4] = i21;
+            botones[2, 5] = i22;
+            botones[2, 6] = i23;
+            botones[2, 7] = i24;
+            botones[3, 0] = i25;
+            botones[3, 1] = i26;
+            botones[3, 2] = i27;
+            botones[3, 3] = i28;
+            botones[3, 4] = i29;
+            botones[3, 5] = i30;
+            botones[3, 6] = i31;
+            botones[3, 7] = i32;
+            botones[4, 0] = i33;
+            botones[4, 1] = i34;
+            botones[4, 2] = i35;
+            botones[4, 3] = i36;
+            botones[4, 4] = i37;
+            botones[4, 5] = i38;
+            botones[4, 6] = i39;
+            botones[4, 7] = i40;
+            botones[5, 0] = i41;
+            botones[5, 1] = i42;
+            botones[5, 2] = i43;
+            botones[5, 3] = i44;
+            botones[5, 4] = i45;
+            botones[5, 5] = i46;
+            botones[5, 6] = i47;
+            botones[5, 7] = i48;
+            botones[6, 0] = i49;
+            botones[6, 1] = i50;
+            botones[6, 2] = i51;
+            botones[6, 3] = i52;
+            botones[6, 4] = i53;
+            botones[6, 5] = i54;
+            botones[6, 6] = i55;
+            botones[6, 7] = i56;
+            botones[7, 0] = i57;
+            botones[7, 1] = i58;
+            botones[7, 2] = i59;
+            botones[7, 3] = i60;
+            botones[7, 4] = i61;
+            botones[7, 5] = i62;
+            botones[7, 6] = i63;
+            botones[7, 7] = i64;
+            Session["botones"] = botones;
 
+        }
 
         
     }

@@ -166,13 +166,13 @@ namespace Proyecto.Pages {
         protected global::System.Web.UI.WebControls.ImageButton i08;
         
         /// <summary>
-        /// Control i9.
+        /// Control i09.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton i9;
+        protected global::System.Web.UI.WebControls.ImageButton i09;
         
         /// <summary>
         /// Control i10.
