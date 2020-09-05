@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Ficaha.cs" />
     <Compile Include="App_Code\Gestionar.cs" />
     <Content Include="Pages\Estilos\Style1.css" />
     <Content Include="Pages\Formulario.aspx" />

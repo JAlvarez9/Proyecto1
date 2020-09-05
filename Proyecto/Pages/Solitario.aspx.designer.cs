@@ -94,579 +94,579 @@ namespace Proyecto.Pages {
         protected global::System.Web.UI.WebControls.Label Label6;
         
         /// <summary>
-        /// Control ImageButton1.
+        /// Control i01.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
+        protected global::System.Web.UI.WebControls.ImageButton i01;
         
         /// <summary>
-        /// Control ImageButton2.
+        /// Control i02.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton2;
+        protected global::System.Web.UI.WebControls.ImageButton i02;
         
         /// <summary>
-        /// Control ImageButton3.
+        /// Control i03.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton3;
+        protected global::System.Web.UI.WebControls.ImageButton i03;
         
         /// <summary>
-        /// Control ImageButton4.
+        /// Control i04.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton4;
+        protected global::System.Web.UI.WebControls.ImageButton i04;
         
         /// <summary>
-        /// Control ImageButton5.
+        /// Control i05.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton5;
+        protected global::System.Web.UI.WebControls.ImageButton i05;
         
         /// <summary>
-        /// Control ImageButton6.
+        /// Control i06.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton6;
+        protected global::System.Web.UI.WebControls.ImageButton i06;
         
         /// <summary>
-        /// Control ImageButton7.
+        /// Control i07.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton7;
+        protected global::System.Web.UI.WebControls.ImageButton i07;
         
         /// <summary>
-        /// Control ImageButton8.
+        /// Control i08.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton8;
+        protected global::System.Web.UI.WebControls.ImageButton i08;
         
         /// <summary>
-        /// Control ImageButton9.
+        /// Control i9.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton9;
+        protected global::System.Web.UI.WebControls.ImageButton i9;
         
         /// <summary>
-        /// Control ImageButton10.
+        /// Control i10.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton10;
+        protected global::System.Web.UI.WebControls.ImageButton i10;
         
         /// <summary>
-        /// Control ImageButton11.
+        /// Control i11.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton11;
+        protected global::System.Web.UI.WebControls.ImageButton i11;
         
         /// <summary>
-        /// Control ImageButton12.
+        /// Control i12.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton12;
+        protected global::System.Web.UI.WebControls.ImageButton i12;
         
         /// <summary>
-        /// Control ImageButton13.
+        /// Control i13.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton13;
+        protected global::System.Web.UI.WebControls.ImageButton i13;
         
         /// <summary>
-        /// Control ImageButton14.
+        /// Control i14.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton14;
+        protected global::System.Web.UI.WebControls.ImageButton i14;
         
         /// <summary>
-        /// Control ImageButton15.
+        /// Control i15.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton15;
+        protected global::System.Web.UI.WebControls.ImageButton i15;
         
         /// <summary>
-        /// Control ImageButton16.
+        /// Control i16.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton16;
+        protected global::System.Web.UI.WebControls.ImageButton i16;
         
         /// <summary>
-        /// Control ImageButton17.
+        /// Control i17.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton17;
+        protected global::System.Web.UI.WebControls.ImageButton i17;
         
         /// <summary>
-        /// Control ImageButton18.
+        /// Control i18.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton18;
+        protected global::System.Web.UI.WebControls.ImageButton i18;
         
         /// <summary>
-        /// Control ImageButton19.
+        /// Control i19.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton19;
+        protected global::System.Web.UI.WebControls.ImageButton i19;
         
         /// <summary>
-        /// Control ImageButton20.
+        /// Control i20.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton20;
+        protected global::System.Web.UI.WebControls.ImageButton i20;
         
         /// <summary>
-        /// Control ImageButton21.
+        /// Control i21.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton21;
+        protected global::System.Web.UI.WebControls.ImageButton i21;
         
         /// <summary>
-        /// Control ImageButton22.
+        /// Control i22.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton22;
+        protected global::System.Web.UI.WebControls.ImageButton i22;
         
         /// <summary>
-        /// Control ImageButton23.
+        /// Control i23.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton23;
+        protected global::System.Web.UI.WebControls.ImageButton i23;
         
         /// <summary>
-        /// Control ImageButton24.
+        /// Control i24.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton24;
+        protected global::System.Web.UI.WebControls.ImageButton i24;
         
         /// <summary>
-        /// Control ImageButton25.
+        /// Control i25.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton25;
+        protected global::System.Web.UI.WebControls.ImageButton i25;
         
         /// <summary>
-        /// Control ImageButton26.
+        /// Control i26.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton26;
+        protected global::System.Web.UI.WebControls.ImageButton i26;
         
         /// <summary>
-        /// Control ImageButton27.
+        /// Control i27.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton27;
+        protected global::System.Web.UI.WebControls.ImageButton i27;
         
         /// <summary>
-        /// Control ImageButton28.
+        /// Control i28.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton28;
+        protected global::System.Web.UI.WebControls.ImageButton i28;
         
         /// <summary>
-        /// Control ImageButton29.
+        /// Control i29.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton29;
+        protected global::System.Web.UI.WebControls.ImageButton i29;
         
         /// <summary>
-        /// Control ImageButton30.
+        /// Control i30.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton30;
+        protected global::System.Web.UI.WebControls.ImageButton i30;
         
         /// <summary>
-        /// Control ImageButton31.
+        /// Control i31.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton31;
+        protected global::System.Web.UI.WebControls.ImageButton i31;
         
         /// <summary>
-        /// Control ImageButton32.
+        /// Control i32.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton32;
+        protected global::System.Web.UI.WebControls.ImageButton i32;
         
         /// <summary>
-        /// Control ImageButton33.
+        /// Control i33.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton33;
+        protected global::System.Web.UI.WebControls.ImageButton i33;
         
         /// <summary>
-        /// Control ImageButton34.
+        /// Control i34.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton34;
+        protected global::System.Web.UI.WebControls.ImageButton i34;
         
         /// <summary>
-        /// Control ImageButton35.
+        /// Control i35.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton35;
+        protected global::System.Web.UI.WebControls.ImageButton i35;
         
         /// <summary>
-        /// Control ImageButton36.
+        /// Control i36.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton36;
+        protected global::System.Web.UI.WebControls.ImageButton i36;
         
         /// <summary>
-        /// Control ImageButton37.
+        /// Control i37.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton37;
+        protected global::System.Web.UI.WebControls.ImageButton i37;
         
         /// <summary>
-        /// Control ImageButton38.
+        /// Control i38.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton38;
+        protected global::System.Web.UI.WebControls.ImageButton i38;
         
         /// <summary>
-        /// Control ImageButton39.
+        /// Control i39.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton39;
+        protected global::System.Web.UI.WebControls.ImageButton i39;
         
         /// <summary>
-        /// Control ImageButton40.
+        /// Control i40.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton40;
+        protected global::System.Web.UI.WebControls.ImageButton i40;
         
         /// <summary>
-        /// Control ImageButton41.
+        /// Control i41.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton41;
+        protected global::System.Web.UI.WebControls.ImageButton i41;
         
         /// <summary>
-        /// Control ImageButton42.
+        /// Control i42.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton42;
+        protected global::System.Web.UI.WebControls.ImageButton i42;
         
         /// <summary>
-        /// Control ImageButton43.
+        /// Control i43.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton43;
+        protected global::System.Web.UI.WebControls.ImageButton i43;
         
         /// <summary>
-        /// Control ImageButton44.
+        /// Control i44.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton44;
+        protected global::System.Web.UI.WebControls.ImageButton i44;
         
         /// <summary>
-        /// Control ImageButton45.
+        /// Control i45.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton45;
+        protected global::System.Web.UI.WebControls.ImageButton i45;
         
         /// <summary>
-        /// Control ImageButton46.
+        /// Control i46.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton46;
+        protected global::System.Web.UI.WebControls.ImageButton i46;
         
         /// <summary>
-        /// Control ImageButton47.
+        /// Control i47.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton47;
+        protected global::System.Web.UI.WebControls.ImageButton i47;
         
         /// <summary>
-        /// Control ImageButton48.
+        /// Control i48.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton48;
+        protected global::System.Web.UI.WebControls.ImageButton i48;
         
         /// <summary>
-        /// Control ImageButton49.
+        /// Control i49.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton49;
+        protected global::System.Web.UI.WebControls.ImageButton i49;
         
         /// <summary>
-        /// Control ImageButton50.
+        /// Control i50.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton50;
+        protected global::System.Web.UI.WebControls.ImageButton i50;
         
         /// <summary>
-        /// Control ImageButton51.
+        /// Control i51.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton51;
+        protected global::System.Web.UI.WebControls.ImageButton i51;
         
         /// <summary>
-        /// Control ImageButton52.
+        /// Control i52.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton52;
+        protected global::System.Web.UI.WebControls.ImageButton i52;
         
         /// <summary>
-        /// Control ImageButton53.
+        /// Control i53.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton53;
+        protected global::System.Web.UI.WebControls.ImageButton i53;
         
         /// <summary>
-        /// Control ImageButton54.
+        /// Control i54.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton54;
+        protected global::System.Web.UI.WebControls.ImageButton i54;
         
         /// <summary>
-        /// Control ImageButton55.
+        /// Control i55.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton55;
+        protected global::System.Web.UI.WebControls.ImageButton i55;
         
         /// <summary>
-        /// Control ImageButton56.
+        /// Control i56.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton56;
+        protected global::System.Web.UI.WebControls.ImageButton i56;
         
         /// <summary>
-        /// Control ImageButton57.
+        /// Control i57.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton57;
+        protected global::System.Web.UI.WebControls.ImageButton i57;
         
         /// <summary>
-        /// Control ImageButton58.
+        /// Control i58.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton58;
+        protected global::System.Web.UI.WebControls.ImageButton i58;
         
         /// <summary>
-        /// Control ImageButton59.
+        /// Control i59.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton59;
+        protected global::System.Web.UI.WebControls.ImageButton i59;
         
         /// <summary>
-        /// Control ImageButton60.
+        /// Control i60.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton60;
+        protected global::System.Web.UI.WebControls.ImageButton i60;
         
         /// <summary>
-        /// Control ImageButton61.
+        /// Control i61.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton61;
+        protected global::System.Web.UI.WebControls.ImageButton i61;
         
         /// <summary>
-        /// Control ImageButton62.
+        /// Control i62.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton62;
+        protected global::System.Web.UI.WebControls.ImageButton i62;
         
         /// <summary>
-        /// Control ImageButton63.
+        /// Control i63.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton63;
+        protected global::System.Web.UI.WebControls.ImageButton i63;
         
         /// <summary>
-        /// Control ImageButton64.
+        /// Control i64.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton64;
+        protected global::System.Web.UI.WebControls.ImageButton i64;
     }
 }
