@@ -54,7 +54,7 @@ namespace Proyecto.App_Code
         {
             SqlCommand comando = new SqlCommand();
             comando.Connection = conexion;
-            comando.CommandText = "select * from usuarios where NombreUsuario = @nmusua ";
+            comando.CommandText = "select * from UsuariosR where NombreUsuario = @nmusua ";
             comando.Parameters.AddWithValue("@nmusua",nmusuario);
             SqlDataReader regis = comando.ExecuteReader();
             if (regis.Read())

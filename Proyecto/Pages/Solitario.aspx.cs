@@ -29,7 +29,16 @@ namespace Proyecto.Pages
         {
             Button3.Enabled = false;
             tablero[7, 7] = null;
-            
+            llenado();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    botones[i, j].Enabled = false;
+                }
+            }
+
+            Session["botones"] = botones;
 
         }
 
@@ -69,9 +78,10 @@ namespace Proyecto.Pages
                 
 
             }
-            
             xmlWriter.WriteStartElement("siguienteTiro");
+            xmlWriter.WriteStartElement("color");
             xmlWriter.WriteString(tiro);
+            xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndDocument();
@@ -85,6 +95,7 @@ namespace Proyecto.Pages
         {
             int scoren;
             int scoreb;
+            botones = (ImageButton[,])Session["botones"];
             Random rnd = new Random();
             turnos[0] = "blanco";
             turnos[1] = "negro";
@@ -134,90 +145,161 @@ namespace Proyecto.Pages
             i36.Enabled = false;
             i37.Enabled = false;
 
-            llenado();
+            
             Label1.Text = actual.NmUsuario;
             Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    botones[i, j].Enabled = true;
+                }
+            }
+            Session["botones"] = botones;
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            string color = "";
-            string x = "";
-            int y = -1;
-            string tiro = "";
-            Label6.Text = "Cerro";
-            XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Stuff\ejemplo.xml");
-            while (reader.Read())
+            if (FileUpload1.HasFile)
             {
-                if (reader.IsStartElement())
+                FileUpload1.SaveAs(Server.MapPath("~/Archivos/" + FileUpload1.FileName));
+
+
+                botones = (ImageButton[,])Session["botones"];
+                Ficaha[,] ta = new Ficaha[8, 8];
+                string color = "";
+                string x = "";
+                int puntne = 0;
+                int puntbl = 0;
+                int y = -1;
+                string tiro = "";
+                Label6.Text = "Cerro";
+                for (int i = 0; i < 8; i++)
                 {
-                    //return only when you have START tag  
-                    switch (reader.Name.ToString())
+                    for (int j = 0; j < 8; j++)
                     {
-                        case "color":
-                            color= reader.ReadString();
-                            break;
-                        case "columna":
-                            x = reader.ReadString();
-                            break;
-                        case "fila":
-                            y = Int32.Parse(reader.ReadString());
-                            break;
-                        case "siguienteTiro":
-                            tiro = reader.ReadString();
-                            break;
+                        botones[i, j].Enabled = true;
+                    }
+                }
+                XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyectos\Proyecto\Proyecto\Archivos\" + FileUpload1.FileName);
+                while (reader.Read())
+                {
+                    Label6.Text = "si while";
+                    if (reader.IsStartElement())
+                    {
+                        //return only when you have START tag  
+                        switch (reader.Name.ToString())
+                        {
+                            case "color":
+                                color = reader.ReadString();
+                                tiro = color;
+                                Label1.Text = tiro;
+                                break;
+                            case "columna":
+                                x = reader.ReadString();
+                                break;
+                            case "fila":
+                                y = Int32.Parse(reader.ReadString());
+                                break;
+                                //case "siguienteTiro":
+                                //    tiro = reader.ReadString();
+                                //    break;
+                        }
+
+                    }
+                    Session["turnac"] = tiro;
+                    if (color != "" & x != "" & y != -1)
+                    {
+                        Label5.Text = "entre al if";
+                        Ficaha agre = new Ficaha();
+                        agre.color = color;
+                        agre.x = x;
+                        agre.x1 = leer(x);
+                        agre.y = y - 1;
+                        //Ficaha[,] ta = new Ficaha[8, 8];
+                        ta[(int)agre.y, agre.x1] = agre;
+                        for (int i = 0; i < 8; i++)
+                        {
+                            for (int j = 0; j < 8; j++)
+                            {
+                                if (i == agre.y & j == agre.x1 & agre.color == "blanco")
+                                {
+                                    //Label6.Text = "si cargo algo";
+                                    //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
+                                    botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
+                                    botones[i, j].Enabled = false;
+                                    puntbl++;
+                                }
+                                else if (i == agre.y & j == agre.x1 & agre.color == "negro")
+                                {
+                                    //Label6.Text = "si cargo algo ne";
+                                    //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
+                                    botones[i, j].ImageUrl = ("stuff\\negra.jpg");
+                                    botones[i, j].Enabled = false;
+                                    puntne++;
+                                }
+
+
+
+                            }
+                        }
+
+                        color = "";
+                        x = "";
+                        y = -1;
                     }
 
                 }
-                if(color != "" & x != "" & y != -1)
-                {
-                    Ficaha agre = new Ficaha();
-                    agre.color = color;
-                    agre.x = x;
-                    agre.x1 = leer(x);
-                    agre.y = y -1 ;
-                    Ficaha[,] ta = new Ficaha[8, 8];
-                    ta[(int) agre.y,agre.x1] = agre;
-                    color = "";
-                    x = "";
-                    y = -1;
-                }
+
+                tablero = ta;
+                Session["scoren"] = puntne;
+                Session["scoreb"] = puntbl;
+                Session["tab"] = tablero;
+                Session["botones"] = botones;
+                Button3.Enabled = true;
+            }
+            else
+            {
 
             }
-            
-            //Button3.Enabled = true;
         }
 
         
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
             string idaux;
+
             int id;
+            turnoactual = (string)Session["turnac"];
             Label5.Text = turnoactual;
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
-            turnoactual = (string)Session["turnac"];
 
+            
             if (turnoactual == "negro") {
 
                 int scoren =(int) Session["scoren"];
                 int scoreb = (int)Session["scoreb"];
                 string l = clickedButton.ID;
-                for(int i =0; i < 8; i++)
+                for (int i = 0; i < 8; i++)
                 {
-                    for(int j =0; j<8; j++)
+                    for (int j = 0; j < 8; j++)
                     {
                         //Label6.Text = "Si entre al for";
                         string k = botones[i, j].ID;
-                        if (l == k)
-                        {
-                            //clickedButton.ImageUrl = ("stuff\\negra.jpg");
-                            Label6.Text = "Si entre negro";
-                            //botones[i, j] = (ImageButton)sender;
-                            botones[i,j].ImageUrl = ("stuff\\negra.jpg");
-                            botones[i,j].Enabled = false;
-                        }
+                        //botones[i, j].Enabled = true;
+                        
+                            if (l == k)
+                            {
+                                //clickedButton.ImageUrl = ("stuff\\negra.jpg");
+                                Label6.Text = "Si entre negro";
+                                //botones[i, j] = (ImageButton)sender;
+                                botones[i, j].ImageUrl = ("stuff\\negra.jpg");
+                                botones[i, j].Enabled = false;
+                            }
+                        
+                        
                     }
                 }
                 Session["botones"] = botones;
@@ -227,14 +309,14 @@ namespace Proyecto.Pages
                 Label2.Text = scoren.ToString();
                 Label5.Text = scoreb.ToString();
                 idaux = clickedButton.ID;
-                id = Int32.Parse(idaux.Substring(1,2));
+                id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "negro");
-                tablero[(int)nueva.y,nueva.x1] = nueva;
+                tablero[(int)nueva.y, nueva.x1] = nueva;
                 Session["tab"] = tablero;
                 Session["scoren"] = scoren + 1;
-                
+
             }
             else if(turnoactual == "blanco")
             {
@@ -247,13 +329,19 @@ namespace Proyecto.Pages
                     {
                         //Label6.Text = "Si entre al for";
                         string k = botones[i, j].ID;
-                        if (l == k)
-                        {
-                            Label6.Text = "Si entre blanco";
-                            //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
-                            botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
-                            botones[i, j].Enabled = false;
-                        }
+                        //botones[i, j].Enabled = true;
+                        
+                            if (l == k)
+                            {
+                                Label6.Text = "Si entre blanco";
+                                //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
+
+                                botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
+                                botones[i, j].Enabled = false;
+                            }
+
+                        
+                        
                     }
                 }
                 Session["botones"] = botones;
@@ -264,7 +352,7 @@ namespace Proyecto.Pages
                 Label2.Text = scoren.ToString();
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
-                tablero = (Ficaha[,])Session["tab"]; 
+                tablero = (Ficaha[,])Session["tab"];
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "blanco");
                 tablero[(int)nueva.y, nueva.x1] = nueva;
@@ -272,6 +360,14 @@ namespace Proyecto.Pages
                 Session["scoreb"] = scoreb + 1;
             }
             Button3.Enabled = true;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    botones[i, j].Enabled = true;
+                }
+            }
+            Session["botones"] = botones;
         }
 
 
@@ -280,7 +376,7 @@ namespace Proyecto.Pages
             Ficaha nueva = new Ficaha();
             if(color == "negro")
             {
-                nueva.color = "negra";
+                nueva.color = "negro";
                
                 nueva.y = Math.Floor((double)id / 8);
                 int res = (id % 8)-1;
@@ -411,7 +507,9 @@ namespace Proyecto.Pages
 
         public void llenado()
         {
+            
             botones[0,0] = i01;
+            //botones[0,0].ImageUrl = ("stuff\\negra.jpg");
             botones[0, 1] = i02;
             botones[0, 2] = i03;
             botones[0, 3] = i04;

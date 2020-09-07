@@ -2,13 +2,14 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="conte" runat="server">
 
     
-        <table>
+        <table class="auto-style23">
             <tr>
                 <td >
                     <asp:Button ID="Button1" runat="server" Height="43px" OnClick="Button1_Click" Text="Nueva Partida" Width="205px" />
                 </td>
                 <td >
-                    <asp:Button ID="Button2" runat="server" Height="43px" OnClick="Button2_Click" Text="Cargar Partida" Width="234px" />
+                    <asp:FileUpload ID="FileUpload1" runat="server" accept=".xml" Width="145px"/>
+                    <asp:Button ID="Button2" runat="server" Height="22px" OnClick="Button2_Click" Text="Cargar Partida" Width="234px" />
                 </td>
                 <td class="auto-style15" >
                     <asp:Button ID="Button3" runat="server" Height="43px" OnClick="Button3_Click" Text="Guardar Partida" Width="207px" />
@@ -359,6 +360,10 @@
         .hide {
             visibility: hidden;
 
+        }
+
+        .auto-style23 {
+            height: 74px;
         }
 
     </style>

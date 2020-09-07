@@ -1,7 +1,10 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Proyecto.Login" %>
 
 <!DOCTYPE html>
-
+<!-- Plantilla obtenida del siguiente link
+    https://codepen.io/Tushkiz/pen/xqfsy/
+    
+    -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>

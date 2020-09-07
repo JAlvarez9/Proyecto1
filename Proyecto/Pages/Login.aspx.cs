@@ -23,6 +23,7 @@ namespace Proyecto
             Gestionar ges = new Gestionar();
             consulta = ges.consultapersona(usu);
             int num = 0;
+            //login_name.Text=consulta.Nombres;
             DataView dvSql = (DataView)SqlDataSource1.Select(DataSourceSelectArguments.Empty);
             
             if (dvSql.Count > 0)

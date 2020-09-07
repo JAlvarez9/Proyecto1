@@ -22,7 +22,7 @@
     <p class="primero">Apellidos: <asp:TextBox name="Apellidos" size="50" runat="server" ID="txtapellidos"/></p>
     <p class="primero">Nombre de Usuario: <asp:TextBox name="nmusua" size="40" runat="server" ID="txtnmusua"/></p>
     <p class="primero">Contrasenia: <asp:TextBox TextMode="Password" name="repass" size="40" runat="server" ID="txtcontra"/></p>
-    <p class="primero">Fecha de Nacimiento <asp:TextBox  name="nacimiento" size="30" runat="server" ID="txtnaci"/></p>
+    <p class="primero">Fecha de Nacimiento <asp:TextBox Type="Date" name="nacimiento" size="30" runat="server" ID="txtnaci"/></p>
     <p class="primero">Pais: <asp:TextBox  name="Pais" size="50" runat="server" ID="txtpais"/></p>
     <p class="primero">Correo Electronico: <asp:TextBox  name="Correo" size="50" runat="server" ID="txtcorreo"/></p>
   </div>
