@@ -27,6 +27,7 @@ namespace Proyecto.Pages
         
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             Button3.Enabled = false;
             tablero[7, 7] = null;
             llenado();

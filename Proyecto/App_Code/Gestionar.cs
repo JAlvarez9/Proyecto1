@@ -25,7 +25,7 @@ namespace Proyecto.App_Code
             bool agregar = false;
             SqlCommand comand = new SqlCommand();
             comand.Connection = conexion;
-            comand.CommandText = "insert into UsuariosR values(@nombres, @apellidos, @nmusuarios, @contra, @naci, @pais, @correo)";
+            comand.CommandText = "insert into Usuario values(@nombres, @apellidos, @nmusuarios, @contra, @naci, @pais, @correo,0,0,0,0,0,0)";
             
             comand.Parameters.AddWithValue("@nombres", nuevo.Nombres);
             comand.Parameters.AddWithValue("@apellidos", nuevo.Apellidos);

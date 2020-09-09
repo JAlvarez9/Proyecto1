@@ -21,22 +21,34 @@ namespace Proyecto
             string usu = login_name.Text;
             Usuario consulta = new Usuario();
             Gestionar ges = new Gestionar();
-            consulta = ges.consultapersona(usu);
-            int num = 0;
-            //login_name.Text=consulta.Nombres;
-            DataView dvSql = (DataView)SqlDataSource1.Select(DataSourceSelectArguments.Empty);
-            
-            if (dvSql.Count > 0)
+            try
             {
-                num = 1;
+                consulta = ges.consultapersona(usu);
+            }catch(Exception ex)
+            {
+                Label1.Text = ex.Message;
             }
-
-            if (num == 1)
+            if(consulta != null)
             {
-                //login_name.Text = consulta.Nombres;
                 Session["Usuario"] = consulta;
                 Response.Redirect("Inicio.aspx");
+
             }
+            int num = 0;
+            //login_name.Text=consulta.Nombres;
+            //DataView dvSql = (DataView)SqlDataSource1.Select(DataSourceSelectArguments.Empty);
+            
+            //if (dvSql.Count > 0)
+            //{
+            //    num = 1;
+            //}
+
+            //if (num == 1)
+            //{
+            //    //login_name.Text = consulta.Nombres;
+            //    Session["Usuario"] = consulta;
+            //    Response.Redirect("Inicio.aspx");
+            //}
         }
     }
 }

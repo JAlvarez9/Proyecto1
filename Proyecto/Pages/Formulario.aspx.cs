@@ -27,7 +27,8 @@ namespace Proyecto
             agregar.NmUsuario = txtnmusua.Text;
             agregar.Contrasena = txtcontra.Text;
             string q = txtnaci.Text;
-            string[] a = q.Split('/');
+            //Label1.Text = q;
+            string[] a = q.Split('-');
             string na = a[2]+ "/" + a[1]+"/"+a[0];
             agregar.Nacimiento = Convert.ToDateTime(na);
             agregar.Pais = txtpais.Text;

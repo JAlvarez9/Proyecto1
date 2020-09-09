@@ -31,14 +31,11 @@
 
 				
                 <asp:Button ID="Button1" runat="server" Text="Iniciar Sesión" BackColor="#0066CC" OnClick="Button1_Click" />
-                </a>&nbsp;<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=(local)\SQLEXPRESS;Initial Catalog=ProyectoIPC2_Fase1;Integrated Security=True" ProviderName="System.Data.SqlClient" SelectCommand="consulta" SelectCommandType="StoredProcedure">
-                    <SelectParameters>
-                        <asp:ControlParameter ControlID="login_name" Name="usu" PropertyName="Text" Type="String" />
-                        <asp:ControlParameter ControlID="login_pass" Name="pass" PropertyName="Text" Type="String" />
-                    </SelectParameters>
-                </asp:SqlDataSource>
-                <a class="login-link" href="Formulario.aspx">Register Here</a>
-			</div>
+                </a>&nbsp;<a class="login-link" href="Formulario.aspx">Register Here</a><br />
+                <a class="login-link" href="Formulario.aspx">
+                <asp:Label ID="Label1" runat="server"></asp:Label>
+                </a>
+			&nbsp;</div>
 		</div>
 	</div>
 </body>
