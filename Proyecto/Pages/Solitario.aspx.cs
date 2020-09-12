@@ -22,22 +22,52 @@ namespace Proyecto.Pages
         string turnoactual = "";
         Ficaha[,] tablero = new Ficaha[8,8];
         ImageButton[,] botones = new ImageButton[8, 8];
-        
+        static int f = 1;
         
         
         protected void Page_Load(object sender, EventArgs e)
         {
             
             Button3.Enabled = false;
-            tablero[7, 7] = null;
+            
             llenado();
-            for (int i = 0; i < 8; i++)
+            if(f == 1)
             {
-                for (int j = 0; j < 8; j++)
+                for (int i = 0; i < 8; i++)
                 {
-                    botones[i, j].Enabled = false;
+                    for (int j = 0; j < 8; j++)
+                    {
+                            botones[i, j].Enabled = false;
+                    }
+                }
+                f++;
+            }
+            else
+            {
+                botones = (ImageButton[,])Session["botones"];
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        string col = botones[i, j].ImageUrl.ToString();
+                        if (col == "stuff\\blanca.jpg" | col == "stuff\\negra.jpg")
+                        {
+                            botones[i, j].Enabled = true;
+                        }
+                        else
+                        {
+                            botones[i, j].Enabled = false;
+                        }
+
+
+
+                    }
                 }
             }
+            
+            
+            
+
 
             Session["botones"] = botones;
 
@@ -45,12 +75,17 @@ namespace Proyecto.Pages
 
         protected void Button3_Click(object sender, EventArgs e)
         {
+            string ruta = TextBox1.Text;
+            if(ruta == null | ruta == " "){
+                TextBox1.Text = "No coloco una ruta con el nombre del archivo";
+            }
+            
             //Label6.Text = "Si entre al if";
             tablero = (Ficaha[,])Session["tab"];
             XmlWriterSettings set = new XmlWriterSettings();
             set.Indent = true;
             string tiro =(string) Session["turnac"];
-            XmlWriter xmlWriter = XmlWriter.Create(@"C:\Users\Byron Alvarez\Desktop\Stuff\ejemplo.xml", set);
+            XmlWriter xmlWriter = XmlWriter.Create(@""+ruta, set);
 
             xmlWriter.WriteStartDocument();
 
@@ -94,6 +129,7 @@ namespace Proyecto.Pages
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            //tablero = (Ficaha[,])Session["tab"];
             int scoren;
             int scoreb;
             botones = (ImageButton[,])Session["botones"];
@@ -218,7 +254,7 @@ namespace Proyecto.Pages
                         agre.x = x;
                         agre.x1 = leer(x);
                         agre.y = y - 1;
-                        //Ficaha[,] ta = new Ficaha[8, 8];
+                        
                         ta[(int)agre.y, agre.x1] = agre;
                         for (int i = 0; i < 8; i++)
                         {
@@ -226,16 +262,13 @@ namespace Proyecto.Pages
                             {
                                 if (i == agre.y & j == agre.x1 & agre.color == "blanco")
                                 {
-                                    //Label6.Text = "si cargo algo";
-                                    //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
                                     botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
                                     botones[i, j].Enabled = false;
                                     puntbl++;
                                 }
                                 else if (i == agre.y & j == agre.x1 & agre.color == "negro")
                                 {
-                                    //Label6.Text = "si cargo algo ne";
-                                    //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
+                                    
                                     botones[i, j].ImageUrl = ("stuff\\negra.jpg");
                                     botones[i, j].Enabled = false;
                                     puntne++;
@@ -294,7 +327,7 @@ namespace Proyecto.Pages
                             if (l == k)
                             {
                                 //clickedButton.ImageUrl = ("stuff\\negra.jpg");
-                                Label6.Text = "Si entre negro";
+                                //Label6.Text = "Si entre negro";
                                 //botones[i, j] = (ImageButton)sender;
                                 botones[i, j].ImageUrl = ("stuff\\negra.jpg");
                                 botones[i, j].Enabled = false;
@@ -330,7 +363,7 @@ namespace Proyecto.Pages
                     {
                         //Label6.Text = "Si entre al for";
                         string k = botones[i, j].ID;
-                        //botones[i, j].Enabled = true;
+                        //botone[i, j].Enabled = true;
                         
                             if (l == k)
                             {
@@ -510,7 +543,7 @@ namespace Proyecto.Pages
         {
             
             botones[0,0] = i01;
-            //botones[0,0].ImageUrl = ("stuff\\negra.jpg");
+            
             botones[0, 1] = i02;
             botones[0, 2] = i03;
             botones[0, 3] = i04;

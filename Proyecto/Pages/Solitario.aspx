@@ -12,7 +12,8 @@
                     <asp:Button ID="Button2" runat="server" Height="22px" OnClick="Button2_Click" Text="Cargar Partida" Width="234px" />
                 </td>
                 <td class="auto-style15" >
-                    <asp:Button ID="Button3" runat="server" Height="43px" OnClick="Button3_Click" Text="Guardar Partida" Width="207px" />
+                    <asp:TextBox ID="TextBox1" runat="server" Width="195px"></asp:TextBox>
+                    <asp:Button ID="Button3" runat="server" Height="26px" OnClick="Button3_Click" Text="Guardar Partida" Width="207px" />
                 </td>
             </tr>
         </table>

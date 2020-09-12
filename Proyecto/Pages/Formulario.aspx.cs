@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Proyecto.App_Code;
 
+//Se obtuvo la ayuda pra realizarlo del siguiente link https://www.youtube.com/watch?v=4izXx3TfS2w
 namespace Proyecto
 {
     public partial class Formulario : System.Web.UI.Page

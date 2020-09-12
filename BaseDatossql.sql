@@ -1,3 +1,5 @@
+create database ProyectoIPC2_Fase1;
+
 create table Usuario(
 idUsuarios int Identity(0,1) not null,
 primary key(idUsuarios),

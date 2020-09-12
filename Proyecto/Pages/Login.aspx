@@ -32,9 +32,9 @@
 				
                 <asp:Button ID="Button1" runat="server" Text="Iniciar Sesión" BackColor="#0066CC" OnClick="Button1_Click" />
                 </a>&nbsp;<a class="login-link" href="Formulario.aspx">Register Here</a><br />
-                <a class="login-link" href="Formulario.aspx">
+                
                 <asp:Label ID="Label1" runat="server"></asp:Label>
-                </a>
+                
 			&nbsp;</div>
 		</div>
 	</div>

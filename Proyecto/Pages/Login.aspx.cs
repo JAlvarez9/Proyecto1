@@ -21,34 +21,23 @@ namespace Proyecto
             string usu = login_name.Text;
             Usuario consulta = new Usuario();
             Gestionar ges = new Gestionar();
-            try
-            {
+            
                 consulta = ges.consultapersona(usu);
-            }catch(Exception ex)
-            {
-                Label1.Text = ex.Message;
-            }
+           
+                
+            
             if(consulta != null)
             {
                 Session["Usuario"] = consulta;
                 Response.Redirect("Inicio.aspx");
 
             }
+            else
+            {
+                Label1.Text = "Verifique si el usuario o contraña que ingreso existen";
+            }
             int num = 0;
-            //login_name.Text=consulta.Nombres;
-            //DataView dvSql = (DataView)SqlDataSource1.Select(DataSourceSelectArguments.Empty);
             
-            //if (dvSql.Count > 0)
-            //{
-            //    num = 1;
-            //}
-
-            //if (num == 1)
-            //{
-            //    //login_name.Text = consulta.Nombres;
-            //    Session["Usuario"] = consulta;
-            //    Response.Redirect("Inicio.aspx");
-            //}
         }
     }
 }

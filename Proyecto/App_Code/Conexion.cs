@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Sql;
 using System.Data.SqlClient;
 
+//Se obtuvo la ayuda pra realizarlo del siguiente link https://www.youtube.com/watch?v=4izXx3TfS2w
 namespace Proyecto.App_Code
 {
     public class Conexion
