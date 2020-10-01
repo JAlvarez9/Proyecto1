@@ -14,122 +14,85 @@ namespace Proyecto.Pages
     {
         Usuario actual = new Usuario();
         
-        int numjugadas1 = 0;
-        int numjugadas2 = 0;
-        //int score1 = 2;
-        //int score2 = 2;
-        string[] turnos = new string[2];
-        string turnoactual = "";
-        Ficaha[,] tablero = new Ficaha[8,8];
-        ImageButton[,] botones = new ImageButton[8, 8];
-        static int f = 1;
-        
-        
+        static int numjugadas1 = 0;
+        static int numjugadas2 = 0;
+        static int score1 = 2;
+        static int score2 = 2;
+        static string[] turnos = new string[2];
+        static string turnoactual = "";
+        static Ficaha[,] tablero = new Ficaha[8,8];
+        static ImageButton[,] botones = new ImageButton[8, 8];
+
         protected void Page_Load(object sender, EventArgs e)
         {
             
-            Button3.Enabled = false;
-            
-            llenado();
-            if(f == 1)
+            if (!IsPostBack)
             {
+                Label4.Text = "Primer carga";
+                Session["botones"] = botones;
+                Session["tab"] = tablero;
+                llenado();
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < 8; j++)
                     {
-                            botones[i, j].Enabled = false;
+                        Ficaha agrego = new Ficaha();
+                        agrego.llenado = false;
+                        tablero[i, j] = agrego;
                     }
                 }
-                f++;
+                Session["tab"] = tablero;
+                Button3.Enabled = false;
             }
             else
             {
-                botones = (ImageButton[,])Session["botones"];
-                for (int i = 0; i < 8; i++)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        string col = botones[i, j].ImageUrl.ToString();
-                        if (col == "stuff\\blanca.jpg" | col == "stuff\\negra.jpg")
-                        {
-                            botones[i, j].Enabled = true;
-                        }
-                        else
-                        {
-                            botones[i, j].Enabled = false;
-                        }
-
-
-
-                    }
-                }
-            }
-            
-            
-            
-
-
-            Session["botones"] = botones;
-
-        }
-
-        protected void Button3_Click(object sender, EventArgs e)
-        {
-            string ruta = TextBox1.Text;
-            if(ruta == null | ruta == " "){
-                TextBox1.Text = "No coloco una ruta con el nombre del archivo";
-            }
-            
-            //Label6.Text = "Si entre al if";
-            tablero = (Ficaha[,])Session["tab"];
-            XmlWriterSettings set = new XmlWriterSettings();
-            set.Indent = true;
-            string tiro =(string) Session["turnac"];
-            XmlWriter xmlWriter = XmlWriter.Create(@""+ruta, set);
-
-            xmlWriter.WriteStartDocument();
-
-            xmlWriter.WriteStartElement("tablero");
-            for(int i = 0; i < 8; i++)
-            {
-                for(int j =0; j< 8; j++)
-                {
-                    if (tablero[i, j] != null) {
-                        
-                        xmlWriter.WriteStartElement("ficha");
-                        xmlWriter.WriteStartElement("color");
-                        xmlWriter.WriteString(tablero[i, j].color);
-                        xmlWriter.WriteEndElement();
-                        xmlWriter.WriteStartElement("columna");
-                        xmlWriter.WriteString(tablero[i, j].x);
-                        xmlWriter.WriteEndElement();
-                        xmlWriter.WriteStartElement("fila");
-                        xmlWriter.WriteString((tablero[i, j].y+1).ToString());
-                        xmlWriter.WriteEndElement();
-                        xmlWriter.WriteEndElement();
-
-                    }
-                    
-                }
+                llenado();
+                //Label4.Text = "No es la primera carga";
+                //tablero = (Ficaha[,])Session["tab"];
+                //botones = (ImageButton[,])Session["botones"];
                 
-
+                //HabilitarBotones();
+                //int auxiliar = 0;
+                //for (int i = 0; i < 8; i++)
+                //{
+                //    for (int j = 0; j < 8; j++)
+                //    {
+                //        if(tablero[i,j].llenado == true)
+                //        {
+                //            auxiliar += 1;
+                //        }
+                //    }
+                //}
+                //Label5.Text = auxiliar.ToString();
+                //    for (int i = 0; i < 8; i++)
+                //    {
+                //        for (int j = 0; j < 8; j++)
+                //        {
+                //            if (tablero[i, j].llenado == true)
+                //            {
+                //                Label6.Text = "Entre a if";
+                //                botones[i, j].Enabled = false;
+                //            }
+                //            else
+                //            {
+                //                botones[i, j].Enabled = true;
+                //            }
+                //        }
+                //    }
+                //    Session["botones"] = botones;
+                
             }
-            xmlWriter.WriteStartElement("siguienteTiro");
-            xmlWriter.WriteStartElement("color");
-            xmlWriter.WriteString(tiro);
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndDocument();
+            
+            
+           
 
-            xmlWriter.Close();
-
-            Button3.Enabled = true;
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            //tablero = (Ficaha[,])Session["tab"];
+            //Button1.Attributes.Add("onclick", "return false;");
+            
+            tablero = (Ficaha[,])Session["tab"];
             int scoren;
             int scoreb;
             botones = (ImageButton[,])Session["botones"];
@@ -137,7 +100,7 @@ namespace Proyecto.Pages
             turnos[0] = "blanco";
             turnos[1] = "negro";
             int aux = rnd.Next(turnos.Length);
-            Label4.Text = aux.ToString();
+            //Label4.Text = aux.ToString();
             Session["scoren"] = 2;
             Session["scoreb"] = 2;
             Session["turnac"] = turnos[aux];
@@ -146,54 +109,51 @@ namespace Proyecto.Pages
              Label2.Text = scoren.ToString();
             Label5.Text = scoreb.ToString();
             actual = (Usuario)Session["Usuario"];
-
+             
             Ficaha pred1 = new Ficaha();
             pred1.color = "blanco";
             pred1.x = "D";
             pred1.y = 3;
+            pred1.llenado = true;
             tablero[3, 3] = pred1;
 
             Ficaha pred2 = new Ficaha();
             pred2.color = "negro";
             pred2.x = "E";
             pred2.y = 3;
+            pred2.llenado = true;
             tablero[3, 4] = pred2;
 
             Ficaha pred3 = new Ficaha();
             pred3.color = "negro";
             pred3.x = "D";
             pred3.y = 4;
+            pred3.llenado = true;
             tablero[4, 3] = pred3;
 
             Ficaha pred4 = new Ficaha();
             pred4.color = "blanco";
             pred4.x = "E";
             pred4.y = 4;
+            pred4.llenado = true;
             tablero[4, 4] = pred4;
-
+            
             Session["tab"] = tablero;
             
             i28.ImageUrl = ("stuff\\blanca.jpg");
             i29.ImageUrl = ("stuff\\negra.jpg");
             i36.ImageUrl = ("stuff\\negra.jpg");
             i37.ImageUrl = ("stuff\\blanca.jpg");
-            i28.Enabled = false;
-            i29.Enabled = false;
-            i36.Enabled = false;
-            i37.Enabled = false;
-
+            
+           
             
             Label1.Text = actual.NmUsuario;
             Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    botones[i, j].Enabled = true;
-                }
-            }
+            
             Session["botones"] = botones;
+            Bloqueo();
+            //HabilitarBotones();
         }
 
         protected void Button2_Click(object sender, EventArgs e)
@@ -219,7 +179,7 @@ namespace Proyecto.Pages
                         botones[i, j].Enabled = true;
                     }
                 }
-                XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyectos\Proyecto\Proyecto\Archivos\" + FileUpload1.FileName);
+                XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyecto\Proyecto\Archivos\"+FileUpload1.FileName);
                 while (reader.Read())
                 {
                     Label6.Text = "si while";
@@ -248,13 +208,13 @@ namespace Proyecto.Pages
                     Session["turnac"] = tiro;
                     if (color != "" & x != "" & y != -1)
                     {
-                        Label5.Text = "entre al if";
+                        //Label5.Text = "entre al if";
                         Ficaha agre = new Ficaha();
                         agre.color = color;
                         agre.x = x;
                         agre.x1 = leer(x);
                         agre.y = y - 1;
-                        
+                        agre.llenado = true;
                         ta[(int)agre.y, agre.x1] = agre;
                         for (int i = 0; i < 8; i++)
                         {
@@ -263,14 +223,15 @@ namespace Proyecto.Pages
                                 if (i == agre.y & j == agre.x1 & agre.color == "blanco")
                                 {
                                     botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
-                                    botones[i, j].Enabled = false;
+                                    //botones[i, j].Enabled = false;
+
                                     puntbl++;
                                 }
                                 else if (i == agre.y & j == agre.x1 & agre.color == "negro")
                                 {
                                     
                                     botones[i, j].ImageUrl = ("stuff\\negra.jpg");
-                                    botones[i, j].Enabled = false;
+                                    //botones[i, j].Enabled = false;
                                     puntne++;
                                 }
 
@@ -298,18 +259,72 @@ namespace Proyecto.Pages
 
             }
         }
+        
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            string ruta = TextBox1.Text;
+            if (ruta == null | ruta == " ")
+            {
+                TextBox1.Text = "No coloco una ruta con el nombre del archivo";
+            }
 
+            //Label6.Text = "Si entre al if";
+            tablero = (Ficaha[,])Session["tab"];
+            XmlWriterSettings set = new XmlWriterSettings();
+            set.Indent = true;
+            string tiro = (string)Session["turnac"];
+            XmlWriter xmlWriter = XmlWriter.Create(@"" + ruta, set);
+
+            xmlWriter.WriteStartDocument();
+
+            xmlWriter.WriteStartElement("tablero");
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (tablero[i, j] != null)
+                    {
+
+                        xmlWriter.WriteStartElement("ficha");
+                        xmlWriter.WriteStartElement("color");
+                        xmlWriter.WriteString(tablero[i, j].color);
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("columna");
+                        xmlWriter.WriteString(tablero[i, j].x);
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteStartElement("fila");
+                        xmlWriter.WriteString((tablero[i, j].y + 1).ToString());
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteEndElement();
+
+                    }
+
+                }
+
+
+            }
+            xmlWriter.WriteStartElement("siguienteTiro");
+            xmlWriter.WriteStartElement("color");
+            xmlWriter.WriteString(tiro);
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndDocument();
+
+            xmlWriter.Close();
+
+            Button3.Enabled = true;
+        }
         
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
             string idaux;
-
             int id;
             turnoactual = (string)Session["turnac"];
             Label5.Text = turnoactual;
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
-
+            tablero = (Ficaha[,])Session["tab"];
             
             if (turnoactual == "negro") {
 
@@ -320,18 +335,16 @@ namespace Proyecto.Pages
                 {
                     for (int j = 0; j < 8; j++)
                     {
-                        //Label6.Text = "Si entre al for";
-                        string k = botones[i, j].ID;
-                        //botones[i, j].Enabled = true;
                         
-                            if (l == k)
-                            {
-                                //clickedButton.ImageUrl = ("stuff\\negra.jpg");
-                                //Label6.Text = "Si entre negro";
-                                //botones[i, j] = (ImageButton)sender;
-                                botones[i, j].ImageUrl = ("stuff\\negra.jpg");
-                                botones[i, j].Enabled = false;
-                            }
+                        string k = botones[i, j].ID;
+                        
+                        if (l == k)
+                        {
+                            //Label3.Text = "Si entre a la negra";
+                            botones[i, j].ImageUrl = ("stuff/negra.jpg");
+                            //clickedButton.ImageUrl = ("stuff\\negra.jpg");
+
+                        }
                         
                         
                     }
@@ -340,13 +353,14 @@ namespace Proyecto.Pages
 
                 Session["turnac"] = "blanco";
                  
-                Label2.Text = scoren.ToString();
+                Label2.Text = (scoren+1).ToString();
                 Label5.Text = scoreb.ToString();
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "negro");
+                nueva.llenado = true;
                 tablero[(int)nueva.y, nueva.x1] = nueva;
                 Session["tab"] = tablero;
                 Session["scoren"] = scoren + 1;
@@ -361,47 +375,36 @@ namespace Proyecto.Pages
                 {
                     for (int j = 0; j < 8; j++)
                     {
-                        //Label6.Text = "Si entre al for";
-                        string k = botones[i, j].ID;
-                        //botone[i, j].Enabled = true;
-                        
-                            if (l == k)
-                            {
-                                Label6.Text = "Si entre blanco";
-                                //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
+                        string k = botones[i, j].ID;   
+                        if (l == k)
+                        {
+                            //Label3.Text = "Si entre a la blanca";
+                            botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
+                            //clickedButton.ImageUrl = ("stuff\\blanca.jpg");
 
-                                botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
-                                botones[i, j].Enabled = false;
-                            }
-
-                        
-                        
+                        }
                     }
                 }
                 Session["botones"] = botones;
                 Session["turnac"] = "negro";
                 //Session["scoreb"] = score2 + 1;
 
-                Label5.Text = scoreb.ToString();
+                Label5.Text = (scoreb + 1).ToString();
                 Label2.Text = scoren.ToString();
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "blanco");
+                nueva.llenado = true;
                 tablero[(int)nueva.y, nueva.x1] = nueva;
                 Session["tab"] = tablero;
                 Session["scoreb"] = scoreb + 1;
             }
             Button3.Enabled = true;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    botones[i, j].Enabled = true;
-                }
-            }
             Session["botones"] = botones;
+            Bloqueo();
+            //HabilitarBotones();
         }
 
 
@@ -542,8 +545,7 @@ namespace Proyecto.Pages
         public void llenado()
         {
             
-            botones[0,0] = i01;
-            
+            botones[0, 0] = i01;
             botones[0, 1] = i02;
             botones[0, 2] = i03;
             botones[0, 3] = i04;
@@ -609,8 +611,112 @@ namespace Proyecto.Pages
             botones[7, 7] = i64;
             Session["botones"] = botones;
 
+           
+
         }
 
+        public void Bloqueo()
+        {
+            tablero = (Ficaha[,])Session["tab"];
+            botones = (ImageButton[,])Session["botones"];
+            turnoactual = (string)Session["turnac"];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    botones[i, j].Enabled = false;
+                }
+            }
+
+            if (turnoactual == "negro")
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tablero[i, j].llenado == true && tablero[i,j].color == "blanco")
+                        {
+                            if (tablero[i + 1, j].llenado == false)
+                            {
+                                botones[i + 1, j].Enabled = true;
+                            }
+                            if (tablero[i, j + 1].llenado == false)
+                            {
+                                botones[i, j + 1].Enabled = true;
+                            }
+                            if (tablero[i + 1, j + 1].llenado == false)
+                            {
+                                botones[i + 1, j + 1].Enabled = true;
+                            }
+                            if (tablero[i + 1, j - 1].llenado == false)
+                            {
+                                botones[i + 1, j - 1].Enabled = true;
+                            }
+                            if (tablero[i - 1, j + 1].llenado == false)
+                            {
+                                botones[i - 1, j + 1].Enabled = true;
+                            }
+                            if (tablero[i - 1, j].llenado == false)
+                            {
+                                botones[i - 1, j].Enabled = true;
+                            }
+                            if (tablero[i, j - 1].llenado == false)
+                            {
+                                botones[i, j - 1].Enabled = true;
+                            }
+                            if (tablero[i - 1, j - 1].llenado == false)
+                            {
+                                botones[i - 1, j - 1].Enabled = true;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (turnoactual == "blanco")
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tablero[i, j].llenado == true && tablero[i,j].color == "negro")
+                        {
+                            if (tablero[i + 1, j].llenado == false)
+                            {
+                                botones[i + 1, j].Enabled = true;
+                            }
+                            if (tablero[i, j + 1].llenado == false)
+                            {
+                                botones[i, j + 1].Enabled = true;
+                            }
+                            if (tablero[i + 1, j + 1].llenado == false)
+                            {
+                                botones[i + 1, j + 1].Enabled = true;
+                            }
+                            if (tablero[i + 1, j - 1].llenado == false)
+                            {
+                                botones[i + 1, j - 1].Enabled = true;
+                            }
+                            if (tablero[i - 1, j + 1].llenado == false)
+                            {
+                                botones[i - 1, j + 1].Enabled = true;
+                            }
+                            if (tablero[i - 1, j].llenado == false)
+                            {
+                                botones[i - 1, j].Enabled = true;
+                            }
+                            if (tablero[i, j - 1].llenado == false)
+                            {
+                                botones[i, j - 1].Enabled = true;
+                            }
+                            if (tablero[i - 1, j - 1].llenado == false)
+                            {
+                                botones[i - 1, j - 1].Enabled = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         
     }
 }

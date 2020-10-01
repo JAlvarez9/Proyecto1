@@ -14,6 +14,8 @@ namespace Proyecto.App_Code
 
         public double y { get; set; }
 
+        public Boolean llenado { get; set; }
+
         public Ficaha() {
         }
     }
