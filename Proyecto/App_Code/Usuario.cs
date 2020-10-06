@@ -15,12 +15,12 @@ namespace Proyecto.App_Code
         private DateTime nacimiento;
         private string pais;
         private string correo;
-        private int PartidasGanadas { get; set; }
-        private int PartidasPerdidas { get; set; }
-        private int PartidasEmpatadas { get; set; }
-        private int TorneosJugados { get; set; }
-        private int TorneosGanados { get; set; }
-        private int TorneosPerdidos { get; set; }
+        private int partidasGanadas { get; set; }
+        private int partidasPerdidas { get; set; }
+        private int partidasEmpatadas { get; set; }
+        private int torneosJugados { get; set; }
+        private int torneosGanados { get; set; }
+        private int torneosPerdidos { get; set; }
 
 
         public Usuario()
