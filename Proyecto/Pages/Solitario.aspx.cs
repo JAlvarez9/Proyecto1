@@ -621,7 +621,7 @@ namespace Proyecto.Pages
             botones = (ImageButton[,])Session["botones"];
             turnoactual = (string)Session["turnac"];
             for (int i = 0; i < 8; i++)
-            {
+            {   
                 for (int j = 0; j < 8; j++)
                 {
                     botones[i, j].Enabled = false;
@@ -674,7 +674,7 @@ namespace Proyecto.Pages
             }
             else if (turnoactual == "blanco")
             {
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 8; i++) 
                 {
                     for (int j = 0; j < 8; j++)
                     {
@@ -715,6 +715,100 @@ namespace Proyecto.Pages
                         }
                     }
                 }
+            }
+        }
+
+        public void MovimientoBlanco(int x, int y)
+        {
+            Boolean move;
+            for (int i = x - 1; i <= x + 1; i++)
+            {
+                for(int j = y - 1; j<= y + 1; j++)
+                {
+                    if(i == x && j == y)
+                    {
+                        
+                    }else if(tablero[i,j].color == "negro")
+                    {
+                        if(i == x-1 && j == y - 1)
+                        {
+                            move = Recursivo(x - 1, y - 1, "UL");
+                        }else if(i == x && j==y - 1)
+                        {
+                            move = Recursivo(x, y - 1, "U");
+                        }else if(i == x + 1 && j == y - 1)
+                        {
+                            move = Recursivo(x + 1, y - 1, "UR");
+                        }else if(i == x-1 && j == y)
+                        {
+                            move = Recursivo(x - 1, y, "L");
+                        }else if(i== x+1 && j == y)
+                        {
+                            move = Recursivo(x + 1, y, "R");
+                        }else if(i == x -1 && j == y + 1)
+                        {
+                            move = Recursivo(x - 1, y + 1, "DL");
+                        }else if( i == x && j == y + 1)
+                        {
+                            move = Recursivo(x, y + 1, "D");
+                        }else if(i == x+1 && j == y + 1)
+                        {
+                            move = Recursivo(x + 1, y + 1, "DR");
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        public Boolean Recursivo(int x, int y, string D)
+        {
+            Direction(x,y,D);
+            if(tablero[x,y].color == "negro")
+            {
+                Recursivo(x, y, D);
+            }else if ( tablero[x,y].color == "blanco")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            return false;
+        }
+
+        public void Direction(int x, int y, string D)
+        {
+            if(D == "UL")
+            {
+                x = x - 1;
+                y = y - 1;
+            }else if ( D == "U")
+            {
+                y = y - 1;
+            }else if( D == "UR")
+            {
+                x = x + 1;
+                y = y - 1;
+            }else if(D == "R")
+            {
+                x = x + 1;
+            }else if(D == "L")
+            {
+                x = x - 1;
+            }else if(D == "DL")
+            {
+                x = x - 1;
+                y = y + 1;
+            }else if (D == "D")
+            {
+                y = y - 1;
+            }else if (D == "DR")
+            {
+                x = x + 1;
+                y = y + 1;
             }
         }
         
