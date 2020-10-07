@@ -22,6 +22,7 @@ namespace Proyecto.Pages
         static string turnoactual = "";
         static Ficaha[,] tablero = new Ficaha[8,8];
         static ImageButton[,] botones = new ImageButton[8, 8];
+        List<Ficaha> change;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -47,39 +48,6 @@ namespace Proyecto.Pages
             else
             {
                 llenado();
-                //Label4.Text = "No es la primera carga";
-                //tablero = (Ficaha[,])Session["tab"];
-                //botones = (ImageButton[,])Session["botones"];
-                
-                //HabilitarBotones();
-                //int auxiliar = 0;
-                //for (int i = 0; i < 8; i++)
-                //{
-                //    for (int j = 0; j < 8; j++)
-                //    {
-                //        if(tablero[i,j].llenado == true)
-                //        {
-                //            auxiliar += 1;
-                //        }
-                //    }
-                //}
-                //Label5.Text = auxiliar.ToString();
-                //    for (int i = 0; i < 8; i++)
-                //    {
-                //        for (int j = 0; j < 8; j++)
-                //        {
-                //            if (tablero[i, j].llenado == true)
-                //            {
-                //                Label6.Text = "Entre a if";
-                //                botones[i, j].Enabled = false;
-                //            }
-                //            else
-                //            {
-                //                botones[i, j].Enabled = true;
-                //            }
-                //        }
-                //    }
-                //    Session["botones"] = botones;
                 
             }
             
@@ -246,7 +214,7 @@ namespace Proyecto.Pages
                     }
 
                 }
-
+                reader.Close();
                 tablero = ta;
                 Session["scoren"] = puntne;
                 Session["scoreb"] = puntbl;
@@ -327,7 +295,7 @@ namespace Proyecto.Pages
             tablero = (Ficaha[,])Session["tab"];
             
             if (turnoactual == "negro") {
-                Label3.Text = "negro";
+               // Label3.Text = "negro";
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
@@ -336,7 +304,7 @@ namespace Proyecto.Pages
                 nueva.llenado = true;
                 Label3.Text = nueva.y.ToString();
                 Label4.Text = nueva.x1.ToString();
-                MovimientoNegro((int)nueva.y, nueva.x1);
+                MovimientoNegro((int)nueva.y, nueva.x1, nueva);
                 //int scoren =(int) Session["scoren"];
                 //int scoreb = (int)Session["scoreb"];
                 //string l = clickedButton.ID;
@@ -377,16 +345,16 @@ namespace Proyecto.Pages
             }
             else if(turnoactual == "blanco")
             {
-                Label3.Text = "blanco";
+                //Label3.Text = "blanco";
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "blanco");
                 nueva.llenado = true;
-                Label3.Text = nueva.y.ToString();
-                Label4.Text = nueva.x1.ToString();
-                MovimientoBlanco((int)nueva.y, nueva.x1);
+                Label1.Text = (nueva.x1).ToString();
+                Label2.Text = (nueva.y).ToString();
+                MovimientoBlanco((int)nueva.y,nueva.x1 , nueva);
                 //int scoreb = (int)Session["scoreb"];
                 //int scoren = (int)Session["scoren"];
                 //string l = clickedButton.ID;
@@ -737,53 +705,61 @@ namespace Proyecto.Pages
             }
         }
 
-        public void MovimientoBlanco(int x, int y)
+        public void MovimientoBlanco(int y, int x, Ficaha nueva)
         {
-            
+            change = new List<Ficaha>();
             int id;
             Boolean move = false;
-            Ficaha[] change = new Ficaha[64];
-            for (int i = x - 1; i <= x + 1; i++)
+            
+            for (int i = y - 1; i <= y + 1; i++)
             {
-                for(int j = y - 1; j<= y + 1; j++)
+                for(int j = x - 1; j<= x + 1; j++)
                 {
-                    if(i == x && j == y)
+                    if(i == y && j == x)
                     {
                         
                     }
                     else if(tablero[i,j].color == "negro")
                     {
-                        if(i == x-1 && j == y - 1)
+                        if(i == y-1 && j == x - 1)
                         {
-                            move = RecursivoBlanco(x - 1, y - 1, "UL",change);
+                            Label3.Text = "UL";
+                            move = RecursivoBlanco(i, j, "UL");
                         }
-                        else if (i == x && j==y - 1)
+                        else if (i == y && j==x - 1)
                         {
-                            move = RecursivoBlanco(x, y - 1, "U",change);
+                            Label3.Text = "L";
+                            move = RecursivoBlanco(i, j, "L");
                         }
-                        else if (i == x + 1 && j == y - 1)
+                        else if (i == y + 1 && j == x - 1)
                         {
-                            move = RecursivoBlanco(x + 1, y - 1, "UR", change);
+                            Label3.Text = "DL";
+                            move = RecursivoBlanco(i, j, "DL");
                         }
-                        else if (i == x-1 && j == y)
+                        else if (i == y-1 && j == x)
                         {
-                            move = RecursivoBlanco(x - 1, y, "L", change);
+                            Label3.Text = "U";
+                            move = RecursivoBlanco(i, j, "U");
                         }
-                        else if (i== x+1 && j == y)
+                        else if (i== y+1 && j == x)
                         {
-                            move = RecursivoBlanco(x + 1, y, "R", change);
+                            Label3.Text = "D";
+                            move = RecursivoBlanco(i, j, "D");
                         }
-                        else if (i == x -1 && j == y + 1)
+                        else if (i == y -1 && j == x + 1)
                         {
-                            move = RecursivoBlanco(x - 1, y + 1, "DL", change);
+                            Label3.Text = "UR";
+                            move = RecursivoBlanco(i, j, "UR");
                         }
-                        else if ( i == x && j == y + 1)
+                        else if ( i == y && j == x + 1)
                         {
-                            move = RecursivoBlanco(x, y + 1, "D", change);
+                            Label3.Text = "R";
+                            move = RecursivoBlanco(i, j, "R");
                         }
-                        else if (i == x+1 && j == y + 1)
+                        else if (i == y+1 && j == x + 1)
                         {
-                            move = RecursivoBlanco(x + 1, y + 1, "DR", change);
+                            Label3.Text = "DR";
+                            move = RecursivoBlanco(i, j, "DR");
                         }
                     }
                 }
@@ -791,9 +767,9 @@ namespace Proyecto.Pages
 
             if (move)
             {
-                
-                //tablero[(int)nueva.y, nueva.x1] = nueva;
-                for (int i = 0; i< change.Length; i++)
+                tablero[(int)nueva.y, nueva.x1] = nueva;
+                int auxi = change.Count;
+                for (int i = 0; i < auxi; i++)
                 {
                     change[i].color = "blanco";
                 }
@@ -809,52 +785,59 @@ namespace Proyecto.Pages
             
 
         }
-        public void MovimientoNegro(int x, int y)
+        public void MovimientoNegro(int y, int x, Ficaha nueva)
         {
             Boolean move = false;
-            Ficaha[] change = new Ficaha[64];
-            for (int i = x - 1; i <= x + 1; i++)
+            change = new List<Ficaha>();
+            for (int i = y - 1; i <= y + 1; i++)
             {
-                for (int j = y - 1; j <= y + 1; j++)
+                for (int j = x - 1; j <= x + 1; j++)
                 {
-                    if (i == x && j == y)
+                    if (i == y && j == x)
                     {
 
                     }
                     else if (tablero[i, j].color == "blanco")
                     {
-                        if (i == x - 1 && j == y - 1)
+                        if (i == y - 1 && j == x - 1)
                         {
-                            //Label3.Text = (x - 1).ToString + (y - 1).ToString;
-                            move = RecursivoNegro(x - 1, y - 1, "UL", change);
+                            Label3.Text = "UL";
+                            move = RecursivoNegro(i, j, "UL");
                         }
-                        else if (i == x && j == y - 1)
+                        else if (i == y && j == x - 1)
                         {
-                            move = RecursivoNegro(x, y - 1, "U", change);
+                            Label3.Text = "L";
+                            move = RecursivoNegro(i,j, "L");
                         }
-                        else if (i == x + 1 && j == y - 1)
+                        else if (i == y + 1 && j == x - 1)
                         {
-                            move = RecursivoNegro(x + 1, y - 1, "UR", change);
+                            Label3.Text = "DL";
+                            move = RecursivoNegro(i, j, "DL");
                         }
-                        else if (i == x - 1 && j == y)
+                        else if (i == y - 1 && j == x)
                         {
-                            move = RecursivoNegro(x - 1, y, "L", change);
+                            Label3.Text = "U";
+                            move = RecursivoNegro(i, j, "U");
                         }
-                        else if (i == x + 1 && j == y)
+                        else if (i == y + 1 && j == x)
                         {
-                            move = RecursivoNegro(x + 1, y, "R", change);
+                            Label3.Text = "D";
+                            move = RecursivoNegro(i, j, "D");
                         }
-                        else if (i == x - 1 && j == y + 1)
+                        else if (i == y - 1 && j == x + 1)
                         {
-                            move = RecursivoNegro(x - 1, y + 1, "DL", change);
+                            Label3.Text = "UR";
+                            move = RecursivoNegro(i, j, "UR");
                         }
-                        else if (i == x && j == y + 1)
+                        else if (i == y && j == x + 1)
                         {
-                            move = RecursivoNegro(x, y + 1, "D", change);
+                            Label3.Text = "R";
+                            move = RecursivoNegro(i, j, "R");
                         }
-                        else if (i == x + 1 && j == y + 1)
+                        else if (i == y + 1 && j == x + 1)
                         {
-                            move = RecursivoNegro(x + 1, y + 1, "DR", change);
+                            Label3.Text = "DR";
+                            move = RecursivoNegro(i, j, "DR");
                         }
                     }
                 }
@@ -862,10 +845,13 @@ namespace Proyecto.Pages
 
             if (move)
             {
-                for (int i = 0; i < change.Length; i++)
+                tablero[(int)nueva.y, nueva.x1] = nueva;
+                int auxi = change.Count;
+                for (int i = 0; i < auxi; i++)
                 {
                     change[i].color = "negro";
                 }
+
                 PintarNegro();
                 Session["turnac"] = "blanco";
                 Session["tab"] = tablero;
@@ -878,96 +864,114 @@ namespace Proyecto.Pages
         }
 
 
-        public Boolean RecursivoBlanco(int x, int y, string D, Ficaha[] change)
+        public Boolean RecursivoBlanco(int y1, int x1, string D)
         {
+            
+            int y = y1;
+            int x = x1;
+            var posi =new Tuple<int,int>(y,x);
+            
+
             Boolean moves = false;
-            int cont = 0;
-            //while(change[cont] == null)
-            //{
-            //    change[cont + 1] = tablero[x, y];
-            //}
-            //Label3.Text = "recurBla";
-            Direction(x,y,D);
-            if(tablero[x,y].color == "negro")
+            
+            change.Add(tablero[posi.Item1, posi.Item2]);
+            Label5.Text = x.ToString();
+            Label4.Text = y.ToString();
+            posi = Direction(posi.Item1, posi.Item2, D);
+            
+            if (tablero[posi.Item1,posi.Item2].color == "negro")
             {
-                moves = RecursivoBlanco(x, y, D,change);
+               moves = RecursivoBlanco(posi.Item1, posi.Item2, D);
             }
-            else if (tablero[x, y].color == "blanco")
+            else if (tablero[posi.Item1, posi.Item2].color == "blanco")
             {
-                return true;
+                moves = true;
+                
             }
-            else if (tablero[x, y].color == "")
+            else if (tablero[posi.Item1, posi.Item2].color == " ")
             {
-                return false;
+                moves = false;
             }
             else
             {
-                return false;
+                moves = false;
             }
-            return false;
+            return moves;
         }
 
-        public Boolean RecursivoNegro(int x, int y, string D, Ficaha[] change)
+        public Boolean RecursivoNegro(int y1, int x1, string D)
         {
+            int y = y1;
+            int x = x1;
+            var posi = new Tuple<int, int>(y, x);
             Boolean moves = false;
-            int cont = 0;
-            //while (change[cont] == null)
-            //{
-            //    change[cont + 1] = tablero[x, y];
-            //}
-            //Label3.Text = "recurNeg";
+            
+            change.Add(tablero[posi.Item1, posi.Item2]);
+            Label5.Text = x.ToString();
+            Label4.Text = y.ToString();
+            posi = Direction(posi.Item1, posi.Item2, D);
+            
+            //System.Diagnostics.Debug.WriteLine(y.ToString() + "|" + x.ToString());
+            if (tablero[posi.Item1, posi.Item2].color == "blanco")
+            {
+                moves = RecursivoNegro(posi.Item1, posi.Item2, D);
+            }
+            else if (tablero[posi.Item1, posi.Item2].color == "negro")
+            {
+                moves = true;
 
-            Direction(x, y, D);
-            if (tablero[x, y].color == "blanco")
-            {
-                RecursivoNegro(x, y, D, change);
             }
-            else if (tablero[x, y].color == "negro")
+            else if (tablero[posi.Item1, posi.Item2].color == " ")
             {
-                return true;
-            }
-            else if (tablero[x, y].llenado == false)
-            {
-                return false;
+                moves = false;
             }
             else
             {
-                return false;
+                moves = false;
             }
-            return false;
+            return moves;
         }
 
-        public void Direction(int x, int y, string D)
+        public Tuple<int,int> Direction(int y, int x, string D)
         {
+            int y1 = y;
+            int x1 = x;
             if(D == "UL")
             {
-                x = x - 1;
-                y = y - 1;
+                x1 = x1 - 1;
+                y1 = y1 - 1;
             }else if ( D == "U")
             {
-                y = y - 1;
+                y1 = y1 - 1;
+                
             }else if( D == "UR")
             {
-                x = x + 1;
-                y = y - 1;
+                x1 = x1 + 1;
+                y1 = y1 - 1;
             }else if(D == "R")
             {
-                x = x + 1;
+                x1 = x1 + 1;
+                
             }else if(D == "L")
             {
-                x = x - 1;
+                x1 = x1 - 1;
+                
             }else if(D == "DL")
             {
-                x = x - 1;
-                y = y + 1;
+                x1 = x1 - 1;
+                y1 = y1 + 1;
             }else if (D == "D")
             {
-                y = y - 1;
+                y1= y1 + 1;
+                
             }else if (D == "DR")
             {
-                x = x + 1;
-                y = y + 1;
+                x1 = x1 + 1;
+                y1 = y1 + 1;
             }
+            
+            var posi = new Tuple<int, int>(y1, x1);
+            return posi;
         }
 
         public void PintarBlanco()
