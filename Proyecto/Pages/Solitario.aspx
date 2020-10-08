@@ -22,10 +22,10 @@
             <tr>
                 <td class="auto-style10">Jugador</td>
                 <td>Puntaje</td>
-                <td class="auto-style4">Movimientos</td>
+                <td class="auto-style4">Color</td>
                 <td class="auto-style8">Jugador</td>
                 <td class="auto-style6">Puntaje</td>
-                <td>Movimientos</td>
+                <td>Color</td>
             </tr>
             <tr>
                 <td class="auto-style11">

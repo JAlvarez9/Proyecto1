@@ -14,14 +14,14 @@ namespace Proyecto.Pages
     public partial class Solitario : System.Web.UI.Page
     {
         Usuario actual = new Usuario();
-        
+        static Jugador player;
         static int numjugadas1 = 0;
         static int numjugadas2 = 0;
         static int score1 ;
         static int score2 ;
         static string[] turnos = new string[2];
         static string turnoactual = "";
-        static Ficaha[,] tablero = new Ficaha[8,8];
+        static Ficaha[,] tablero;
         static ImageButton[,] botones = new ImageButton[8, 8];
         List<Ficaha> change;
 
@@ -33,16 +33,16 @@ namespace Proyecto.Pages
                 //Label4.Text = "Primer carga";
                 Session["botones"] = botones;
                 Session["tab"] = tablero;
-                llenado();
-                for (int i = 0; i < 8; i++)
+                try
                 {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        Ficaha agrego = new Ficaha();
-                        agrego.llenado = false;
-                        tablero[i, j] = agrego;
-                    }
+                    llenado();
+                    
+
+                }catch(Exception asa)
+                {
+
                 }
+                
                 Session["tab"] = tablero;
                 Button3.Enabled = false;
             }
@@ -59,29 +59,50 @@ namespace Proyecto.Pages
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            tablero = new Ficaha[8, 8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Ficaha agrego = new Ficaha();
+                    agrego.llenado = false;
+                    tablero[i, j] = agrego;
+                }
+            }
+            Session["botones"] = botones;
+            Session["tab"] = tablero;
+            llenado();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
 
+                    Ficaha agrego = new Ficaha();
+                    agrego.llenado = false;
+                    tablero[i, j] = agrego;
+                }
+            }
+            player = new Jugador();
             turnos = new string[2];
-            tablero = (Ficaha[,])Session["tab"];
-            int scoren;
-            int scoreb;
             botones = (ImageButton[,])Session["botones"];
             Random rnd = new Random();
             turnos[0] = "blanco";
             turnos[1] = "negro";
             int aux = rnd.Next(turnos.Length);
-            //Label4.Text = aux.ToString();
-            Session["scoren"] = 2;
-            Session["scoreb"] = 2;
-            Session["turnac"] = turnos[aux];
-            scoren = (int)Session["scoren"];
-            scoreb = (int)Session["scoreb"];
-             Label2.Text = scoren.ToString();
-            Label5.Text = scoreb.ToString();
+            player.color = turnos[aux];
+            Label3.Text = player.color + "<-";
+            if(player.color == "blanco")
+            {
+                Label6.Text = "Negro";
+            }
+            else
+            {
+                Label6.Text = "Blanco";
+            }
+            
+            Session["turnac"] = turnos[aux]; 
             actual = (Usuario)Session["Usuario"];
-            int prueba = 34;
-            string script = string.Format("alert('El jugador gano con un apuntuacion de:{0}');", actual.NmUsuario, prueba);
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-
+            
             Ficaha pred1 = new Ficaha();
             pred1.color = "blanco";
             pred1.x = "D";
@@ -116,11 +137,21 @@ namespace Proyecto.Pages
             i29.ImageUrl = ("stuff\\negra.jpg");
             i36.ImageUrl = ("stuff\\negra.jpg");
             i37.ImageUrl = ("stuff\\blanca.jpg");
-            
-           
-            
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+
+                    if(tablero[i,j].llenado == false)
+                    {
+                        botones[i, j].ImageUrl = ("stuff\\tans.png");
+                    }
+                }
+            }
+
             Label1.Text = actual.NmUsuario;
-            Label3.Text = numjugadas1.ToString();  
+            //Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
             
             Session["botones"] = botones;
@@ -130,6 +161,7 @@ namespace Proyecto.Pages
 
         protected void Button2_Click(object sender, EventArgs e)
         {
+
             if (FileUpload1.HasFile)
             {
                 FileUpload1.SaveAs(Server.MapPath("~/Archivos/" + FileUpload1.FileName));
@@ -137,6 +169,15 @@ namespace Proyecto.Pages
 
                 botones = (ImageButton[,])Session["botones"];
                 Ficaha[,] ta = new Ficaha[8, 8];
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        Ficaha agrego = new Ficaha();
+                        agrego.llenado = false;
+                        ta[i, j] = agrego;
+                    }
+                }
                 string color = "";
                 string x = "";
                 int puntne = 0;
@@ -151,7 +192,7 @@ namespace Proyecto.Pages
                         botones[i, j].Enabled = true;
                     }
                 }
-                XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyecto\Proyecto\Archivos\"+FileUpload1.FileName);
+                XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyectos\Proyecto\Proyecto\Archivos\" + FileUpload1.FileName);
                 while (reader.Read())
                 {
                     Label6.Text = "si while";
@@ -206,7 +247,10 @@ namespace Proyecto.Pages
                                     //botones[i, j].Enabled = false;
                                     puntne++;
                                 }
-
+                                else if(ta[i,j].llenado == false)
+                                {
+                                    botones[i, j].ImageUrl = ("stuff\\tans.png");
+                                }
 
 
                             }
@@ -224,6 +268,7 @@ namespace Proyecto.Pages
                 Session["scoreb"] = puntbl;
                 Session["tab"] = tablero;
                 Session["botones"] = botones;
+                Bloqueo();
                 Button3.Enabled = true;
             }
             else
@@ -306,10 +351,18 @@ namespace Proyecto.Pages
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "negro");
                 nueva.llenado = true;
-                Label3.Text = nueva.y.ToString();
-                Label4.Text = nueva.x1.ToString();
+                //Label3.Text = nueva.y.ToString();
+                //Label4.Text = nueva.x1.ToString();
                 MovimientoNegro((int)nueva.y, nueva.x1, nueva);
-                
+                if(player.color == "negro")
+                {
+                    Label6.Text = "Blanco" + "<--";
+                    Label3.Text = "Negro";
+                }else if (player.color != "negro")
+                {
+                    Label3.Text = "Blanco" + "<--";
+                    Label6.Text = "Negro";
+                }
 
             }
             else if(turnoactual == "blanco")
@@ -324,7 +377,17 @@ namespace Proyecto.Pages
                 Label1.Text = (nueva.x1).ToString();
                 Label2.Text = (nueva.y).ToString();
                 MovimientoBlanco((int)nueva.y,nueva.x1 , nueva);
-                
+                if (player.color == "blanco")
+                {
+                    Label6.Text = "Negro" + "<--";
+                    Label3.Text = "Blanco";
+                }
+                else if (player.color != "blanco")
+                {
+                    Label3.Text = "Negro" + "<--";
+                    Label6.Text = "Blanco";
+                }
+
             }
             Button3.Enabled = true;
             Session["botones"] = botones;
@@ -559,41 +622,49 @@ namespace Proyecto.Pages
                 {
                     for (int j = 0; j < 8; j++)
                     {
-                        if (tablero[i, j].llenado == true && tablero[i,j].color == "blanco")
+                        try
                         {
-                            if (tablero[i + 1, j].llenado == false)
+                            if (tablero[i, j].llenado == true && tablero[i, j].color == "blanco")
                             {
-                                botones[i + 1, j].Enabled = true;
-                            }
-                            if (tablero[i, j + 1].llenado == false)
-                            {
-                                botones[i, j + 1].Enabled = true;
-                            }
-                            if (tablero[i + 1, j + 1].llenado == false)
-                            {
-                                botones[i + 1, j + 1].Enabled = true;
-                            }
-                            if (tablero[i + 1, j - 1].llenado == false)
-                            {
-                                botones[i + 1, j - 1].Enabled = true;
-                            }
-                            if (tablero[i - 1, j + 1].llenado == false)
-                            {
-                                botones[i - 1, j + 1].Enabled = true;
-                            }
-                            if (tablero[i - 1, j].llenado == false)
-                            {
-                                botones[i - 1, j].Enabled = true;
-                            }
-                            if (tablero[i, j - 1].llenado == false)
-                            {
-                                botones[i, j - 1].Enabled = true;
-                            }
-                            if (tablero[i - 1, j - 1].llenado == false)
-                            {
-                                botones[i - 1, j - 1].Enabled = true;
+                                if (tablero[i + 1, j].llenado == false)
+                                {
+                                    botones[i + 1, j].Enabled = true;
+                                }
+                                if (tablero[i, j + 1].llenado == false)
+                                {
+                                    botones[i, j + 1].Enabled = true;
+                                }
+                                if (tablero[i + 1, j + 1].llenado == false)
+                                {
+                                    botones[i + 1, j + 1].Enabled = true;
+                                }
+                                if (tablero[i + 1, j - 1].llenado == false)
+                                {
+                                    botones[i + 1, j - 1].Enabled = true;
+                                }
+                                if (tablero[i - 1, j + 1].llenado == false)
+                                {
+                                    botones[i - 1, j + 1].Enabled = true;
+                                }
+                                if (tablero[i - 1, j].llenado == false)
+                                {
+                                    botones[i - 1, j].Enabled = true;
+                                }
+                                if (tablero[i, j - 1].llenado == false)
+                                {
+                                    botones[i, j - 1].Enabled = true;
+                                }
+                                if (tablero[i - 1, j - 1].llenado == false)
+                                {
+                                    botones[i - 1, j - 1].Enabled = true;
+                                }
                             }
                         }
+                        catch
+                        {
+
+                        }
+                        
                     }
                 }
             }
@@ -603,41 +674,49 @@ namespace Proyecto.Pages
                 {
                     for (int j = 0; j < 8; j++)
                     {
-                        if (tablero[i, j].llenado == true && tablero[i,j].color == "negro")
+                        try
                         {
-                            if (tablero[i + 1, j].llenado == false)
+                            if (tablero[i, j].llenado == true && tablero[i, j].color == "negro")
                             {
-                                botones[i + 1, j].Enabled = true;
-                            }
-                            if (tablero[i, j + 1].llenado == false)
-                            {
-                                botones[i, j + 1].Enabled = true;
-                            }
-                            if (tablero[i + 1, j + 1].llenado == false)
-                            {
-                                botones[i + 1, j + 1].Enabled = true;
-                            }
-                            if (tablero[i + 1, j - 1].llenado == false)
-                            {
-                                botones[i + 1, j - 1].Enabled = true;
-                            }
-                            if (tablero[i - 1, j + 1].llenado == false)
-                            {
-                                botones[i - 1, j + 1].Enabled = true;
-                            }
-                            if (tablero[i - 1, j].llenado == false)
-                            {
-                                botones[i - 1, j].Enabled = true;
-                            }
-                            if (tablero[i, j - 1].llenado == false)
-                            {
-                                botones[i, j - 1].Enabled = true;
-                            }
-                            if (tablero[i - 1, j - 1].llenado == false)
-                            {
-                                botones[i - 1, j - 1].Enabled = true;
+                                if (tablero[i + 1, j].llenado == false)
+                                {
+                                    botones[i + 1, j].Enabled = true;
+                                }
+                                if (tablero[i, j + 1].llenado == false)
+                                {
+                                    botones[i, j + 1].Enabled = true;
+                                }
+                                if (tablero[i + 1, j + 1].llenado == false)
+                                {
+                                    botones[i + 1, j + 1].Enabled = true;
+                                }
+                                if (tablero[i + 1, j - 1].llenado == false)
+                                {
+                                    botones[i + 1, j - 1].Enabled = true;
+                                }
+                                if (tablero[i - 1, j + 1].llenado == false)
+                                {
+                                    botones[i - 1, j + 1].Enabled = true;
+                                }
+                                if (tablero[i - 1, j].llenado == false)
+                                {
+                                    botones[i - 1, j].Enabled = true;
+                                }
+                                if (tablero[i, j - 1].llenado == false)
+                                {
+                                    botones[i, j - 1].Enabled = true;
+                                }
+                                if (tablero[i - 1, j - 1].llenado == false)
+                                {
+                                    botones[i - 1, j - 1].Enabled = true;
+                                }
                             }
                         }
+                        catch
+                        {
+
+                        }
+                        
                     }
                 }
             }
@@ -662,42 +741,42 @@ namespace Proyecto.Pages
                     {
                         if(i == y-1 && j == x - 1)
                         {
-                            Label3.Text = "UL";
+                            //Label3.Text = "UL";
                             move = RecursivoBlanco(i, j, "UL");
                         }
                         else if (i == y && j==x - 1)
                         {
-                            Label3.Text = "L";
+                            //Label3.Text = "L";
                             move = RecursivoBlanco(i, j, "L");
                         }
                         else if (i == y + 1 && j == x - 1)
                         {
-                            Label3.Text = "DL";
+                            //Label3.Text = "DL";
                             move = RecursivoBlanco(i, j, "DL");
                         }
                         else if (i == y-1 && j == x)
                         {
-                            Label3.Text = "U";
+                            //Label3.Text = "U";
                             move = RecursivoBlanco(i, j, "U");
                         }
                         else if (i== y+1 && j == x)
                         {
-                            Label3.Text = "D";
+                            //Label3.Text = "D";
                             move = RecursivoBlanco(i, j, "D");
                         }
                         else if (i == y -1 && j == x + 1)
                         {
-                            Label3.Text = "UR";
+                            //Label3.Text = "UR";
                             move = RecursivoBlanco(i, j, "UR");
                         }
                         else if ( i == y && j == x + 1)
                         {
-                            Label3.Text = "R";
+                            //Label3.Text = "R";
                             move = RecursivoBlanco(i, j, "R");
                         }
                         else if (i == y+1 && j == x + 1)
                         {
-                            Label3.Text = "DR";
+                            //Label3.Text = "DR";
                             move = RecursivoBlanco(i, j, "DR");
                         }
 
@@ -741,42 +820,42 @@ namespace Proyecto.Pages
                     {
                         if (i == y - 1 && j == x - 1)
                         {
-                            Label3.Text = "UL";
+                            //Label3.Text = "UL";
                             move = RecursivoNegro(i, j, "UL");
                         }
                         else if (i == y && j == x - 1)
                         {
-                            Label3.Text = "L";
+                            //Label3.Text = "L";
                             move = RecursivoNegro(i,j, "L");
                         }
                         else if (i == y + 1 && j == x - 1)
                         {
-                            Label3.Text = "DL";
+                            //Label3.Text = "DL";
                             move = RecursivoNegro(i, j, "DL");
                         }
                         else if (i == y - 1 && j == x)
                         {
-                            Label3.Text = "U";
+                            //Label3.Text = "U";
                             move = RecursivoNegro(i, j, "U");
                         }
                         else if (i == y + 1 && j == x)
                         {
-                            Label3.Text = "D";
+                            //Label3.Text = "D";
                             move = RecursivoNegro(i, j, "D");
                         }
                         else if (i == y - 1 && j == x + 1)
                         {
-                            Label3.Text = "UR";
+                            //Label3.Text = "UR";
                             move = RecursivoNegro(i, j, "UR");
                         }
                         else if (i == y && j == x + 1)
                         {
-                            Label3.Text = "R";
+                            //Label3.Text = "R";
                             move = RecursivoNegro(i, j, "R");
                         }
                         else if (i == y + 1 && j == x + 1)
                         {
-                            Label3.Text = "DR";
+                            //Label3.Text = "DR";
                             move = RecursivoNegro(i, j, "DR");
                         }
                         if (move)
@@ -816,8 +895,8 @@ namespace Proyecto.Pages
             Boolean moves = false;
             
                 change.Add(tablero[posi.Item1, posi.Item2]);
-            Label5.Text = x.ToString();
-            Label4.Text = y.ToString();
+            //Label5.Text = x.ToString();
+            //Label4.Text = y.ToString();
             posi = Direction(posi.Item1, posi.Item2, D);
             
             if (tablero[posi.Item1,posi.Item2].color == "negro")
@@ -848,8 +927,8 @@ namespace Proyecto.Pages
             Boolean moves = false;
             
             change.Add(tablero[posi.Item1, posi.Item2]);
-            Label5.Text = x.ToString();
-            Label4.Text = y.ToString();
+            //Label5.Text = x.ToString();
+            //Label4.Text = y.ToString();
             posi = Direction(posi.Item1, posi.Item2, D);
             
             //System.Diagnostics.Debug.WriteLine(y.ToString() + "|" + x.ToString());
@@ -953,28 +1032,21 @@ namespace Proyecto.Pages
                     if (tablero[i, j].llenado == true)
                     {
                         verfi = verfi + 1;
-                        if(tablero[i,j].color == "blanco")
-                        {
-                            score1 = score1 + 1;
-                        }
-                        else if(tablero[i,j].color == "negro")
-                        {
-                            score2 = score2 + 1;
-                        }
+                        
                     }
                 }
             }
             actual = (Usuario)Session["Usuario"];
             if(verfi == 64)
             {
-                if (score1 > score2)
+                if (player.score > score2)
                 {
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario, "alert('Con una puntuacion de :{0}');", score1);
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 }
                 else
                 {
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario, "alert('Con una puntuacion de :{0}');", score1);
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 }
             }
@@ -982,6 +1054,22 @@ namespace Proyecto.Pages
             
             
 
+        }
+
+        public void Puntuaciones() {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (tablero[i, j].color == player.color)
+                    {
+                        player.score = player.score + 1;
+                    }else if (tablero[i,j].color != player.color)
+                    {
+                        score2 = score2 + 1;
+                    }
+                }
+            }
         }
     }
 }
