@@ -4,21 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 using Proyecto.App_Code;
 using System.Xml;
 
-
 namespace Proyecto.Pages
 {
-    public partial class Solitario : System.Web.UI.Page
+    public partial class Multi2 : System.Web.UI.Page
     {
         Usuario actual = new Usuario();
         static Jugador player;
         static int numjugadas1 = 0;
         static int numjugadas2 = 0;
-        static int score1 ;
-        static int score2 ;
+        static int score1;
+        static int score2;
         static string[] turnos = new string[2];
         static string turnoactual = "";
         static Ficaha[,] tablero;
@@ -27,7 +25,7 @@ namespace Proyecto.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (!IsPostBack)
             {
                 //Label4.Text = "Primer carga";
@@ -36,24 +34,25 @@ namespace Proyecto.Pages
                 try
                 {
                     llenado();
-                    
 
-                }catch(Exception asa)
+
+                }
+                catch (Exception asa)
                 {
 
                 }
-                
+
                 Session["tab"] = tablero;
                 Button3.Enabled = false;
             }
             else
             {
                 llenado();
-                
+
             }
-            
-            
-           
+
+
+
 
         }
 
@@ -91,8 +90,9 @@ namespace Proyecto.Pages
             int aux = rnd.Next(turnos.Length);
             player.color = turnos[aux];
             Label3.Text = player.color + "<-";
-            Label4.Text = "Maquina";
-            if(player.color == "blanco")
+            string invitado = (string)Session["invitado"];
+            Label4.Text = invitado;
+            if (player.color == "blanco")
             {
                 Label6.Text = "Negro";
             }
@@ -100,10 +100,10 @@ namespace Proyecto.Pages
             {
                 Label6.Text = "Blanco";
             }
-            
-            Session["turnac"] = turnos[aux]; 
+
+            Session["turnac"] = turnos[aux];
             actual = (Usuario)Session["Usuario"];
-            
+
             Ficaha pred1 = new Ficaha();
             pred1.color = "blanco";
             pred1.x = "D";
@@ -131,9 +131,9 @@ namespace Proyecto.Pages
             pred4.y = 4;
             pred4.llenado = true;
             tablero[4, 4] = pred4;
-            
+
             Session["tab"] = tablero;
-            
+
             i28.ImageUrl = ("stuff\\blanca.jpg");
             i29.ImageUrl = ("stuff\\negra.jpg");
             i36.ImageUrl = ("stuff\\negra.jpg");
@@ -144,7 +144,7 @@ namespace Proyecto.Pages
                 for (int j = 0; j < 8; j++)
                 {
 
-                    if(tablero[i,j].llenado == false)
+                    if (tablero[i, j].llenado == false)
                     {
                         botones[i, j].ImageUrl = ("stuff\\tans.png");
                     }
@@ -154,7 +154,7 @@ namespace Proyecto.Pages
             Label1.Text = actual.NmUsuario;
             //Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
-            
+
             Session["botones"] = botones;
             Bloqueo();
             //HabilitarBotones();
@@ -243,12 +243,12 @@ namespace Proyecto.Pages
                                 }
                                 else if (i == agre.y & j == agre.x1 & agre.color == "negro")
                                 {
-                                    
+
                                     botones[i, j].ImageUrl = ("stuff\\negra.jpg");
                                     //botones[i, j].Enabled = false;
                                     puntne++;
                                 }
-                                else if(ta[i,j].llenado == false)
+                                else if (ta[i, j].llenado == false)
                                 {
                                     botones[i, j].ImageUrl = ("stuff\\tans.png");
                                 }
@@ -277,7 +277,7 @@ namespace Proyecto.Pages
 
             }
         }
-        
+
         protected void Button3_Click(object sender, EventArgs e)
         {
             string ruta = TextBox1.Text;
@@ -333,7 +333,7 @@ namespace Proyecto.Pages
 
             Button3.Enabled = true;
         }
-        
+
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
             string idaux;
@@ -343,9 +343,10 @@ namespace Proyecto.Pages
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
             tablero = (Ficaha[,])Session["tab"];
-            
-            if (turnoactual == "negro") {
-               // Label3.Text = "negro";
+
+            if (turnoactual == "negro")
+            {
+                // Label3.Text = "negro";
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
@@ -355,20 +356,21 @@ namespace Proyecto.Pages
                 //Label3.Text = nueva.y.ToString();
                 //Label4.Text = nueva.x1.ToString();
                 MovimientoNegro((int)nueva.y, nueva.x1, nueva);
-                if(player.color == "negro")
+                if (player.color == "negro")
                 {
                     Label6.Text = "Blanco" + "<--";
                     Label3.Text = "Negro";
-                }else if (player.color != "negro")
+                }
+                else if (player.color != "negro")
                 {
                     Label3.Text = "Blanco" + "<--";
                     Label6.Text = "Negro";
                 }
 
             }
-            else if(turnoactual == "blanco")
+            else if (turnoactual == "blanco")
             {
-                
+
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
@@ -377,7 +379,7 @@ namespace Proyecto.Pages
                 nueva.llenado = true;
                 //Label1.Text = (nueva.x1).ToString();
                 //Label2.Text = (nueva.y).ToString();
-                MovimientoBlanco((int)nueva.y,nueva.x1 , nueva);
+                MovimientoBlanco((int)nueva.y, nueva.x1, nueva);
                 if (player.color == "blanco")
                 {
                     Label6.Text = "Negro" + "<--";
@@ -394,19 +396,19 @@ namespace Proyecto.Pages
             Session["botones"] = botones;
             Bloqueo();
             Puntuaciones();
-            
+
         }
 
 
-        public Ficaha Creacion(int id , string color)
+        public Ficaha Creacion(int id, string color)
         {
             Ficaha nueva = new Ficaha();
-            if(color == "negro")
+            if (color == "negro")
             {
                 nueva.color = "negro";
-               
+
                 nueva.y = Math.Floor((double)id / 8);
-                int res = (id % 8)-1;
+                int res = (id % 8) - 1;
                 nueva.x1 = res;
                 if (id == 8 | id == 16 | id == 24 | id == 32 | id == 40 | id == 48 | id == 56 | id == 64)
                 {
@@ -415,7 +417,7 @@ namespace Proyecto.Pages
                     nueva.x1 = 7;
                     return nueva;
                 }
-               
+
 
                 switch (res)
                 {
@@ -440,7 +442,7 @@ namespace Proyecto.Pages
                     case 6:
                         nueva.x = "G";
                         break;
-                    
+
 
                 }
 
@@ -450,10 +452,10 @@ namespace Proyecto.Pages
             if (color == "blanco")
             {
                 nueva.color = "blanco";
-                
+
                 nueva.y = Math.Floor((double)id / 8);
                 int res = (id % 8) - 1;
-                if(id == 8 | id == 16 | id ==24 | id == 32 | id == 40 | id == 48 | id==56 | id==64)
+                if (id == 8 | id == 16 | id == 24 | id == 32 | id == 40 | id == 48 | id == 56 | id == 64)
                 {
                     nueva.y = (id / 8) - 1;
                     nueva.x = "H";
@@ -462,8 +464,8 @@ namespace Proyecto.Pages
                 }
                 nueva.x1 = res;
 
-               
-               
+
+
                 switch (res)
                 {
                     case 0:
@@ -487,7 +489,7 @@ namespace Proyecto.Pages
                     case 6:
                         nueva.x = "G";
                         break;
-                    
+
 
                 }
 
@@ -498,7 +500,7 @@ namespace Proyecto.Pages
 
         }
 
-        public int leer (string a)
+        public int leer(string a)
         {
             int x1 = -1;
             switch (a)
@@ -534,7 +536,7 @@ namespace Proyecto.Pages
 
         public void llenado()
         {
-            
+
             botones[0, 0] = i01;
             botones[0, 1] = i02;
             botones[0, 2] = i03;
@@ -601,7 +603,7 @@ namespace Proyecto.Pages
             botones[7, 7] = i64;
             Session["botones"] = botones;
 
-           
+
 
         }
 
@@ -611,7 +613,7 @@ namespace Proyecto.Pages
             botones = (ImageButton[,])Session["botones"];
             turnoactual = (string)Session["turnac"];
             for (int i = 0; i < 8; i++)
-            {   
+            {
                 for (int j = 0; j < 8; j++)
                 {
                     botones[i, j].Enabled = false;
@@ -666,13 +668,13 @@ namespace Proyecto.Pages
                         {
 
                         }
-                        
+
                     }
                 }
             }
             else if (turnoactual == "blanco")
             {
-                for (int i = 0; i < 8; i++) 
+                for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < 8; j++)
                     {
@@ -718,7 +720,7 @@ namespace Proyecto.Pages
                         {
 
                         }
-                        
+
                     }
                 }
             }
@@ -726,13 +728,13 @@ namespace Proyecto.Pages
 
         public void MovimientoBlanco(int y, int x, Ficaha nueva)
         {
-            
+
             int id;
             Boolean move = false;
-            
+
             for (int i = y - 1; i <= y + 1; i++)
             {
-                for(int j = x - 1; j<= x + 1; j++)
+                for (int j = x - 1; j <= x + 1; j++)
                 {
                     change = new List<Ficaha>();
                     try
@@ -808,19 +810,19 @@ namespace Proyecto.Pages
                     {
 
                     }
-                    
+
                 }
             }
 
-            
-            
+
+
 
         }
 
         public void MovimientoNegro(int y, int x, Ficaha nueva)
         {
             Boolean move = false;
-            
+
             for (int i = y - 1; i <= y + 1; i++)
             {
                 for (int j = x - 1; j <= x + 1; j++)
@@ -898,37 +900,37 @@ namespace Proyecto.Pages
                     {
 
                     }
-                    
+
 
                 }
             }
 
-            
+
         }
 
         public Boolean RecursivoBlanco(int y1, int x1, string D)
         {
-            
+
             int y = y1;
             int x = x1;
-            var posi =new Tuple<int,int>(y,x);
-            
+            var posi = new Tuple<int, int>(y, x);
+
 
             Boolean moves = false;
-            
-                change.Add(tablero[posi.Item1, posi.Item2]);
+
+            change.Add(tablero[posi.Item1, posi.Item2]);
             //Label5.Text = x.ToString();
             //Label4.Text = y.ToString();
             posi = Direction(posi.Item1, posi.Item2, D);
-            
-            if (tablero[posi.Item1,posi.Item2].color == "negro")
+
+            if (tablero[posi.Item1, posi.Item2].color == "negro")
             {
-               moves = RecursivoBlanco(posi.Item1, posi.Item2, D);
+                moves = RecursivoBlanco(posi.Item1, posi.Item2, D);
             }
             else if (tablero[posi.Item1, posi.Item2].color == "blanco")
             {
                 moves = true;
-                
+
             }
             else if (tablero[posi.Item1, posi.Item2].color == " ")
             {
@@ -947,12 +949,12 @@ namespace Proyecto.Pages
             int x = x1;
             var posi = new Tuple<int, int>(y, x);
             Boolean moves = false;
-            
+
             change.Add(tablero[posi.Item1, posi.Item2]);
             //Label5.Text = x.ToString();
             //Label4.Text = y.ToString();
             posi = Direction(posi.Item1, posi.Item2, D);
-            
+
             //System.Diagnostics.Debug.WriteLine(y.ToString() + "|" + x.ToString());
             if (tablero[posi.Item1, posi.Item2].color == "blanco")
             {
@@ -974,44 +976,51 @@ namespace Proyecto.Pages
             return moves;
         }
 
-        public Tuple<int,int> Direction(int y, int x, string D)
+        public Tuple<int, int> Direction(int y, int x, string D)
         {
             int y1 = y;
             int x1 = x;
-            if(D == "UL")
+            if (D == "UL")
             {
                 x1 = x1 - 1;
                 y1 = y1 - 1;
-            }else if ( D == "U")
+            }
+            else if (D == "U")
             {
                 y1 = y1 - 1;
-                
-            }else if( D == "UR")
+
+            }
+            else if (D == "UR")
             {
                 x1 = x1 + 1;
                 y1 = y1 - 1;
-            }else if(D == "R")
+            }
+            else if (D == "R")
             {
                 x1 = x1 + 1;
-                
-            }else if(D == "L")
+
+            }
+            else if (D == "L")
             {
                 x1 = x1 - 1;
-                
-            }else if(D == "DL")
+
+            }
+            else if (D == "DL")
             {
                 x1 = x1 - 1;
                 y1 = y1 + 1;
-            }else if (D == "D")
+            }
+            else if (D == "D")
             {
-                y1= y1 + 1;
-                
-            }else if (D == "DR")
+                y1 = y1 + 1;
+
+            }
+            else if (D == "DR")
             {
                 x1 = x1 + 1;
                 y1 = y1 + 1;
             }
-            
+
             var posi = new Tuple<int, int>(y1, x1);
             return posi;
         }
@@ -1022,9 +1031,9 @@ namespace Proyecto.Pages
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (tablero[i,j].color == "blanco")
+                    if (tablero[i, j].color == "blanco")
                     {
-                        botones[i,j].ImageUrl = ("stuff\\blanca.jpg");
+                        botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
                     }
                 }
             }
@@ -1054,12 +1063,12 @@ namespace Proyecto.Pages
                     if (tablero[i, j].llenado == true)
                     {
                         verfi = verfi + 1;
-                        
+
                     }
                 }
             }
             actual = (Usuario)Session["Usuario"];
-            if(verfi == 64)
+            if (verfi == 64)
             {
                 if (player.score > score2)
                 {
@@ -1072,13 +1081,14 @@ namespace Proyecto.Pages
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 }
             }
-            
-            
-            
+
+
+
 
         }
 
-        public void Puntuaciones() {
+        public void Puntuaciones()
+        {
             player.score = 0;
             score2 = 0;
             for (int i = 0; i < 8; i++)
@@ -1088,7 +1098,8 @@ namespace Proyecto.Pages
                     if (tablero[i, j].color == player.color)
                     {
                         player.score = player.score + 1;
-                    }else if (tablero[i,j].color != player.color && tablero[i,j].llenado == true)
+                    }
+                    else if (tablero[i, j].color != player.color && tablero[i, j].llenado == true)
                     {
                         score2 = score2 + 1;
                     }

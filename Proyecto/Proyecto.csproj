@@ -74,6 +74,8 @@
     <Content Include="Pages\Formulario.aspx" />
     <Content Include="Pages\Inicio.aspx" />
     <Content Include="Pages\Login.aspx" />
+    <Content Include="Pages\Multi1.aspx" />
+    <Content Include="Pages\Multi2.aspx" />
     <Content Include="Pages\Solitario.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -92,6 +94,20 @@
     </Compile>
     <Compile Include="Pages\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Multi1.aspx.cs">
+      <DependentUpon>Multi1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Multi1.aspx.designer.cs">
+      <DependentUpon>Multi1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Multi2.aspx.cs">
+      <DependentUpon>Multi2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Multi2.aspx.designer.cs">
+      <DependentUpon>Multi2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
