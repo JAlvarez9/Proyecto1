@@ -156,7 +156,7 @@ namespace Proyecto.Pages
             Button3.Enabled = true;
 
             Session["botones"] = botones;
-            Bloqueo();
+            //Bloqueo();
             //HabilitarBotones();
         }
 
@@ -179,13 +179,34 @@ namespace Proyecto.Pages
                         ta[i, j] = agrego;
                     }
                 }
+                player = new Jugador();
+                turnos = new string[2];
+                Random rnd = new Random();
+                turnos[0] = "blanco";
+                turnos[1] = "negro";
+                int aux = rnd.Next(turnos.Length);
+                player.color = turnos[aux];
+                Label3.Text = player.color + "<-";
+                Label4.Text = "Maquina";
+                if (player.color == "blanco")
+                {
+                    Label6.Text = "Negro";
+                }
+                else
+                {
+                    Label6.Text = "Blanco";
+                }
+                actual = (Usuario)Session["Usuario"];
+                Label1.Text = actual.NmUsuario;
+
+                player.color = turnos[aux];
                 string color = "";
                 string x = "";
                 int puntne = 0;
                 int puntbl = 0;
                 int y = -1;
                 string tiro = "";
-                Label6.Text = "Cerro";
+                //Label6.Text = "Cerro";
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < 8; j++)
@@ -196,7 +217,7 @@ namespace Proyecto.Pages
                 XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyectos\Proyecto\Proyecto\Archivos\" + FileUpload1.FileName);
                 while (reader.Read())
                 {
-                    Label6.Text = "si while";
+                    //Label6.Text = "si while";
                     if (reader.IsStartElement())
                     {
                         //return only when you have START tag  
@@ -205,7 +226,7 @@ namespace Proyecto.Pages
                             case "color":
                                 color = reader.ReadString();
                                 tiro = color;
-                                Label1.Text = tiro;
+                                //Label1.Text = tiro;
                                 break;
                             case "columna":
                                 x = reader.ReadString();
@@ -269,7 +290,7 @@ namespace Proyecto.Pages
                 Session["scoreb"] = puntbl;
                 Session["tab"] = tablero;
                 Session["botones"] = botones;
-                Bloqueo();
+                //Bloqueo();
                 Button3.Enabled = true;
             }
             else
@@ -346,15 +367,12 @@ namespace Proyecto.Pages
 
             if (turnoactual == "negro")
             {
-                // Label3.Text = "negro";
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "negro");
                 nueva.llenado = true;
-                //Label3.Text = nueva.y.ToString();
-                //Label4.Text = nueva.x1.ToString();
                 MovimientoNegro((int)nueva.y, nueva.x1, nueva);
                 if (player.color == "negro")
                 {
@@ -394,8 +412,9 @@ namespace Proyecto.Pages
             }
             Button3.Enabled = true;
             Session["botones"] = botones;
-            Bloqueo();
+            //Bloqueo();
             Puntuaciones();
+            VerificarJuego();
 
         }
 
@@ -1067,8 +1086,33 @@ namespace Proyecto.Pages
                     }
                 }
             }
+            Boolean simon = false;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (botones[i, j].Enabled == false)
+                    {
+                        simon = true;
+
+                    }
+                }
+            }
             actual = (Usuario)Session["Usuario"];
             if (verfi == 64)
+            {
+                if (player.score > score2)
+                {
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                }
+                else
+                {
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                }
+            }
+            else if (verfi == 63 && simon == true)
             {
                 if (player.score > score2)
                 {
@@ -1108,5 +1152,8 @@ namespace Proyecto.Pages
             Label2.Text = player.score.ToString();
             Label5.Text = score2.ToString();
         }
+
+        public void SQLcreations() { }
+
     }
 }
