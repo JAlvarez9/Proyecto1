@@ -53,6 +53,8 @@
             <tr>
                 <td class="auto-style17">
                     
+                    <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Finalizar" />
+                    
                 </td>
                 <td class="auto-style18">
                     <table class="auto-style19" border="1">
@@ -285,7 +287,9 @@
                         </tr>
                     </table>
                 </td>
-                <td>&nbsp;</td>
+                <td>
+                    <asp:Label ID="Label7" runat="server"></asp:Label>
+                </td>
             </tr>
         </table>
         <br />

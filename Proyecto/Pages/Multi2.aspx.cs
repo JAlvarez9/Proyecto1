@@ -13,8 +13,7 @@ namespace Proyecto.Pages
     {
         Usuario actual = new Usuario();
         static Jugador player;
-        static int numjugadas1 = 0;
-        static int numjugadas2 = 0;
+        static int numjugadas1;
         static int score1;
         static int score2;
         static string[] turnos = new string[2];
@@ -186,7 +185,7 @@ namespace Proyecto.Pages
                 turnos[1] = "negro";
                 int aux = rnd.Next(turnos.Length);
                 player.color = turnos[aux];
-                Label3.Text = player.color + "<-";
+                Label3.Text = player.color;
                 Label4.Text = "Maquina";
                 if (player.color == "blanco")
                 {
@@ -284,6 +283,14 @@ namespace Proyecto.Pages
                     }
 
                 }
+                if (player.color == tiro)
+                {
+                    Label3.Text = player.color + "<-";
+                }
+                else
+                {
+                    Label6.Text = tiro + "<-";
+                }
                 reader.Close();
                 tablero = ta;
                 Session["scoren"] = puntne;
@@ -360,6 +367,7 @@ namespace Proyecto.Pages
             string idaux;
             int id;
             turnoactual = (string)Session["turnac"];
+            Label7.Text = turnoactual;
             Label5.Text = turnoactual;
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
@@ -376,6 +384,7 @@ namespace Proyecto.Pages
                 MovimientoNegro((int)nueva.y, nueva.x1, nueva);
                 if (player.color == "negro")
                 {
+                    numjugadas1 += 1;
                     Label6.Text = "Blanco" + "<--";
                     Label3.Text = "Negro";
                 }
@@ -384,6 +393,7 @@ namespace Proyecto.Pages
                     Label3.Text = "Blanco" + "<--";
                     Label6.Text = "Negro";
                 }
+                Session["turnac"] = "blanco";
 
             }
             else if (turnoactual == "blanco")
@@ -395,11 +405,10 @@ namespace Proyecto.Pages
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "blanco");
                 nueva.llenado = true;
-                //Label1.Text = (nueva.x1).ToString();
-                //Label2.Text = (nueva.y).ToString();
                 MovimientoBlanco((int)nueva.y, nueva.x1, nueva);
                 if (player.color == "blanco")
                 {
+                    numjugadas1 += 1;
                     Label6.Text = "Negro" + "<--";
                     Label3.Text = "Blanco";
                 }
@@ -408,10 +417,12 @@ namespace Proyecto.Pages
                     Label3.Text = "Negro" + "<--";
                     Label6.Text = "Blanco";
                 }
+                Session["turnac"] = "negro";
 
             }
             Button3.Enabled = true;
             Session["botones"] = botones;
+            //Label7.Text = numjugadas1.ToString();
             //Bloqueo();
             Puntuaciones();
             VerificarJuego();
@@ -820,7 +831,8 @@ namespace Proyecto.Pages
                             }
                             else
                             {
-                                Session["turnac"] = "negro";
+                                
+                                
                             }
 
                         }
@@ -911,7 +923,8 @@ namespace Proyecto.Pages
                             }
                             else
                             {
-                                Session["turnac"] = "blanco";
+                                
+                                
                             }
                         }
                     }
@@ -1086,18 +1099,7 @@ namespace Proyecto.Pages
                     }
                 }
             }
-            Boolean simon = false;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (botones[i, j].Enabled == false)
-                    {
-                        simon = true;
-
-                    }
-                }
-            }
+            
             actual = (Usuario)Session["Usuario"];
             if (verfi == 64)
             {
@@ -1112,19 +1114,7 @@ namespace Proyecto.Pages
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 }
             }
-            else if (verfi == 63 && simon == true)
-            {
-                if (player.score > score2)
-                {
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                }
-                else
-                {
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                }
-            }
+            
 
 
 
@@ -1155,5 +1145,53 @@ namespace Proyecto.Pages
 
         public void SQLcreations() { }
 
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            botones = (ImageButton[,])Session["botones"];
+            tablero = (Ficaha[,])Session["tab"];
+            actual = (Usuario)Session["Usuario"];
+            int fill = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if(tablero[i,j].llenado == true)
+                    {
+                        fill += 1;
+                    }
+                }
+            }
+            if(fill == 63)
+            {
+                player.score = 0;
+                score2 = 0;
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tablero[i, j].color == player.color)
+                        {
+                            player.score = player.score + 1;
+                        }
+                        else if (tablero[i, j].color != player.color && tablero[i, j].llenado == true)
+                        {
+                            score2 = score2 + 1;
+                        }
+                    }
+                }
+                if(player.score > score2)
+                {
+                    player.score += 1;
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                }
+                else
+                {
+                    score2 += 1;
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                }
+            }
+        }
     }
 }

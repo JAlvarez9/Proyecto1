@@ -15,8 +15,7 @@ namespace Proyecto.Pages
     {
         Usuario actual = new Usuario();
         static Jugador player;
-        static int numjugadas1 = 0;
-        static int numjugadas2 = 0;
+        static int numjugadas1;
         static int score1 ;
         static int score2 ;
         static string[] turnos = new string[2];
@@ -284,13 +283,21 @@ namespace Proyecto.Pages
                     }
 
                 }
+                if(player.color == tiro)
+                {
+                    Label1.Text = player.color + "<-";
+                }
+                else
+                {
+                    Label6.Text = tiro + "<-";
+                }
                 reader.Close();
                 tablero = ta;
                 Session["scoren"] = puntne;
                 Session["scoreb"] = puntbl;
                 Session["tab"] = tablero;
                 Session["botones"] = botones;
-                Bloqueo();
+                //Bloqueo();
                 Puntuaciones();
                 Button3.Enabled = true;
             }
@@ -361,21 +368,19 @@ namespace Proyecto.Pages
             string idaux;
             int id;
             turnoactual = (string)Session["turnac"];
-            Label5.Text = turnoactual;
+            //Label5.Text = turnoactual;
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
             tablero = (Ficaha[,])Session["tab"];
             
             if (turnoactual == "negro") {
-               // Label3.Text = "negro";
+               
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "negro");
                 nueva.llenado = true;
-                //Label3.Text = nueva.y.ToString();
-                //Label4.Text = nueva.x1.ToString();
                 MovimientoNegro((int)nueva.y, nueva.x1, nueva);
                 if(player.color == "negro")
                 {
@@ -386,6 +391,7 @@ namespace Proyecto.Pages
                     Label3.Text = "Blanco" + "<--";
                     Label6.Text = "Negro";
                 }
+                Session["turnac"] = "blanco";
 
             }
             else if(turnoactual == "blanco")
@@ -397,8 +403,6 @@ namespace Proyecto.Pages
                 Ficaha nueva = new Ficaha();
                 nueva = Creacion(id, "blanco");
                 nueva.llenado = true;
-                //Label1.Text = (nueva.x1).ToString();
-                //Label2.Text = (nueva.y).ToString();
                 MovimientoBlanco((int)nueva.y,nueva.x1 , nueva);
                 if (player.color == "blanco")
                 {
@@ -410,12 +414,13 @@ namespace Proyecto.Pages
                     Label3.Text = "Negro" + "<--";
                     Label6.Text = "Blanco";
                 }
+                Session["turnac"] = "negro";
 
             }
             Button3.Enabled = true;
             Session["botones"] = botones;
             
-            Bloqueo();
+            //Bloqueo();
             Puntuaciones();
             VerificarJuego();
             
@@ -629,11 +634,12 @@ namespace Proyecto.Pages
 
         }
 
-        public void Bloqueo()
+        public List<Ficaha> Bloqueo(List<Ficaha> lista)
         {
             tablero = (Ficaha[,])Session["tab"];
             botones = (ImageButton[,])Session["botones"];
             turnoactual = (string)Session["turnac"];
+            
             for (int i = 0; i < 8; i++)
             {   
                 for (int j = 0; j < 8; j++)
@@ -648,41 +654,43 @@ namespace Proyecto.Pages
                 {
                     for (int j = 0; j < 8; j++)
                     {
+                        Boolean accept = false;
                         try
                         {
                             if (tablero[i, j].llenado == true && tablero[i, j].color == "blanco")
                             {
                                 if (tablero[i + 1, j].llenado == false)
                                 {
-                                    botones[i + 1, j].Enabled = true;
+                                    accept = true;
+                                    lista.Add(tablero[i + 1, j]);
                                 }
                                 if (tablero[i, j + 1].llenado == false)
                                 {
-                                    botones[i, j + 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i + 1, j + 1].llenado == false)
                                 {
-                                    botones[i + 1, j + 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i + 1, j - 1].llenado == false)
                                 {
-                                    botones[i + 1, j - 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i - 1, j + 1].llenado == false)
                                 {
-                                    botones[i - 1, j + 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i - 1, j].llenado == false)
                                 {
-                                    botones[i - 1, j].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i, j - 1].llenado == false)
                                 {
-                                    botones[i, j - 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i - 1, j - 1].llenado == false)
                                 {
-                                    botones[i - 1, j - 1].Enabled = true;
+                                    accept = true;
                                 }
                             }
                         }
@@ -700,41 +708,42 @@ namespace Proyecto.Pages
                 {
                     for (int j = 0; j < 8; j++)
                     {
+                        Boolean accept = false;
                         try
                         {
                             if (tablero[i, j].llenado == true && tablero[i, j].color == "negro")
                             {
                                 if (tablero[i + 1, j].llenado == false)
                                 {
-                                    botones[i + 1, j].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i, j + 1].llenado == false)
                                 {
-                                    botones[i, j + 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i + 1, j + 1].llenado == false)
                                 {
-                                    botones[i + 1, j + 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i + 1, j - 1].llenado == false)
                                 {
-                                    botones[i + 1, j - 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i - 1, j + 1].llenado == false)
                                 {
-                                    botones[i - 1, j + 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i - 1, j].llenado == false)
                                 {
-                                    botones[i - 1, j].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i, j - 1].llenado == false)
                                 {
-                                    botones[i, j - 1].Enabled = true;
+                                    accept = true;
                                 }
                                 if (tablero[i - 1, j - 1].llenado == false)
                                 {
-                                    botones[i - 1, j - 1].Enabled = true;
+                                    accept = true;
                                 }
                             }
                         }
@@ -742,10 +751,17 @@ namespace Proyecto.Pages
                         {
 
                         }
+                        if (accept)
+                        {
+                            //lista.Add()
+                        }
                         
                     }
                 }
             }
+
+
+            return lista;
         }
 
         public void MovimientoBlanco(int y, int x, Ficaha nueva)
@@ -823,7 +839,7 @@ namespace Proyecto.Pages
                             }
                             else
                             {
-                                Session["turnac"] = "negro";
+                                
                             }
 
                         }
@@ -839,6 +855,86 @@ namespace Proyecto.Pages
             
             
 
+        }
+
+        public Boolean MovimientoBlanco2(int y, int x)
+        {
+            
+            Boolean move = false;
+
+            for (int i = y - 1; i <= y + 1; i++)
+            {
+                for (int j = x - 1; j <= x + 1; j++)
+                {
+                    
+                    try
+                    {
+                        if (i == y && j == x)
+                        {
+
+                        }
+                        else if (tablero[i, j].color == "negro")
+                        {
+                            if (i == y - 1 && j == x - 1)
+                            {
+                                //Label3.Text = "UL";
+                                move = RecursivoBlanco(i, j, "UL");
+                            }
+                            else if (i == y && j == x - 1)
+                            {
+                                //Label3.Text = "L";
+                                move = RecursivoBlanco(i, j, "L");
+                            }
+                            else if (i == y + 1 && j == x - 1)
+                            {
+                                //Label3.Text = "DL";
+                                move = RecursivoBlanco(i, j, "DL");
+                            }
+                            else if (i == y - 1 && j == x)
+                            {
+                                //Label3.Text = "U";
+                                move = RecursivoBlanco(i, j, "U");
+                            }
+                            else if (i == y + 1 && j == x)
+                            {
+                                //Label3.Text = "D";
+                                move = RecursivoBlanco(i, j, "D");
+                            }
+                            else if (i == y - 1 && j == x + 1)
+                            {
+                                //Label3.Text = "UR";
+                                move = RecursivoBlanco(i, j, "UR");
+                            }
+                            else if (i == y && j == x + 1)
+                            {
+                                //Label3.Text = "R";
+                                move = RecursivoBlanco(i, j, "R");
+                            }
+                            else if (i == y + 1 && j == x + 1)
+                            {
+                                //Label3.Text = "DR";
+                                move = RecursivoBlanco(i, j, "DR");
+                            }
+
+                            if (move)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+
+                            }
+
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+            }
+            return false;
         }
 
         public void MovimientoNegro(int y, int x, Ficaha nueva)
@@ -914,7 +1010,7 @@ namespace Proyecto.Pages
                             }
                             else
                             {
-                                Session["turnac"] = "blanco";
+                                
                             }
                         }
                     }
@@ -928,6 +1024,84 @@ namespace Proyecto.Pages
             }
 
             
+        }
+
+        public Boolean MovimientoNegro2(int y, int x)
+        {
+            Boolean move = false;
+
+            for (int i = y - 1; i <= y + 1; i++)
+            {
+                for (int j = x - 1; j <= x + 1; j++)
+                {
+                    
+                    try
+                    {
+                        if (i == y && j == x)
+                        {
+
+                        }
+                        else if (tablero[i, j].color == "blanco")
+                        {
+                            if (i == y - 1 && j == x - 1)
+                            {
+                                //Label3.Text = "UL";
+                                move = RecursivoNegro(i, j, "UL");
+                            }
+                            else if (i == y && j == x - 1)
+                            {
+                                //Label3.Text = "L";
+                                move = RecursivoNegro(i, j, "L");
+                            }
+                            else if (i == y + 1 && j == x - 1)
+                            {
+                                //Label3.Text = "DL";
+                                move = RecursivoNegro(i, j, "DL");
+                            }
+                            else if (i == y - 1 && j == x)
+                            {
+                                //Label3.Text = "U";
+                                move = RecursivoNegro(i, j, "U");
+                            }
+                            else if (i == y + 1 && j == x)
+                            {
+                                //Label3.Text = "D";
+                                move = RecursivoNegro(i, j, "D");
+                            }
+                            else if (i == y - 1 && j == x + 1)
+                            {
+                                //Label3.Text = "UR";
+                                move = RecursivoNegro(i, j, "UR");
+                            }
+                            else if (i == y && j == x + 1)
+                            {
+                                //Label3.Text = "R";
+                                move = RecursivoNegro(i, j, "R");
+                            }
+                            else if (i == y + 1 && j == x + 1)
+                            {
+                                //Label3.Text = "DR";
+                                move = RecursivoNegro(i, j, "DR");
+                            }
+                            if (move)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+
+                }
+            }
+            return false;
         }
 
         public Boolean RecursivoBlanco(int y1, int x1, string D)
@@ -1082,32 +1256,8 @@ namespace Proyecto.Pages
                     }
                 }
             }
-            Boolean simon = false;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (botones[i, j].Enabled == false)
-                    {
-                        simon = true;
-
-                    }
-                }
-            }
             actual = (Usuario)Session["Usuario"];
             if(verfi == 64)
-            {
-                if (player.score > score2)
-                {
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                }
-                else
-                {
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                }
-            }else if (verfi == 63 && simon == true)
             {
                 if (player.score > score2)
                 {
@@ -1144,6 +1294,162 @@ namespace Proyecto.Pages
             }
             Label2.Text = player.score.ToString();
             Label5.Text = score2.ToString();
+        }
+
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            botones = (ImageButton[,])Session["botones"];
+            tablero = (Ficaha[,])Session["tab"];
+            actual = (Usuario)Session["Usuario"];
+            int fill = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (tablero[i, j].llenado == true)
+                    {
+                        fill += 1;
+                    }
+                }
+            }
+            if (fill == 63)
+            {
+                player.score = 0;
+                score2 = 0;
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tablero[i, j].color == player.color)
+                        {
+                            player.score = player.score + 1;
+                        }
+                        else if (tablero[i, j].color != player.color && tablero[i, j].llenado == true)
+                        {
+                            score2 = score2 + 1;
+                        }
+                    }
+                }
+                if (player.score > score2)
+                {
+                    player.score += 1;
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                }
+                else
+                {
+                    score2 += 1;
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                }
+            }
+        }
+
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            string idaux;
+            int id;
+            turnoactual = (string)Session["turnac"];
+            Label5.Text = turnoactual;
+            ImageButton clickedButton = new ImageButton();
+            botones = (ImageButton[,])Session["botones"];
+            tablero = (Ficaha[,])Session["tab"];
+            Boolean yes;
+            
+            
+            if (turnoactual == "negro")
+            {
+                List<Ficaha> list = new List<Ficaha>();
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tablero[i, j].llenado == false)
+                        {
+                            clickedButton = botones[i, j];
+                            idaux = clickedButton.ID;
+                            id = Int32.Parse(idaux.Substring(1, 2));
+                            Ficaha nueva = new Ficaha();
+                            nueva = Creacion(id, "negro");
+                            //nueva.llenado = true;
+                            MovimientoNegro((int)nueva.y, nueva.x1, nueva);
+                            
+                            //if (yes)
+                            //{
+                            //    nueva.llenado = true;
+                            //    list.Add(nueva);
+                            //}
+                        }
+                    }
+                }
+                //list = Bloqueo(list);
+                Random rnd = new Random();
+
+                //int contar = rnd.Next(list.Count);
+                //Ficaha thisone = list[contar];
+                //MovimientoNegro((int)thisone.y, thisone.x1, thisone);
+                if (player.color == "negro")
+                {
+                    Label6.Text = "Blanco" + "<--";
+                    Label3.Text = "Negro";
+                }
+                else if (player.color != "negro")
+                {
+                    Label3.Text = "Blanco" + "<--";
+                    Label6.Text = "Negro";
+                }
+                Session["turnac"] = "blanco";
+
+            }
+            else if (turnoactual == "blanco")
+            {
+                List<Ficaha> list = new List<Ficaha>();
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tablero[i, j].llenado == false)
+                        {
+                            clickedButton = botones[i, j];
+                            idaux = clickedButton.ID;
+                            id = Int32.Parse(idaux.Substring(1, 2));
+
+                            Ficaha nueva = new Ficaha();
+                            nueva = Creacion(id, "blanco");
+                            //nueva.llenado = true;
+                            MovimientoBlanco((int)nueva.y, nueva.x1,nueva);
+                            //if (yes)
+                            //{
+                            //    nueva.llenado = true;
+                            //    list.Add(nueva);
+                            //}
+                        }
+                    }
+                }
+
+                //Random rnd = new Random();
+                //int contar = rnd.Next(list.Count);
+                //Ficaha thisone = list[contar];
+                //MovimientoNegro((int)thisone.y, thisone.x1, thisone);
+                
+                if (player.color == "blanco")
+                {
+                    Label6.Text = "Negro" + "<--";
+                    Label3.Text = "Blanco";
+                }
+                else if (player.color != "blanco")
+                {
+                    Label3.Text = "Negro" + "<--";
+                    Label6.Text = "Blanco";
+                }
+                Session["turnac"] = "negro";
+
+            }
+            Button3.Enabled = true;
+            Session["botones"] = botones;
+            //Bloqueo();
+            Puntuaciones();
+            VerificarJuego();
         }
     }
 }
