@@ -857,16 +857,17 @@ namespace Proyecto.Pages
 
         }
 
-        public Boolean MovimientoBlanco2(int y, int x)
+        public Boolean MovimientoBlanco2(int y, int x, Ficaha nueva)
         {
-            
-            Boolean move = false;
 
+            int id;
+            Boolean move = false;
+            Boolean yes = false;
             for (int i = y - 1; i <= y + 1; i++)
             {
                 for (int j = x - 1; j <= x + 1; j++)
                 {
-                    
+                    change = new List<Ficaha>();
                     try
                     {
                         if (i == y && j == x)
@@ -918,7 +919,17 @@ namespace Proyecto.Pages
 
                             if (move)
                             {
-                                return true;
+                                tablero[(int)nueva.y, nueva.x1] = nueva;
+                                int auxi = change.Count;
+                                for (int k = 0; k < auxi; k++)
+                                {
+                                    change[k].color = "blanco";
+                                }
+                                PintarBlanco();
+                                Session["turnac"] = "negro";
+                                Session["tab"] = tablero;
+                                Session["botones"] = botones;
+                                yes = true;
                             }
                             else
                             {
@@ -934,7 +945,10 @@ namespace Proyecto.Pages
 
                 }
             }
-            return false;
+
+            return yes;
+
+
         }
 
         public void MovimientoNegro(int y, int x, Ficaha nueva)
@@ -1026,15 +1040,15 @@ namespace Proyecto.Pages
             
         }
 
-        public Boolean MovimientoNegro2(int y, int x)
+        public Boolean MovimientoNegro2(int y, int x, Ficaha nueva)
         {
             Boolean move = false;
-
+            Boolean yes = false;
             for (int i = y - 1; i <= y + 1; i++)
             {
                 for (int j = x - 1; j <= x + 1; j++)
                 {
-                    
+                    change = new List<Ficaha>();
                     try
                     {
                         if (i == y && j == x)
@@ -1085,7 +1099,18 @@ namespace Proyecto.Pages
                             }
                             if (move)
                             {
-                                return true;
+                                tablero[(int)nueva.y, nueva.x1] = nueva;
+                                int auxi = change.Count;
+                                for (int k = 0; k < auxi; k++)
+                                {
+                                    change[k].color = "negro";
+                                }
+
+                                PintarNegro();
+                                Session["turnac"] = "blanco";
+                                Session["tab"] = tablero;
+                                Session["botones"] = botones;
+                                yes = true;
                             }
                             else
                             {
@@ -1101,7 +1126,8 @@ namespace Proyecto.Pages
 
                 }
             }
-            return false;
+            return yes;
+
         }
 
         public Boolean RecursivoBlanco(int y1, int x1, string D)
@@ -1359,6 +1385,7 @@ namespace Proyecto.Pages
             
             if (turnoactual == "negro")
             {
+                Boolean salir = false;
                 List<Ficaha> list = new List<Ficaha>();
                 for (int i = 0; i < 8; i++)
                 {
@@ -1371,23 +1398,21 @@ namespace Proyecto.Pages
                             id = Int32.Parse(idaux.Substring(1, 2));
                             Ficaha nueva = new Ficaha();
                             nueva = Creacion(id, "negro");
-                            //nueva.llenado = true;
-                            MovimientoNegro((int)nueva.y, nueva.x1, nueva);
+                            nueva.llenado = true;
+                            salir = MovimientoNegro2((int)nueva.y, nueva.x1, nueva);
+                            if (salir)
+                            {
+                                break;
+                            }
                             
-                            //if (yes)
-                            //{
-                            //    nueva.llenado = true;
-                            //    list.Add(nueva);
-                            //}
                         }
                     }
+                    if (salir)
+                    {
+                        break;
+                    }
+                        
                 }
-                //list = Bloqueo(list);
-                Random rnd = new Random();
-
-                //int contar = rnd.Next(list.Count);
-                //Ficaha thisone = list[contar];
-                //MovimientoNegro((int)thisone.y, thisone.x1, thisone);
                 if (player.color == "negro")
                 {
                     Label6.Text = "Blanco" + "<--";
@@ -1403,6 +1428,7 @@ namespace Proyecto.Pages
             }
             else if (turnoactual == "blanco")
             {
+                Boolean salir = false;
                 List<Ficaha> list = new List<Ficaha>();
                 for (int i = 0; i < 8; i++)
                 {
@@ -1416,14 +1442,18 @@ namespace Proyecto.Pages
 
                             Ficaha nueva = new Ficaha();
                             nueva = Creacion(id, "blanco");
-                            //nueva.llenado = true;
-                            MovimientoBlanco((int)nueva.y, nueva.x1,nueva);
-                            //if (yes)
-                            //{
-                            //    nueva.llenado = true;
-                            //    list.Add(nueva);
-                            //}
+                            nueva.llenado = true;
+                            salir = MovimientoBlanco2((int)nueva.y, nueva.x1,nueva);
+                            if (salir)
+                            {
+                                break;
+                            }
+                            
                         }
+                    }
+                    if (salir)
+                    {
+                        break;
                     }
                 }
 
