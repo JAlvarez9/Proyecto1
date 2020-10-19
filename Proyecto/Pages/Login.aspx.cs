@@ -18,6 +18,7 @@ namespace Proyecto
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+
             string usu = login_name.Text;
             Usuario consulta = new Usuario();
             Gestionar ges = new Gestionar();

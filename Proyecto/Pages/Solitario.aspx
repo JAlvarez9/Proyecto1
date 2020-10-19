@@ -48,6 +48,7 @@
                 </td>
             </tr>
         </table class="hide">
+        <asp:Label ID="Label7" runat="server"></asp:Label>
         <br />
         <table class="auto-style16">
             <tr>

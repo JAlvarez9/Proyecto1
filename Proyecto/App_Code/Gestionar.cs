@@ -55,7 +55,7 @@ namespace Proyecto.App_Code
         {
             SqlCommand comando = new SqlCommand();
             comando.Connection = conexion;
-            comando.CommandText = "select * from UsuariosR where NombreUsuario = @nmusua ";
+            comando.CommandText = "select * from Usuario where NombreUsuario = @nmusua ";
             comando.Parameters.AddWithValue("@nmusua",nmusuario);
             SqlDataReader regis = comando.ExecuteReader();
             if (regis.Read())
@@ -69,6 +69,12 @@ namespace Proyecto.App_Code
                 llamar.Nacimiento = regis.GetDateTime(5);
                 llamar.Pais = regis.GetString(6);
                 llamar.Correo = regis.GetString(7);
+                llamar.PartidasGanadas = regis.GetInt32(8);
+                llamar.PartidasPerdidas = regis.GetInt32(9);
+                llamar.PartidasEmpatadas = regis.GetInt32(10);
+                llamar.TorneosJugados = regis.GetInt32(11);
+                llamar.TorneosGanados = regis.GetInt32(12);
+                llamar.TorneosPerdidos = regis.GetInt32(13);
                 regis.Close();
                 return llamar;
 

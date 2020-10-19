@@ -15,12 +15,12 @@ namespace Proyecto.App_Code
         private DateTime nacimiento;
         private string pais;
         private string correo;
-        private int partidasGanadas { get; set; }
-        private int partidasPerdidas { get; set; }
-        private int partidasEmpatadas { get; set; }
-        private int torneosJugados { get; set; }
-        private int torneosGanados { get; set; }
-        private int torneosPerdidos { get; set; }
+        private int partidasGanadas;
+        private int partidasPerdidas;
+        private int partidasEmpatadas;
+        private int torneosJugados;
+        private int torneosGanados;
+        private int torneosPerdidos;
 
 
         public Usuario()
@@ -77,6 +77,35 @@ namespace Proyecto.App_Code
             get { return correo; }
             set { correo = value; }
         }
-
+        public int PartidasGanadas
+        {
+            get { return partidasGanadas; }
+            set { partidasGanadas = value; }
+        }
+        public int PartidasPerdidas
+        {
+            get { return partidasPerdidas; }
+            set { partidasPerdidas = value; }
+        }
+        public int PartidasEmpatadas
+        {
+            get { return partidasEmpatadas; }
+            set { partidasEmpatadas = value; }
+        }
+        public int TorneosJugados
+        {
+            get { return torneosJugados; }
+            set { torneosJugados = value; }
+        }
+        public int TorneosGanados
+        {
+            get { return torneosGanados; }
+            set { torneosGanados = value; }
+        }
+        public int TorneosPerdidos
+        {
+            get { return torneosPerdidos; }
+            set { torneosPerdidos = value; }
+        }
     }
 }

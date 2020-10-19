@@ -3,7 +3,9 @@
 
     <table style="width:100%; text-align:center;">
     <tr>
-        <td >Bienvendio al juego Othello, espero sea de su agrado</td>
+        <td >Bienvendio al juego Othello, espero sea de su agrado<br />
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="OTHELLO XTREME" />
+        </td>
     </tr>
     </table>
 

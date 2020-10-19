@@ -1,8 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/Site1.Master" AutoEventWireup="true" CodeBehind="Multi2.aspx.cs" Inherits="Proyecto.Pages.Multi2" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="conte" runat="server">
 
-    
-        <table class="auto-style23">
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+            <asp:ScriptManager ID="ScriptManager1" runat="server">
+            </asp:ScriptManager>
+            <table class="auto-style23">
             <tr>
                 <td >
                     <asp:Button ID="Button1" runat="server" Height="43px" OnClick="Button1_Click" Text="Nueva Partida" Width="205px" />
@@ -48,13 +51,14 @@
                 </td>
             </tr>
         </table class="hide">
+        <asp:Label ID="Label8" runat="server"></asp:Label>
         <br />
         <table class="auto-style16">
             <tr>
                 <td class="auto-style17">
                     
                     <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Finalizar" />
-                    
+                    <div id="hms" ></div>
                 </td>
                 <td class="auto-style18">
                     <table class="auto-style19" border="1">
@@ -289,17 +293,21 @@
                 </td>
                 <td>
                     <asp:Label ID="Label7" runat="server"></asp:Label>
+                    <div id="hms2"></div>
+                    <br />
                 </td>
             </tr>
         </table>
         <br />
        
 
-    </asp:Content>
+
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
 
-    
-    
     <style type="text/css">
         .auto-style1 {
             height: 52px;
@@ -372,9 +380,70 @@
         }
 
     </style>
-    
+    <script type="text/javascript">
+        //se consigui parte del codigo de https://francescricart.com/ejercicio-js-crear-un-cronometro-con-javascript/    
+	    window.onload = init;
+        function init(){
+            h = 0;
+            m = 0;
+            s = 0;
+            h2 = 0;
+            m2 = 0;
+            s2 = 0;
+            if(times )
+            document.getElementById("hms").innerHTML = "00:00:00";
+            document.getElementById("hms2").innerHTML = "00:00:00";
+            
+            
+        }         
+        function cronometrar(){
+            escribir();
+            id = setInterval(escribir,1000);
+            
+        }
+        function cronometrar2(){
+            escribir2();
+            id2 = setInterval(escribir2,1000);
+            
+        }
+        function escribir(){
+            var hAux, mAux, sAux;
+            s++;
+            if (s>59){m++;s=0;}
+            if (m>59){h++;m=0;}
+            if (h>24){h=0;}
 
-    
-    
+            if (s<10){sAux="0"+s;}else{sAux=s;}
+            if (m<10){mAux="0"+m;}else{mAux=m;}
+            if (h<10){hAux="0"+h;}else{hAux=h;}
+
+            document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux; 
+        }
+        function escribir2(){
+            var hAux2, mAux2, sAux2;
+            s2++;
+            if (s2>59){m2++;s2=0;}
+            if (m2>59){h2++;m2=0;}
+            if (h2>24){h2=0;}
+
+            if (s2<10){sAux2="0"+s2;}else{sAux2=s2;}
+            if (m2<10){mAux2="0"+m2;}else{mAux2=m2;}
+            if (h2<10){hAux2="0"+h2;}else{hAux2=h2;}
+
+            document.getElementById("hms2").innerHTML = hAux2 + ":" + mAux2 + ":" + sAux2; 
+            
+        }
+        function parar(){
+            clearInterval(id);
+            
+
+        }
+        function parar2(){
+            clearInterval(id2);
+            
+
+        }
+        
+    </script>
     </asp:Content>
 

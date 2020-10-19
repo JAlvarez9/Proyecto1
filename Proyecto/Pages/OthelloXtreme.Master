@@ -1,0 +1,51 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="OthelloXtreme.master.cs" Inherits="Proyecto.Pages.OthelloXtreme" %>
+
+<!DOCTYPE html >
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+-->
+<html>
+<head>
+
+<title runat="server">Othello Online</title>
+    <script src="../Scripts/jquery-3.5.1.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+            </asp:ContentPlaceHolder>
+
+<link href="stuff/default.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .auto-style1 {
+            height: 527px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+<div id="menu">
+	<ul>
+		<li><a href="InicioOX.aspx" accesskey="1" title="">Home</a></li>
+		<li><a href="SolitarioOX.aspx" accesskey="2" title="">Solitario</a></li>
+		<li><a href="Multi1OX.aspx" accesskey="3" title="">Multijugador</a></li>
+	</ul>
+</div>
+<div id="header">
+	<h1><a href="#">Othello Online</a></h1>
+</div>
+<div id="content">
+    
+	<div style="clear: both; " id="dentro" class="auto-style1">
+        <asp:ContentPlaceHolder ID="conte" runat="server">
+            </asp:ContentPlaceHolder>
+    </div>
+        
+</div>
+<div id="footer">
+    
+	
+</div>
+
+    </form>
+</body>
+</html>

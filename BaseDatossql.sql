@@ -12,22 +12,21 @@ Contrasenia varchar (30) not null,
 FechaNacimiento date not null,
 Pais varchar(20) not null,
 Correo varchar(40) not null,
-PartidasGanadas int not null,
-PartidasPerdidas int not null,
-PartidasEmpatadas int not null,
-TorneosJugados int not null,
-TorneosGanadas int not null,
-TorneosPerdidos int not null,
+PartidasGanadas int,
+PartidasPerdidas int,
+PartidasEmpatadas int,
+TorneosJugados int,
+TorneosGanadas int,
+TorneosPerdidos int,
 );
 
 create table Partida(
 idPartida int not null,
-Primary key (idPartida)
+Primary key (idPartida),
+Modo varchar(15)
 );
 
 create table DetallePartida(
-idDPartida int not null,
-primary key (idDPartida),
 idUsuarios int not null,
 foreign key (idUsuarios) references Usuario(idUsuarios) on update cascade on delete cascade,
 idPartida int not null,
@@ -43,14 +42,17 @@ Modo varchar(15),
 );
 
 create table DetalleTorneo(
-idDTorneo int not null,
-primary key(idDTorneo),
 idUsuarios int not null,
 foreign key (idUsuarios) references Usuario(idUsuarios) on update cascade on delete cascade,
 idTorneo int not null,
 foreign key (idTorneo) references Torneo(idTorneo) on update cascade on delete cascade,
+Estado varchar(10),
+Ronda int,
+Creador Bit,
 );
 
 select * from Usuario
+
+
 
 

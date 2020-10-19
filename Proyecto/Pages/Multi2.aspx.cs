@@ -6,15 +6,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Proyecto.App_Code;
 using System.Xml;
+using System.Data.SqlClient;
 
 namespace Proyecto.Pages
 {
     public partial class Multi2 : System.Web.UI.Page
     {
+        public string error;
+        public SqlConnection conexion;
         Usuario actual = new Usuario();
         static Jugador player;
         static int numjugadas1;
-        static int score1;
         static int score2;
         static string[] turnos = new string[2];
         static string turnoactual = "";
@@ -40,7 +42,7 @@ namespace Proyecto.Pages
                 {
 
                 }
-
+                
                 Session["tab"] = tablero;
                 Button3.Enabled = false;
             }
@@ -213,6 +215,7 @@ namespace Proyecto.Pages
                         botones[i, j].Enabled = true;
                     }
                 }
+                //"C:\Users\Byron Alvarez\Desktop\Proyecto\Proyecto\Archivos" + FileUpload1.FileName
                 XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyectos\Proyecto\Proyecto\Archivos\" + FileUpload1.FileName);
                 while (reader.Read())
                 {
@@ -243,39 +246,47 @@ namespace Proyecto.Pages
                     if (color != "" & x != "" & y != -1)
                     {
                         //Label5.Text = "entre al if";
-                        Ficaha agre = new Ficaha();
-                        agre.color = color;
-                        agre.x = x;
-                        agre.x1 = leer(x);
-                        agre.y = y - 1;
-                        agre.llenado = true;
-                        ta[(int)agre.y, agre.x1] = agre;
-                        for (int i = 0; i < 8; i++)
+                        try
                         {
-                            for (int j = 0; j < 8; j++)
+                            Ficaha agre = new Ficaha();
+                            agre.color = color;
+                            agre.x = x;
+                            agre.x1 = leer(x);
+                            agre.y = y - 1;
+                            agre.llenado = true;
+                            ta[(int)agre.y, agre.x1] = agre;
+                            for (int i = 0; i < 8; i++)
                             {
-                                if (i == agre.y & j == agre.x1 & agre.color == "blanco")
+                                for (int j = 0; j < 8; j++)
                                 {
-                                    botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
-                                    //botones[i, j].Enabled = false;
+                                    if (i == agre.y & j == agre.x1 & agre.color == "blanco")
+                                    {
+                                        botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
+                                        //botones[i, j].Enabled = false;
 
-                                    puntbl++;
+                                        puntbl++;
+                                    }
+                                    else if (i == agre.y & j == agre.x1 & agre.color == "negro")
+                                    {
+
+                                        botones[i, j].ImageUrl = ("stuff\\negra.jpg");
+                                        //botones[i, j].Enabled = false;
+                                        puntne++;
+                                    }
+                                    else if (ta[i, j].llenado == false)
+                                    {
+                                        botones[i, j].ImageUrl = ("stuff\\tans.png");
+                                    }
+
+
                                 }
-                                else if (i == agre.y & j == agre.x1 & agre.color == "negro")
-                                {
-
-                                    botones[i, j].ImageUrl = ("stuff\\negra.jpg");
-                                    //botones[i, j].Enabled = false;
-                                    puntne++;
-                                }
-                                else if (ta[i, j].llenado == false)
-                                {
-                                    botones[i, j].ImageUrl = ("stuff\\tans.png");
-                                }
-
-
                             }
                         }
+                        catch
+                        {
+
+                        }
+                        
 
                         color = "";
                         x = "";
@@ -375,6 +386,10 @@ namespace Proyecto.Pages
 
             if (turnoactual == "negro")
             {
+                string javaScript = "cronometrar();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                string javaScript2 = "parar2();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript2, true);
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
@@ -398,7 +413,10 @@ namespace Proyecto.Pages
             }
             else if (turnoactual == "blanco")
             {
-
+                string javaScript3 = "cronometrar2();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript3, true);
+                string javaScript4 = "parar();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript4, true);
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
@@ -1107,14 +1125,25 @@ namespace Proyecto.Pages
                 {
                     string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasGanadas += 1;
+                    SQLcreationsWin();
                 }
-                else
+                else if(player.score < score2)
                 {
                     string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasPerdidas += 1;
+                    SQLcreationsLoose();
+
+                }else if(player.score == score2)
+                {
+                    string script = string.Format("alert('El jugador empato:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasEmpatadas += 1;
+
                 }
             }
-            
+            Session["Usuario"] = actual;
 
 
 
@@ -1143,7 +1172,72 @@ namespace Proyecto.Pages
             Label5.Text = score2.ToString();
         }
 
-        public void SQLcreations() { }
+        public void SQLcreationsWin()
+        {
+            this.conexion = Conexion.getConexion();
+            Usuario actual = (Usuario)Session["Usuario"];
+            SqlCommand comand = new SqlCommand();
+            comand.Connection = conexion;
+            comand.CommandText = "UPDATE Usuario set PartidasGanadas = @partidasganadas " +
+                "where NombreUsuario = @nmusuario ;" ;
+            comand.Parameters.AddWithValue("@nmusuario", actual.NmUsuario);
+            comand.Parameters.AddWithValue("@partidasganadas", actual.PartidasGanadas);
+            try
+            {
+                comand.ExecuteNonQuery();
+                
+            }
+            catch (SqlException ex)
+            {
+                this.error = ex.Message;
+            }
+            Label8.Text = this.error;
+        }
+
+        public void SQLcreationsLoose()
+        {
+            this.conexion = Conexion.getConexion();
+            Usuario actual = (Usuario)Session["Usuario"];
+            SqlCommand comand = new SqlCommand();
+            comand.Connection = conexion;
+            comand.CommandText = "UPDATE Usuario set PartidasPerdidas = @partidasperdidas " +
+                "where NombreUsuario = @nmusuario ;";
+            comand.Parameters.AddWithValue("@nmusuario", actual.NmUsuario);
+            comand.Parameters.AddWithValue("@partidasperdidas", actual.PartidasPerdidas);
+            try
+            {
+                comand.ExecuteNonQuery();
+                
+            }
+            catch (SqlException ex)
+            {
+                this.error = ex.Message;
+            }
+            Label8.Text = this.error;
+        }
+
+        public void SQLcreationsDraw()
+        {
+            this.conexion = Conexion.getConexion();
+            Usuario actual = (Usuario)Session["Usuario"];
+            SqlCommand comand = new SqlCommand();
+            comand.Connection = conexion;
+            comand.CommandText = "UPDATE Usuario set PartidasEmpatadas = @partidasempatadas " +
+                "where NombreUsuario = @nmusuario ;";
+            comand.Parameters.AddWithValue("@nmusuario", actual.NmUsuario);
+            comand.Parameters.AddWithValue("@partidasempatadas", actual.PartidasEmpatadas);
+            try
+            {
+                comand.ExecuteNonQuery();
+
+            }
+            catch (SqlException ex)
+            {
+                this.error = ex.Message;
+            }
+            Label8.Text = this.error;
+
+        }
 
         protected void Button4_Click(object sender, EventArgs e)
         {
