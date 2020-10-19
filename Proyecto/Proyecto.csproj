@@ -70,12 +70,54 @@
   <ItemGroup>
     <Compile Include="App_Code\Ficaha.cs" />
     <Compile Include="App_Code\Gestionar.cs" />
+    <Compile Include="Pages\InicioOX.aspx.cs">
+      <DependentUpon>InicioOX.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\InicioOX.aspx.designer.cs">
+      <DependentUpon>InicioOX.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Multi1OX.aspx.cs">
+      <DependentUpon>Multi1OX.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Multi1OX.aspx.designer.cs">
+      <DependentUpon>Multi1OX.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Multi2OX.aspx.cs">
+      <DependentUpon>Multi2OX.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Multi2OX.aspx.designer.cs">
+      <DependentUpon>Multi2OX.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OthelloXtreme.Master.cs">
+      <DependentUpon>OthelloXtreme.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\OthelloXtreme.Master.designer.cs">
+      <DependentUpon>OthelloXtreme.Master</DependentUpon>
+    </Compile>
     <Compile Include="Pages\pruebas.aspx.cs">
       <DependentUpon>pruebas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\pruebas.aspx.designer.cs">
       <DependentUpon>pruebas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Solitario1OX.aspx.cs">
+      <DependentUpon>Solitario1OX.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Solitario1OX.aspx.designer.cs">
+      <DependentUpon>Solitario1OX.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SolitarioOX.aspx.cs">
+      <DependentUpon>SolitarioOX.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\SolitarioOX.aspx.designer.cs">
+      <DependentUpon>SolitarioOX.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -87,12 +129,18 @@
     <Content Include="Pages\Estilos\Style1.css" />
     <Content Include="Pages\Formulario.aspx" />
     <Content Include="Pages\Inicio.aspx" />
+    <Content Include="Pages\InicioOX.aspx" />
     <Content Include="Pages\Login.aspx" />
     <Content Include="Pages\Multi1.aspx" />
+    <Content Include="Pages\Multi1OX.aspx" />
     <Content Include="Pages\Multi2.aspx" />
+    <Content Include="Pages\Multi2OX.aspx" />
     <Content Include="Pages\pruebas.aspx" />
     <Content Include="Pages\Solitario.aspx" />
+    <Content Include="Pages\OthelloXtreme.Master" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
+    <Content Include="Pages\Solitario1OX.aspx" />
+    <Content Include="Pages\SolitarioOX.aspx" />
     <Content Include="Scripts\jquery-3.5.1.js" />
     <Content Include="Scripts\jquery-3.5.1.min.js" />
     <Content Include="Scripts\jquery-3.5.1.slim.js" />
