@@ -425,9 +425,9 @@ namespace Proyecto.Pages
             {
 
                 string javaScript3 = "cronometrar2();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript3, true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript3, true);
                 string javaScript4 = "parar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript4, true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript4, true);
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];

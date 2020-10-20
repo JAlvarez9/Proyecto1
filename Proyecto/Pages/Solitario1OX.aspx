@@ -5,7 +5,7 @@
             width: 297px;
         }
         .auto-style3 {
-            width: 65px;
+            width: 64px;
         }
         .auto-style4 {
             height: 14px;
@@ -17,7 +17,7 @@
         <tr>
             <td class="auto-style2">Colores Jugador 1</td>
             <td class="auto-style3">&nbsp;</td>
-            <td>Colores Jugador 2</td>
+            <td>Colores Maquina&nbsp; 2</td>
         </tr>
         <tr>
             <td class="auto-style2">
@@ -60,6 +60,19 @@
             <td class="auto-style3">&nbsp;</td>
             <td>Numero de Filas:
                 <input id="Text2" class="auto-style4" type="text" /></td>
+        </tr>
+        <tr>
+            <td class="auto-style2">Cargar Archivo</td>
+            <td class="auto-style3">&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="auto-style2">
+                <asp:FileUpload ID="FileUpload1" runat="server" Width="281px" />
+            </td>
+            <td colspan="2">
+                <asp:Button ID="Button1" runat="server" Text="Cargar Partida" Width="271px" />
+            </td>
         </tr>
     </table>
 &nbsp;

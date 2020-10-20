@@ -26,7 +26,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 <div id="menu">
 	<ul>
 		<li><a href="InicioOX.aspx" accesskey="1" title="">Home</a></li>
-		<li><a href="SolitarioOX.aspx" accesskey="2" title="">Solitario</a></li>
+		<li><a href="MenuSolitarioOX.aspx" accesskey="2" title="">Solitario</a></li>
 		<li><a href="Multi1OX.aspx" accesskey="3" title="">Multijugador</a></li>
 	</ul>
 </div>

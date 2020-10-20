@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/Site1.Master" AutoEventWireup="true" CodeBehind="Solitario.aspx.cs" Inherits="Proyecto.Pages.Solitario" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/OthelloXtreme.Master" AutoEventWireup="true" CodeBehind="SolitarioOXIn.aspx.cs" Inherits="Proyecto.Pages.SolitarioOXIn" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
       <style type="text/css">
@@ -428,5 +428,4 @@
     </asp:UpdatePanel>
 
 </asp:Content>
-
 

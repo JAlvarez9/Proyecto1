@@ -8,11 +8,9 @@ using System.Data;
 using Proyecto.App_Code;
 using System.Xml;
 using System.Data.SqlClient;
-
-
 namespace Proyecto.Pages
 {
-    public partial class Solitario : System.Web.UI.Page
+    public partial class SolitarioOXIn : System.Web.UI.Page
     {
         public string error;
         public SqlConnection conexion;
@@ -118,54 +116,24 @@ namespace Proyecto.Pages
             }
             actual = (Usuario)Session["Usuario"];
 
-            Ficaha pred1 = new Ficaha();
-            pred1.color = "blanco";
-            pred1.x = "D";
-            pred1.y = 3;
-            pred1.llenado = true;
-            tablero[3, 3] = pred1;
-
-            Ficaha pred2 = new Ficaha();
-            pred2.color = "negro";
-            pred2.x = "E";
-            pred2.y = 3;
-            pred2.llenado = true;
-            tablero[3, 4] = pred2;
-
-            Ficaha pred3 = new Ficaha();
-            pred3.color = "negro";
-            pred3.x = "D";
-            pred3.y = 4;
-            pred3.llenado = true;
-            tablero[4, 3] = pred3;
-
-            Ficaha pred4 = new Ficaha();
-            pred4.color = "blanco";
-            pred4.x = "E";
-            pred4.y = 4;
-            pred4.llenado = true;
-            tablero[4, 4] = pred4;
-
-            Session["tab"] = tablero;
-
-            i28.ImageUrl = ("stuff\\blanca.jpg");
-            i29.ImageUrl = ("stuff\\negra.jpg");
-            i36.ImageUrl = ("stuff\\negra.jpg");
-            i37.ImageUrl = ("stuff\\blanca.jpg");
 
 
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    
+                    botones[i, j].Enabled = false;
                     if (tablero[i, j].llenado == false)
                     {
                         botones[i, j].ImageUrl = ("stuff\\tans.png");
                     }
                 }
             }
-            
+
+            botones[3, 3].Enabled = true;
+            botones[3, 4].Enabled = true;
+            botones[4, 3].Enabled = true;
+            botones[4, 4].Enabled = true;
             Label1.Text = actual.NmUsuario;
             //Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
@@ -405,35 +373,123 @@ namespace Proyecto.Pages
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
             tablero = (Ficaha[,])Session["tab"];
-            if (turnoactual == "negro")
+
+            if (firstmoves < 4)
+            {
+                if (turnoactual == "negro")
+                {
+                    idaux = clickedButton.ID;
+                    id = Int32.Parse(idaux.Substring(1, 2));
+                    tablero = (Ficaha[,])Session["tab"];
+                    Ficaha nueva = new Ficaha();
+                    nueva = Creacion(id, "negro");
+                    nueva.llenado = true;
+                    tablero[(int)nueva.y, nueva.x1] = nueva;
+                    if (turnoactual == player.color)
+                    {
+                        string javaScript4 = "parar();";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script34", javaScript4, true);
+
+                    }
+                    else
+                    {
+                        string javaScript = "cronometrar();";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script5", javaScript, true);
+                    }
+                    if (player.color == "negro")
+                    {
+                        Label6.Text = "Blanco" + "<--";
+                        Label3.Text = "Negro";
+                    }
+                    else if (player.color != "negro")
+                    {
+                        Label3.Text = "Blanco" + "<--";
+                        Label6.Text = "Negro";
+                    }
+                    turnoactual = "blanco";
+                    PintarNegro();
+                }
+                else if (turnoactual == "blanco")
+                {
+                    idaux = clickedButton.ID;
+                    id = Int32.Parse(idaux.Substring(1, 2));
+                    tablero = (Ficaha[,])Session["tab"];
+                    Ficaha nueva = new Ficaha();
+                    nueva = Creacion(id, "blanco");
+                    nueva.llenado = true;
+                    tablero[(int)nueva.y, nueva.x1] = nueva;
+                    if (turnoactual == player.color)
+                    {
+                        string javaScript4 = "parar();";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script34", javaScript4, true);
+
+                    }
+                    else
+                    {
+                        string javaScript = "cronometrar();";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script5", javaScript, true);
+                    }
+                    if (player.color == "blanco")
+                    {
+                        Label6.Text = "Negro" + "<--";
+                        Label3.Text = "Blanco";
+                    }
+                    else if (player.color != "blanco")
+                    {
+                        Label3.Text = "Negro" + "<--";
+                        Label6.Text = "Blanco";
+                    }
+                    turnoactual = "negro";
+                    PintarBlanco();
+                }
+                firstmoves += 1;
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        botones[i, j].Enabled = false;
+                    }
+                }
+
+                botones[3, 3].Enabled = true;
+                botones[3, 4].Enabled = true;
+                botones[4, 3].Enabled = true;
+                botones[4, 4].Enabled = true;
+            }
+            else
             {
 
-                idaux = clickedButton.ID;
-                id = Int32.Parse(idaux.Substring(1, 2));
-                tablero = (Ficaha[,])Session["tab"];
-                Ficaha nueva = new Ficaha();
-                nueva = Creacion(id, "negro");
-                nueva.llenado = true;
-                MovimientoNegro((int)nueva.y, nueva.x1, nueva);
+                if (turnoactual == "negro")
+                {
 
-                //Session["turnac"] = "blanco";
+                    idaux = clickedButton.ID;
+                    id = Int32.Parse(idaux.Substring(1, 2));
+                    tablero = (Ficaha[,])Session["tab"];
+                    Ficaha nueva = new Ficaha();
+                    nueva = Creacion(id, "negro");
+                    nueva.llenado = true;
+                    MovimientoNegro((int)nueva.y, nueva.x1, nueva);
 
+                    //Session["turnac"] = "blanco";
+
+                }
+                else if (turnoactual == "blanco")
+                {
+
+                    idaux = clickedButton.ID;
+                    id = Int32.Parse(idaux.Substring(1, 2));
+                    tablero = (Ficaha[,])Session["tab"];
+                    Ficaha nueva = new Ficaha();
+                    nueva = Creacion(id, "blanco");
+                    nueva.llenado = true;
+                    MovimientoBlanco((int)nueva.y, nueva.x1, nueva);
+
+                    //Session["turnac"] = "negro";
+
+                }
+                VerificarJuego();
             }
-            else if (turnoactual == "blanco")
-            {
 
-                idaux = clickedButton.ID;
-                id = Int32.Parse(idaux.Substring(1, 2));
-                tablero = (Ficaha[,])Session["tab"];
-                Ficaha nueva = new Ficaha();
-                nueva = Creacion(id, "blanco");
-                nueva.llenado = true;
-                MovimientoBlanco((int)nueva.y, nueva.x1, nueva);
-
-                //Session["turnac"] = "negro";
-
-            }
-            VerificarJuego();
             Button3.Enabled = true;
             Session["botones"] = botones;
 
@@ -1384,14 +1440,14 @@ namespace Proyecto.Pages
             actual = (Usuario)Session["Usuario"];
             if (verfi == 64)
             {
-                if (player.score > score2)
+                if (player.score < score2)
                 {
                     string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", script, true);
                     actual.PartidasGanadas += 1;
                     //SQLcreationsWin();
                 }
-                else if (player.score < score2)
+                else if (player.score > score2)
                 {
                     string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", script, true);
@@ -1543,99 +1599,220 @@ namespace Proyecto.Pages
             botones = (ImageButton[,])Session["botones"];
             tablero = (Ficaha[,])Session["tab"];
             Boolean yes;
-            
-            if (turnoactual == "negro")
+            if (firstmoves < 4)
             {
-                string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
-                Boolean salir = false;
-                List<Ficaha> list = new List<Ficaha>();
-                for (int i = 0; i < 8; i++)
+                if (turnoactual == "negro")
                 {
-                    for (int j = 0; j < 8; j++)
+                    Boolean salir = false;
+                    string javaScript = "cronometrar();";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                    for (int i = 3; i < 5; i++)
                     {
-                        if (tablero[i, j].llenado == false)
+                        for (int j = 3; j < 5; j++)
                         {
-
-                            clickedButton = botones[i, j];
-                            idaux = clickedButton.ID;
-                            id = Int32.Parse(idaux.Substring(1, 2));
-                            Ficaha nueva = new Ficaha();
-                            nueva = Creacion(id, "negro");
-                            nueva.llenado = true;
-                            salir = MovimientoNegro2((int)nueva.y, nueva.x1, nueva);
-                            if (salir)
+                            if (tablero[i, j].llenado == false)
                             {
-                                break;
+                                salir = true;
+                                clickedButton = botones[i, j];
+                                idaux = clickedButton.ID;
+                                id = Int32.Parse(idaux.Substring(1, 2));
+                                Ficaha nueva = new Ficaha();
+                                nueva = Creacion(id, "negro");
+                                nueva.llenado = true;
+                                tablero[i, j] = nueva;
+                                PintarNegro();
+                                if (salir)
+                                {
+                                    break;
+                                }
+                            }
+
+
+                        }
+                        if (salir)
+                        {
+                            break;
+                        }
+                    }
+                    if (player.color == "negro")
+                    {
+                        Label6.Text = "Blanco" + "<--";
+                        Label3.Text = "Negro";
+                    }
+                    else if (player.color != "negro")
+                    {
+                        Label3.Text = "Blanco" + "<--";
+                        Label6.Text = "Negro";
+                    }
+                    PintarNegro();
+                    turnoactual = "blanco";
+                }
+                else if (turnoactual == "blanco")
+                {
+                    Boolean salir = false;
+                    string javaScript = "cronometrar();";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                    for (int i = 3; i < 5; i++)
+                    {
+                        for (int j = 3; j < 5; j++)
+                        {
+                            if (tablero[i, j].llenado == false)
+                            {
+                                salir = true;
+                                clickedButton = botones[i, j];
+                                idaux = clickedButton.ID;
+                                id = Int32.Parse(idaux.Substring(1, 2));
+                                Ficaha nueva = new Ficaha();
+                                nueva = Creacion(id, "blanco");
+                                nueva.llenado = true;
+                                tablero[i, j] = nueva;
+                                PintarBlanco();
+                                if (salir)
+                                {
+                                    break;
+                                }
                             }
 
                         }
+                        if (salir)
+                        {
+                            break;
+                        }
                     }
-                    if (salir)
+                    if (player.color == "blanco")
                     {
-                        break;
+                        Label6.Text = "Negro" + "<--";
+                        Label3.Text = "Blanco";
                     }
-
+                    else if (player.color != "blanco")
+                    {
+                        Label3.Text = "Negro" + "<--";
+                        Label6.Text = "Blanco";
+                    }
+                    PintarBlanco();
+                    turnoactual = "negro";
                 }
 
-                turnoactual = "blanco";
-
-
-            }
-            else if (turnoactual == "blanco")
-            {
-                string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
-                Boolean salir = false;
-                List<Ficaha> list = new List<Ficaha>();
+                firstmoves += 1;
                 for (int i = 0; i < 8; i++)
                 {
                     for (int j = 0; j < 8; j++)
-                    {
-                        if (tablero[i, j].llenado == false)
-                        {
-                            clickedButton = botones[i, j];
-                            idaux = clickedButton.ID;
-                            id = Int32.Parse(idaux.Substring(1, 2));
-
-                            Ficaha nueva = new Ficaha();
-                            nueva = Creacion(id, "blanco");
-                            nueva.llenado = true;
-                            salir = MovimientoBlanco2((int)nueva.y, nueva.x1, nueva);
-                            if (salir)
-                            {
-                                break;
-                            }
-
-                        }
-                    }
-                    if (salir)
-                    {
-                        break;
-                    }
-                }
-
-
-               
-                turnoactual = "negro";
-
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (tablero[i, j].llenado == true)
                     {
                         botones[i, j].Enabled = false;
+
                     }
-                    else
+                }
+
+                botones[3, 3].Enabled = true;
+                botones[3, 4].Enabled = true;
+                botones[4, 3].Enabled = true;
+                botones[4, 4].Enabled = true;
+            }
+            else
+            {
+                if (turnoactual == "negro")
+                {
+                    string javaScript = "cronometrar();";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                    Boolean salir = false;
+                    List<Ficaha> list = new List<Ficaha>();
+                    for (int i = 0; i < 8; i++)
                     {
-                        botones[i, j].Enabled = true;
+                        for (int j = 0; j < 8; j++)
+                        {
+                            if (tablero[i, j].llenado == false)
+                            {
+
+                                clickedButton = botones[i, j];
+                                idaux = clickedButton.ID;
+                                id = Int32.Parse(idaux.Substring(1, 2));
+                                Ficaha nueva = new Ficaha();
+                                nueva = Creacion(id, "negro");
+                                nueva.llenado = true;
+                                salir = MovimientoNegro2((int)nueva.y, nueva.x1, nueva);
+                                if (salir)
+                                {
+                                    break;
+                                }
+
+                            }
+                        }
+                        if (salir)
+                        {
+                            break;
+                        }
+
                     }
 
+                    turnoactual = "blanco";
+
+
                 }
+                else if (turnoactual == "blanco")
+                {
+                    string javaScript = "cronometrar();";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                    Boolean salir = false;
+                    List<Ficaha> list = new List<Ficaha>();
+                    for (int i = 0; i < 8; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            if (tablero[i, j].llenado == false)
+                            {
+                                clickedButton = botones[i, j];
+                                idaux = clickedButton.ID;
+                                id = Int32.Parse(idaux.Substring(1, 2));
+
+                                Ficaha nueva = new Ficaha();
+                                nueva = Creacion(id, "blanco");
+                                nueva.llenado = true;
+                                salir = MovimientoBlanco2((int)nueva.y, nueva.x1, nueva);
+                                if (salir)
+                                {
+                                    break;
+                                }
+
+                            }
+                        }
+                        if (salir)
+                        {
+                            break;
+                        }
+                    }
+
+
+                    if (player.color == "blanco")
+                    {
+                        Label6.Text = "Negro" + "<--";
+                        Label3.Text = "Blanco";
+                    }
+                    else if (player.color != "blanco")
+                    {
+                        Label3.Text = "Negro" + "<--";
+                        Label6.Text = "Blanco";
+                    }
+                    turnoactual = "negro";
+
+                }
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tablero[i, j].llenado == true)
+                        {
+                            botones[i, j].Enabled = false;
+                        }
+                        else
+                        {
+                            botones[i, j].Enabled = true;
+                        }
+
+                    }
+                }
+                VerificarJuego();
             }
-            VerificarJuego();
+
 
             Button3.Enabled = true;
             Session["botones"] = botones;

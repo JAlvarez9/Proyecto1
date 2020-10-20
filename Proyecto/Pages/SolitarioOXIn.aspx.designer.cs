@@ -10,7 +10,7 @@
 namespace Proyecto.Pages {
     
     
-    public partial class SolitarioOX {
+    public partial class SolitarioOXIn {
         
         /// <summary>
         /// Control ScriptManager1.

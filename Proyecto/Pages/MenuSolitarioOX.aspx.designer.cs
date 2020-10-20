@@ -10,7 +10,7 @@
 namespace Proyecto.Pages {
     
     
-    public partial class Multi1OX {
+    public partial class MenuSolitario {
         
         /// <summary>
         /// Control Button1.
@@ -29,14 +29,5 @@ namespace Proyecto.Pages {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button2;
-        
-        /// <summary>
-        /// Control TextBox1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
     }
 }
