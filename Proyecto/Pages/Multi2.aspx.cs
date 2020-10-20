@@ -170,12 +170,12 @@ namespace Proyecto.Pages
             if (player.color == turnoactual)
             {
                 string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script8", javaScript, true);
             }
             else
             {
                 string javaScript = "cronometrar2();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script9", javaScript, true);
             }
 
             //Bloqueo();
@@ -844,17 +844,18 @@ namespace Proyecto.Pages
                                 if (player.color == turnoactual)
                                 {
                                     string javaScript1 = "parar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script1", javaScript1, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript1, true);
                                     string javaScript2 = "cronometrar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript2, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script1", javaScript2, true);
                                 }
-                                else
+                                else if(player.color != turnoactual)
                                 {
                                     string javaScript3 = "parar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript3, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript3, true);
                                     string javaScript4 = "cronometrar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript4, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript4, true);
                                 }
+                                //Label4.Text = "entre al blanco";
                                 PintarBlanco();
                                 turnoactual = "negro";
                                 Session["tab"] = tablero;
@@ -862,7 +863,7 @@ namespace Proyecto.Pages
                             }   
                             else
                             {
-                                turnoactual = "blanco";
+                                //turnoactual = "blanco";
 
                             }
 
@@ -959,17 +960,18 @@ namespace Proyecto.Pages
                                 if (player.color == turnoactual)
                                 {
                                     string javaScript1 = "parar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script1", javaScript1, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript1, true);
                                     string javaScript2 = "cronometrar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript2, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script5", javaScript2, true);
                                 }
-                                else
+                                else if(player.color != turnoactual)
                                 {
                                     string javaScript3 = "parar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript3, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script6", javaScript3, true);
                                     string javaScript4 = "cronometrar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript4, true);
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script7", javaScript4, true);
                                 }
+                                //Label4.Text = "entre al negro";
                                 PintarNegro();
                                 turnoactual = "blanco";
                                 Session["tab"] = tablero;
@@ -977,7 +979,7 @@ namespace Proyecto.Pages
                             }
                             else
                             {
-                                turnoactual = "negro";
+                                //turnoactual = "negro";
                             }
                         }
                     }
@@ -1176,6 +1178,57 @@ namespace Proyecto.Pages
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                     actual.PartidasEmpatadas += 1;
 
+                }
+            }
+            int white = 0;
+            int black = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (tablero[i, j].color == "blanco")
+                    {
+                        white += 1;
+
+                    }
+                    else if (tablero[i, j].color == "negro")
+                    {
+                        black += 1;
+                    }
+                }
+            }
+            if (white == 0)
+            {
+                if (player.color == "blanco")
+                {
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", script, true);
+                    actual.PartidasGanadas += 1;
+                    //SQLcreationsWin();
+                }
+                else
+                {
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasPerdidas += 1;
+                    //SQLcreationsLoose();
+                }
+            }
+            else if (black == 0)
+            {
+                if (player.color == "negro")
+                {
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasGanadas += 1;
+                    //SQLcreationsWin();
+                }
+                else
+                {
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasPerdidas += 1;
+                    //SQLcreationsLoose();
                 }
             }
             Session["Usuario"] = actual;

@@ -28,7 +28,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 		<li><a href="Inicio.aspx" accesskey="1" title="">Home</a></li>
 		<li><a href="Solitario.aspx" accesskey="2" title="">Solitario</a></li>
 		<li><a href="Multi1.aspx" accesskey="3" title="">Multijugador</a></li>
-		<li><a href="pruebas.aspx" accesskey="4" title="">Torneos</a></li>
+		<li><a href="#" accesskey="4" title="">Torneos</a></li>
 		<li><a href="#" accesskey="5" title="">My Info</a></li>
 	</ul>
 </div>

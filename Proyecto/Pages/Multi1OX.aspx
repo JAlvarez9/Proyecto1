@@ -10,11 +10,11 @@
         </tr>
         <tr>
             <td>
-                <asp:Button ID="Button1" runat="server" Text="Modo Normal" />
+                <asp:Button ID="Button1" runat="server" Text="Modo Normal" OnClick="Button1_Click" />
             </td>
             <td>&nbsp;</td>
             <td>
-                <asp:Button ID="Button2" runat="server" Text="Modo Inverso" />
+                <asp:Button ID="Button2" runat="server" Text="Modo Inverso" OnClick="Button2_Click" />
             </td>
         </tr>
         <tr>

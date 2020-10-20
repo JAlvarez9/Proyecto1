@@ -13,5 +13,19 @@ namespace Proyecto.Pages
         {
 
         }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            string invitado = TextBox1.Text;
+            Session["invitado"] = invitado;
+            Response.Redirect("Multi2OX.aspx");
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            string invitado = TextBox1.Text;
+            Session["invitado"] = invitado;
+            Response.Redirect("Multi2OXIn.aspx");
+        }
     }
 }
