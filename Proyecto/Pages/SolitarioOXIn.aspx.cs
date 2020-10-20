@@ -1707,6 +1707,17 @@ namespace Proyecto.Pages
                 botones[3, 4].Enabled = true;
                 botones[4, 3].Enabled = true;
                 botones[4, 4].Enabled = true;
+                if (firstmoves == 4)
+                {
+                    for (int i = 0; i < 8; i++)
+                    {
+                        for (int j = 0; j < 8; j++)
+                        {
+                            botones[i, j].Enabled = true;
+
+                        }
+                    }
+                }
             }
             else
             {

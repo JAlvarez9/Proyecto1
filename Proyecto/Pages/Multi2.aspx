@@ -1,5 +1,145 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/Site1.Master" AutoEventWireup="true" CodeBehind="Multi2.aspx.cs" Inherits="Proyecto.Pages.Multi2" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="conte" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style type="text/css">
+        .auto-style1 {
+            height: 52px;
+        }
+        .auto-style3 {
+            height: 28px;
+        }
+        .auto-style4 {
+            width: 105px;
+        }
+        .auto-style5 {
+            height: 28px;
+            width: 105px;
+        }
+        .auto-style6 {
+            width: 80px;
+        }
+        .auto-style7 {
+            height: 28px;
+            width: 80px;
+        }
+        .auto-style8 {
+            width: 125px;
+        }
+        .auto-style9 {
+            height: 28px;
+            width: 125px;
+        }
+        .auto-style10 {
+            width: 136px;
+        }
+        .auto-style11 {
+            height: 28px;
+            width: 136px;
+        }
+        .auto-style15 {
+            width: 323px;
+        }
+        .auto-style16 {
+            width: 100%;
+            height: 378px;
+        }
+        .auto-style17 {
+            width: 68px;
+        }
+        .auto-style18 {
+            width: 529px;
+        }
+        .auto-style19 {
+            width: 100%;
+            height: 380px;
+        }
+        .auto-style20 {
+            width: 56px;
+        }
+        .auto-style21 {
+            height: 41px;
+        }
+        .auto-style22 {
+            width: 56px;
+            height: 41px;
+        }
+        .hide {
+            visibility: hidden;
+
+        }
+
+        .auto-style23 {
+            height: 74px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        //se consigui parte del codigo de https://francescricart.com/ejercicio-js-crear-un-cronometro-con-javascript/    
+	    window.onload = init;
+        function init(){
+            h = 0;
+            m = 0;
+            s = 0;
+            h2 = 0;
+            m2 = 0;
+            s2 = 0;
+            if(times )
+            document.getElementById("hms").innerHTML = "00:00:00";
+            document.getElementById("hms2").innerHTML = "00:00:00";
+            
+            
+        }         
+        function cronometrar(){
+            escribir();
+            id = setInterval(escribir,1000);
+            
+        }
+        function cronometrar2(){
+            escribir2();
+            id2 = setInterval(escribir2,1000);
+            
+        }
+        function escribir(){
+            var hAux, mAux, sAux;
+            s++;
+            if (s>59){m++;s=0;}
+            if (m>59){h++;m=0;}
+            if (h>24){h=0;}
+
+            if (s<10){sAux="0"+s;}else{sAux=s;}
+            if (m<10){mAux="0"+m;}else{mAux=m;}
+            if (h<10){hAux="0"+h;}else{hAux=h;}
+
+            document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux; 
+        }
+        function escribir2(){
+            var hAux2, mAux2, sAux2;
+            s2++;
+            if (s2>59){m2++;s2=0;}
+            if (m2>59){h2++;m2=0;}
+            if (h2>24){h2=0;}
+
+            if (s2<10){sAux2="0"+s2;}else{sAux2=s2;}
+            if (m2<10){mAux2="0"+m2;}else{mAux2=m2;}
+            if (h2<10){hAux2="0"+h2;}else{hAux2=h2;}
+
+            document.getElementById("hms2").innerHTML = hAux2 + ":" + mAux2 + ":" + sAux2; 
+            
+        }
+        function parar(){
+            clearInterval(id);
+            
+
+        }
+        function parar2(){
+            clearInterval(id2);
+            
+
+        }
+        
+    </script>
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="conte" runat="server">
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -292,7 +432,7 @@
                     </table>
                 </td>
                 <td>
-                    <asp:Label ID="Label7" runat="server"></asp:Label>
+                    <asp:Button ID="Button5" runat="server" Text="Skip" />
                     <div id="hms2"></div>
                     <br />
                 </td>
@@ -306,144 +446,3 @@
     </asp:UpdatePanel>
 
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
-
-    <style type="text/css">
-        .auto-style1 {
-            height: 52px;
-        }
-        .auto-style3 {
-            height: 28px;
-        }
-        .auto-style4 {
-            width: 105px;
-        }
-        .auto-style5 {
-            height: 28px;
-            width: 105px;
-        }
-        .auto-style6 {
-            width: 80px;
-        }
-        .auto-style7 {
-            height: 28px;
-            width: 80px;
-        }
-        .auto-style8 {
-            width: 125px;
-        }
-        .auto-style9 {
-            height: 28px;
-            width: 125px;
-        }
-        .auto-style10 {
-            width: 136px;
-        }
-        .auto-style11 {
-            height: 28px;
-            width: 136px;
-        }
-        .auto-style15 {
-            width: 323px;
-        }
-        .auto-style16 {
-            width: 100%;
-            height: 378px;
-        }
-        .auto-style17 {
-            width: 68px;
-        }
-        .auto-style18 {
-            width: 529px;
-        }
-        .auto-style19 {
-            width: 100%;
-            height: 380px;
-        }
-        .auto-style20 {
-            width: 56px;
-        }
-        .auto-style21 {
-            height: 41px;
-        }
-        .auto-style22 {
-            width: 56px;
-            height: 41px;
-        }
-        .hide {
-            visibility: hidden;
-
-        }
-
-        .auto-style23 {
-            height: 74px;
-        }
-
-    </style>
-    <script type="text/javascript">
-        //se consigui parte del codigo de https://francescricart.com/ejercicio-js-crear-un-cronometro-con-javascript/    
-	    window.onload = init;
-        function init(){
-            h = 0;
-            m = 0;
-            s = 0;
-            h2 = 0;
-            m2 = 0;
-            s2 = 0;
-            if(times )
-            document.getElementById("hms").innerHTML = "00:00:00";
-            document.getElementById("hms2").innerHTML = "00:00:00";
-            
-            
-        }         
-        function cronometrar(){
-            escribir();
-            id = setInterval(escribir,1000);
-            
-        }
-        function cronometrar2(){
-            escribir2();
-            id2 = setInterval(escribir2,1000);
-            
-        }
-        function escribir(){
-            var hAux, mAux, sAux;
-            s++;
-            if (s>59){m++;s=0;}
-            if (m>59){h++;m=0;}
-            if (h>24){h=0;}
-
-            if (s<10){sAux="0"+s;}else{sAux=s;}
-            if (m<10){mAux="0"+m;}else{mAux=m;}
-            if (h<10){hAux="0"+h;}else{hAux=h;}
-
-            document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux; 
-        }
-        function escribir2(){
-            var hAux2, mAux2, sAux2;
-            s2++;
-            if (s2>59){m2++;s2=0;}
-            if (m2>59){h2++;m2=0;}
-            if (h2>24){h2=0;}
-
-            if (s2<10){sAux2="0"+s2;}else{sAux2=s2;}
-            if (m2<10){mAux2="0"+m2;}else{mAux2=m2;}
-            if (h2<10){hAux2="0"+h2;}else{hAux2=h2;}
-
-            document.getElementById("hms2").innerHTML = hAux2 + ":" + mAux2 + ":" + sAux2; 
-            
-        }
-        function parar(){
-            clearInterval(id);
-            
-
-        }
-        function parar2(){
-            clearInterval(id2);
-            
-
-        }
-        
-    </script>
-    </asp:Content>
-

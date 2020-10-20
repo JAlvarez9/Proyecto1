@@ -90,19 +90,28 @@ namespace Proyecto.Pages
             turnos[1] = "negro";
             int aux = rnd.Next(turnos.Length);
             player.color = turnos[aux];
-            Label3.Text = player.color + "<-";
-            string invitado = (string)Session["invitado"];
-            Label4.Text = invitado;
+
+            Label4.Text = "Maquina";
             if (player.color == "blanco")
             {
+                Label3.Text = player.color;
                 Label6.Text = "Negro";
             }
             else
             {
+                Label3.Text = player.color;
                 Label6.Text = "Blanco";
             }
 
-            Session["turnac"] = turnos[aux];
+            turnoactual = "negro";
+            if (player.color == "negro")
+            {
+                Label3.Text = "Negro <--";
+            }
+            else if (player.color != "negro")
+            {
+                Label6.Text = "Negro <--";
+            }
             actual = (Usuario)Session["Usuario"];
 
             Ficaha pred1 = new Ficaha();
@@ -140,6 +149,7 @@ namespace Proyecto.Pages
             i36.ImageUrl = ("stuff\\negra.jpg");
             i37.ImageUrl = ("stuff\\blanca.jpg");
 
+
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -157,6 +167,17 @@ namespace Proyecto.Pages
             Button3.Enabled = true;
 
             Session["botones"] = botones;
+            if (player.color == turnoactual)
+            {
+                string javaScript = "cronometrar();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+            }
+            else
+            {
+                string javaScript = "cronometrar2();";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+            }
+
             //Bloqueo();
             //HabilitarBotones();
         }
@@ -377,19 +398,15 @@ namespace Proyecto.Pages
         {
             string idaux;
             int id;
-            turnoactual = (string)Session["turnac"];
-            Label7.Text = turnoactual;
-            Label5.Text = turnoactual;
+            //turnoactual = (string)Session["turnac"];
+            
+            //Label4.Text = turnoactual;
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
             tablero = (Ficaha[,])Session["tab"];
-
+            
             if (turnoactual == "negro")
             {
-                string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
-                string javaScript2 = "parar2();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript2, true);
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
@@ -397,26 +414,10 @@ namespace Proyecto.Pages
                 nueva = Creacion(id, "negro");
                 nueva.llenado = true;
                 MovimientoNegro((int)nueva.y, nueva.x1, nueva);
-                if (player.color == "negro")
-                {
-                    numjugadas1 += 1;
-                    Label6.Text = "Blanco" + "<--";
-                    Label3.Text = "Negro";
-                }
-                else if (player.color != "negro")
-                {
-                    Label3.Text = "Blanco" + "<--";
-                    Label6.Text = "Negro";
-                }
-                Session["turnac"] = "blanco";
-
+                
             }
             else if (turnoactual == "blanco")
             {
-                string javaScript3 = "cronometrar2();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript3, true);
-                string javaScript4 = "parar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript4, true);
                 idaux = clickedButton.ID;
                 id = Int32.Parse(idaux.Substring(1, 2));
                 tablero = (Ficaha[,])Session["tab"];
@@ -424,24 +425,11 @@ namespace Proyecto.Pages
                 nueva = Creacion(id, "blanco");
                 nueva.llenado = true;
                 MovimientoBlanco((int)nueva.y, nueva.x1, nueva);
-                if (player.color == "blanco")
-                {
-                    numjugadas1 += 1;
-                    Label6.Text = "Negro" + "<--";
-                    Label3.Text = "Blanco";
-                }
-                else if (player.color != "blanco")
-                {
-                    Label3.Text = "Negro" + "<--";
-                    Label6.Text = "Blanco";
-                }
-                Session["turnac"] = "negro";
+                
 
             }
             Button3.Enabled = true;
             Session["botones"] = botones;
-            //Label7.Text = numjugadas1.ToString();
-            //Bloqueo();
             Puntuaciones();
             VerificarJuego();
 
@@ -842,15 +830,40 @@ namespace Proyecto.Pages
                                 {
                                     change[k].color = "blanco";
                                 }
+                                if (player.color == "blanco")
+                                {
+                                    
+                                    Label6.Text = "Negro" + "<--";
+                                    Label3.Text = "Blanco";
+                                }
+                                else if (player.color != "blanco")
+                                {
+                                    Label3.Text = "Negro" + "<--";
+                                    Label6.Text = "Blanco";
+                                }
+                                if (player.color == turnoactual)
+                                {
+                                    string javaScript1 = "parar();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script1", javaScript1, true);
+                                    string javaScript2 = "cronometrar2();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript2, true);
+                                }
+                                else
+                                {
+                                    string javaScript3 = "parar2();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript3, true);
+                                    string javaScript4 = "cronometrar();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript4, true);
+                                }
                                 PintarBlanco();
-                                Session["turnac"] = "negro";
+                                turnoactual = "negro";
                                 Session["tab"] = tablero;
                                 Session["botones"] = botones;
-                            }
+                            }   
                             else
                             {
-                                
-                                
+                                turnoactual = "blanco";
+
                             }
 
                         }
@@ -933,16 +946,38 @@ namespace Proyecto.Pages
                                 {
                                     change[k].color = "negro";
                                 }
-
+                                if (player.color == "negro")
+                                {
+                                    Label6.Text = "Blanco" + "<--";
+                                    Label3.Text = "Negro";
+                                }
+                                else if (player.color != "negro")
+                                {
+                                    Label3.Text = "Blanco" + "<--";
+                                    Label6.Text = "Negro";
+                                }
+                                if (player.color == turnoactual)
+                                {
+                                    string javaScript1 = "parar();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script1", javaScript1, true);
+                                    string javaScript2 = "cronometrar2();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript2, true);
+                                }
+                                else
+                                {
+                                    string javaScript3 = "parar2();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript3, true);
+                                    string javaScript4 = "cronometrar();";
+                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript4, true);
+                                }
                                 PintarNegro();
-                                Session["turnac"] = "blanco";
+                                turnoactual = "blanco";
                                 Session["tab"] = tablero;
                                 Session["botones"] = botones;
                             }
                             else
                             {
-                                
-                                
+                                turnoactual = "negro";
                             }
                         }
                     }
