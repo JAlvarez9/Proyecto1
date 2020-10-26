@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using Proyecto.App_Code;
 using System.Xml;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace Proyecto.Pages
 {
@@ -24,12 +25,21 @@ namespace Proyecto.Pages
         static ImageButton[,] botones = new ImageButton[8, 8];
         List<Ficaha> change;
         static int firstmoves = 0;
+        Thread hilo1;
+        Thread hilo2;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //hilo1 = new Thread(Cronometro1);
+            //hilo2 = new Thread(Cronometro2);
+            //hilo1.IsBackground = true;
+            //hilo2.IsBackground = true;
+            //hilo1.Start();
+            new Thread ( delegate() { try { Cronometro1(); } catch (Exception ex) {  } } ) { IsBackground = true }.Start();
             if (!IsPostBack)
             {
+                
                 //Label4.Text = "Primer carga";
                 Session["botones"] = botones;
                 Session["tab"] = tablero;
@@ -60,6 +70,10 @@ namespace Proyecto.Pages
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            
+            hilo1.Start();
+            hilo2.Start();
+            
             tablero = new Ficaha[8, 8];
             for (int i = 0; i < 8; i++)
             {
@@ -140,13 +154,11 @@ namespace Proyecto.Pages
             Session["botones"] = botones;
             if (player.color == turnoactual)
             {
-                string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script8", javaScript, true);
+                //hilo2.Suspend();
             }
             else
             {
-                string javaScript = "cronometrar2();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script9", javaScript, true);
+                //hilo1.Suspend();
             }
 
             //Bloqueo();
@@ -388,17 +400,13 @@ namespace Proyecto.Pages
                     tablero[(int)nueva.y, nueva.x1] = nueva;
                     if (player.color == turnoactual)
                     {
-                        string javaScript1 = "parar();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript1, true);
-                        string javaScript2 = "cronometrar2();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script1", javaScript2, true);
+                        hilo1.Suspend();
+                        hilo2.Resume();
                     }
                     else if (player.color != turnoactual)
                     {
-                        string javaScript3 = "parar2();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript3, true);
-                        string javaScript4 = "cronometrar();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript4, true);
+                        hilo2.Suspend();
+                        hilo1.Resume();
                     }
                     if (player.color == "negro")
                     {
@@ -424,17 +432,14 @@ namespace Proyecto.Pages
                     tablero[(int)nueva.y, nueva.x1] = nueva;
                     if (player.color == turnoactual)
                     {
-                        string javaScript1 = "parar();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript1, true);
-                        string javaScript2 = "cronometrar2();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script5", javaScript2, true);
+                        hilo1.Suspend();
+                        hilo2.Resume();
+                        
                     }
                     else if (player.color != turnoactual)
                     {
-                        string javaScript3 = "parar2();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script6", javaScript3, true);
-                        string javaScript4 = "cronometrar();";
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "script7", javaScript4, true);
+                        hilo2.Suspend();
+                        hilo1.Resume();
                     }
                     if (player.color == "blanco")
                     {
@@ -917,17 +922,14 @@ namespace Proyecto.Pages
                                 }
                                 if (player.color == turnoactual)
                                 {
-                                    string javaScript1 = "parar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript1, true);
-                                    string javaScript2 = "cronometrar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script1", javaScript2, true);
+                                    hilo1.Suspend();
+                                    hilo2.Resume();
+                                    
                                 }
                                 else if (player.color != turnoactual)
                                 {
-                                    string javaScript3 = "parar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript3, true);
-                                    string javaScript4 = "cronometrar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript4, true);
+                                    hilo2.Suspend();
+                                    hilo1.Resume();
                                 }
                                 //Label4.Text = "entre al blanco";
                                 PintarBlanco();
@@ -1033,17 +1035,13 @@ namespace Proyecto.Pages
                                 }
                                 if (player.color == turnoactual)
                                 {
-                                    string javaScript1 = "parar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript1, true);
-                                    string javaScript2 = "cronometrar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script5", javaScript2, true);
+                                    hilo1.Suspend();
+                                    hilo2.Resume();
                                 }
                                 else if (player.color != turnoactual)
                                 {
-                                    string javaScript3 = "parar2();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script6", javaScript3, true);
-                                    string javaScript4 = "cronometrar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script7", javaScript4, true);
+                                    hilo2.Suspend();
+                                    hilo1.Resume();
                                 }
                                 //Label4.Text = "entre al negro";
                                 PintarNegro();
@@ -1448,6 +1446,41 @@ namespace Proyecto.Pages
                     string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 }
+            }
+        }
+
+        public void Cronometro1() {
+            int seg = 0;
+            int min = 0;
+            while(true)
+            {
+                Label9.Text = min.ToString() + ':' + seg.ToString();
+                
+                seg++;
+                if(seg > 59)
+                {
+                    min++;
+                    seg = 0;
+                }
+                Thread.Sleep(1000);
+            }
+        }
+
+        public void Cronometro2()
+        {
+            int seg = 0;
+            int min = 0;
+            while (true)
+            {
+                Label10.Text = min.ToString() + ':' + seg.ToString();
+                
+                seg++;
+                if (seg > 59)
+                {
+                    min++;
+                    seg = 0;
+                }
+                Thread.Sleep(1000);
             }
         }
     }

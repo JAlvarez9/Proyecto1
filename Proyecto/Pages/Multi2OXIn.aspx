@@ -198,6 +198,8 @@
                 <td class="auto-style17">
                     
                     <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Finalizar" />
+                    <asp:Label ID="Label9" runat="server"></asp:Label>
+                    <br />
                     <div id="hms" ></div>
                 </td>
                 <td class="auto-style18">
@@ -433,6 +435,7 @@
                 </td>
                 <td>
                     <asp:Button ID="Button5" runat="server" Text="Skip" />
+                    <asp:Label ID="Label10" runat="server"></asp:Label>
                     <div id="hms2"></div>
                     <br />
                 </td>
