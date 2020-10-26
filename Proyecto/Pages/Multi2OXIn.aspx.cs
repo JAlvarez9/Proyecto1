@@ -25,18 +25,13 @@ namespace Proyecto.Pages
         static ImageButton[,] botones = new ImageButton[8, 8];
         List<Ficaha> change;
         static int firstmoves = 0;
-        Thread hilo1;
-        Thread hilo2;
-
+        private Thread hilo1;
+        private Thread hilo2;
+        Boolean apertura;
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //hilo1 = new Thread(Cronometro1);
-            //hilo2 = new Thread(Cronometro2);
-            //hilo1.IsBackground = true;
-            //hilo2.IsBackground = true;
-            //hilo1.Start();
-            new Thread ( delegate() { try { Cronometro1(); } catch (Exception ex) {  } } ) { IsBackground = true }.Start();
             if (!IsPostBack)
             {
                 
@@ -70,10 +65,43 @@ namespace Proyecto.Pages
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
+            hilo1 = new Thread(delegate ()
+            {
+                try
+                {
+                    Cronometro1();
+                }
+                catch (Exception ese)
+                {
+                    Label1.Text = ese.Message;
+                }
+            });
+
+            hilo1.IsBackground = true;
+            //hilo1.SetApartmentState(System.Threading.ApartmentState.STA);
             hilo1.Start();
+            hilo2 = new Thread(delegate ()
+            {
+                try
+                {
+                    Cronometro2();
+                }
+                catch (Exception ese)
+                {
+                    Label1.Text = ese.Message;
+                }
+            });
+
+            hilo2.IsBackground = true;
+            //hilo2.SetApartmentState(System.Threading.ApartmentState.STA);
             hilo2.Start();
-            
+            //hilo1 = new Thread(Cronometro1);
+            //hilo2 = new Thread(Cronometro2);
+            //hilo1.IsBackground = true;
+            //hilo2.IsBackground = true;
+            //hilo1.Start();
+            //hilo2.Start();
+
             tablero = new Ficaha[8, 8];
             for (int i = 0; i < 8; i++)
             {
