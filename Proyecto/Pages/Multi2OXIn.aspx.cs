@@ -28,6 +28,9 @@ namespace Proyecto.Pages
         private Thread hilo1;
         private Thread hilo2;
         Boolean apertura;
+        public int columnas;
+        public int filas;
+
         
 
         protected void Page_Load(object sender, EventArgs e)
@@ -40,7 +43,7 @@ namespace Proyecto.Pages
                 Session["tab"] = tablero;
                 try
                 {
-                    llenado();
+                    //llenado();
 
 
                 }
@@ -54,7 +57,7 @@ namespace Proyecto.Pages
             }
             else
             {
-                llenado();
+                //llenado();
 
             }
 
@@ -65,6 +68,14 @@ namespace Proyecto.Pages
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            columnas = (int)Session["columnas"];
+            filas = (int)Session["filas"];
+            string javaScript = "crear();";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+
+
+
+
             hilo1 = new Thread(delegate ()
             {
                 try
@@ -114,7 +125,7 @@ namespace Proyecto.Pages
             }
             Session["botones"] = botones;
             Session["tab"] = tablero;
-            llenado();
+            //llenado();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -677,78 +688,78 @@ namespace Proyecto.Pages
             return x1;
         }
 
-        public void llenado()
-        {
+        //public void llenado()
+        //{
 
-            botones[0, 0] = i01;
-            botones[0, 1] = i02;
-            botones[0, 2] = i03;
-            botones[0, 3] = i04;
-            botones[0, 4] = i05;
-            botones[0, 5] = i06;
-            botones[0, 6] = i07;
-            botones[0, 7] = i08;
-            botones[1, 0] = i09;
-            botones[1, 1] = i10;
-            botones[1, 2] = i11;
-            botones[1, 3] = i12;
-            botones[1, 4] = i13;
-            botones[1, 5] = i14;
-            botones[1, 6] = i15;
-            botones[1, 7] = i16;
-            botones[2, 0] = i17;
-            botones[2, 1] = i18;
-            botones[2, 2] = i19;
-            botones[2, 3] = i20;
-            botones[2, 4] = i21;
-            botones[2, 5] = i22;
-            botones[2, 6] = i23;
-            botones[2, 7] = i24;
-            botones[3, 0] = i25;
-            botones[3, 1] = i26;
-            botones[3, 2] = i27;
-            botones[3, 3] = i28;
-            botones[3, 4] = i29;
-            botones[3, 5] = i30;
-            botones[3, 6] = i31;
-            botones[3, 7] = i32;
-            botones[4, 0] = i33;
-            botones[4, 1] = i34;
-            botones[4, 2] = i35;
-            botones[4, 3] = i36;
-            botones[4, 4] = i37;
-            botones[4, 5] = i38;
-            botones[4, 6] = i39;
-            botones[4, 7] = i40;
-            botones[5, 0] = i41;
-            botones[5, 1] = i42;
-            botones[5, 2] = i43;
-            botones[5, 3] = i44;
-            botones[5, 4] = i45;
-            botones[5, 5] = i46;
-            botones[5, 6] = i47;
-            botones[5, 7] = i48;
-            botones[6, 0] = i49;
-            botones[6, 1] = i50;
-            botones[6, 2] = i51;
-            botones[6, 3] = i52;
-            botones[6, 4] = i53;
-            botones[6, 5] = i54;
-            botones[6, 6] = i55;
-            botones[6, 7] = i56;
-            botones[7, 0] = i57;
-            botones[7, 1] = i58;
-            botones[7, 2] = i59;
-            botones[7, 3] = i60;
-            botones[7, 4] = i61;
-            botones[7, 5] = i62;
-            botones[7, 6] = i63;
-            botones[7, 7] = i64;
-            Session["botones"] = botones;
+        //    botones[0, 0] = i01;
+        //    botones[0, 1] = i02;
+        //    botones[0, 2] = i03;
+        //    botones[0, 3] = i04;
+        //    botones[0, 4] = i05;
+        //    botones[0, 5] = i06;
+        //    botones[0, 6] = i07;
+        //    botones[0, 7] = i08;
+        //    botones[1, 0] = i09;
+        //    botones[1, 1] = i10;
+        //    botones[1, 2] = i11;
+        //    botones[1, 3] = i12;
+        //    botones[1, 4] = i13;
+        //    botones[1, 5] = i14;
+        //    botones[1, 6] = i15;
+        //    botones[1, 7] = i16;
+        //    botones[2, 0] = i17;
+        //    botones[2, 1] = i18;
+        //    botones[2, 2] = i19;
+        //    botones[2, 3] = i20;
+        //    botones[2, 4] = i21;
+        //    botones[2, 5] = i22;
+        //    botones[2, 6] = i23;
+        //    botones[2, 7] = i24;
+        //    botones[3, 0] = i25;
+        //    botones[3, 1] = i26;
+        //    botones[3, 2] = i27;
+        //    botones[3, 3] = i28;
+        //    botones[3, 4] = i29;
+        //    botones[3, 5] = i30;
+        //    botones[3, 6] = i31;
+        //    botones[3, 7] = i32;
+        //    botones[4, 0] = i33;
+        //    botones[4, 1] = i34;
+        //    botones[4, 2] = i35;
+        //    botones[4, 3] = i36;
+        //    botones[4, 4] = i37;
+        //    botones[4, 5] = i38;
+        //    botones[4, 6] = i39;
+        //    botones[4, 7] = i40;
+        //    botones[5, 0] = i41;
+        //    botones[5, 1] = i42;
+        //    botones[5, 2] = i43;
+        //    botones[5, 3] = i44;
+        //    botones[5, 4] = i45;
+        //    botones[5, 5] = i46;
+        //    botones[5, 6] = i47;
+        //    botones[5, 7] = i48;
+        //    botones[6, 0] = i49;
+        //    botones[6, 1] = i50;
+        //    botones[6, 2] = i51;
+        //    botones[6, 3] = i52;
+        //    botones[6, 4] = i53;
+        //    botones[6, 5] = i54;
+        //    botones[6, 6] = i55;
+        //    botones[6, 7] = i56;
+        //    botones[7, 0] = i57;
+        //    botones[7, 1] = i58;
+        //    botones[7, 2] = i59;
+        //    botones[7, 3] = i60;
+        //    botones[7, 4] = i61;
+        //    botones[7, 5] = i62;
+        //    botones[7, 6] = i63;
+        //    botones[7, 7] = i64;
+        //    Session["botones"] = botones;
 
 
 
-        }
+        //}
 
         public void Bloqueo()
         {

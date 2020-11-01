@@ -70,6 +70,8 @@
   <ItemGroup>
     <Compile Include="App_Code\Ficaha.cs" />
     <Compile Include="App_Code\Gestionar.cs" />
+    <Compile Include="App_Code\Jugador1OX.cs" />
+    <Compile Include="App_Code\Jugador2OX.cs" />
     <Compile Include="Pages\InicioOX.aspx.cs">
       <DependentUpon>InicioOX.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

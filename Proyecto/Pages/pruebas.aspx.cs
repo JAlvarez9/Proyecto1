@@ -21,440 +21,220 @@ namespace Proyecto.Pages
         static string[] turnos = new string[2];
         static string turnoactual = "";
         static Ficaha[,] tablero;
-        static ImageButton[,] botones = new ImageButton[8, 8];
+        static ImageButton[,] botones;
+        static ImageButton[,] botones2;
         List<Ficaha> change;
+        public int columnas = 8;
+        public int fila = 6;
+        static int firstmoves = 0;
+        int enmedioX;
+        int enmedioY;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
             if (!IsPostBack)
             {
-                //Label4.Text = "Primer carga";
-                Session["botones"] = botones;
-                Session["tab"] = tablero;
-                try
-                {
-                    llenado();
-
-
-                }
-                catch (Exception asa)
-                {
-
-                }
-
-                Session["tab"] = tablero;
-                Button3.Enabled = false;
+                CreacionTablero();
             }
             else
             {
-                llenado();
-
+                MOdificacionTablero();
             }
-
-
-
-
+            
+            
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
-            tablero = new Ficaha[8, 8];
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    Ficaha agrego = new Ficaha();
-                    agrego.llenado = false;
-                    tablero[i, j] = agrego;
-                }
-            }
-            Session["botones"] = botones;
-            Session["tab"] = tablero;
-            llenado();
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
+            //CreacionTablero();
 
-                    Ficaha agrego = new Ficaha
-                    {
-                        llenado = false
-                    };
-                    tablero[i, j] = agrego;
-                }
-            }
             player = new Jugador();
-            turnos = new string[2];
-            botones = (ImageButton[,])Session["botones"];
-            Random rnd = new Random();
             turnos[0] = "blanco";
             turnos[1] = "negro";
+            Random rnd = new Random();
             int aux = rnd.Next(turnos.Length);
             player.color = turnos[aux];
-            Label3.Text = player.color + "<-";
-            string invitado = (string)Session["invitado"];
-            Label4.Text = invitado;
+            turnoactual = "negro";
+            Label4.Text = "Maquina";
             if (player.color == "blanco")
             {
+                Label3.Text = player.color;
                 Label6.Text = "Negro";
             }
             else
             {
+                Label3.Text = player.color;
                 Label6.Text = "Blanco";
             }
 
-            Session["turnac"] = "negro";
+            turnoactual = "negro";
+            if (player.color == "negro")
+            {
+                Label3.Text = "Negro <--";
+            }
+            else if (player.color != "negro")
+            {
+                Label6.Text = "Negro <--";
+            }
             actual = (Usuario)Session["Usuario"];
 
-            Ficaha pred1 = new Ficaha
+
+
+
+            for (int i = 0; i < fila; i++)
             {
-                color = "blanco",
-                x = "D",
-                y = 3,
-                llenado = true
-            };
-            tablero[3, 3] = pred1;
-
-            Ficaha pred2 = new Ficaha
-            {
-                color = "negro",
-                x = "E",
-                y = 3,
-                llenado = true
-            };
-            tablero[3, 4] = pred2;
-
-            Ficaha pred3 = new Ficaha
-            {
-                color = "negro",
-                x = "D",
-                y = 4,
-                llenado = true
-            };
-            tablero[4, 3] = pred3;
-
-            Ficaha pred4 = new Ficaha
-            {
-                color = "blanco",
-                x = "E",
-                y = 4,
-                llenado = true
-            };
-            tablero[4, 4] = pred4;
-
-            Session["tab"] = tablero;
-
-            i28.ImageUrl = ("stuff\\blanca.jpg");
-            i29.ImageUrl = ("stuff\\negra.jpg");
-            i36.ImageUrl = ("stuff\\negra.jpg");
-            i37.ImageUrl = ("stuff\\blanca.jpg");
-
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < columnas; j++)
                 {
-
-                    if (tablero[i, j].llenado == false)
-                    {
-                        botones[i, j].ImageUrl = ("stuff\\tans.png");
-                    }
+                    botones[i, j].Enabled = false;
+                    
                 }
             }
-            PintarBlanco();
-            PintarNegro();
+            enmedioX = (columnas/2);
+            enmedioY = (fila/2);
+            
+            botones[enmedioY-1, enmedioX-1].Enabled = true;
+            botones[enmedioY - 1, enmedioX].Enabled = true;
+            botones[enmedioY, enmedioX-1].Enabled = true;
+            botones[enmedioY, enmedioX].Enabled = true;
             Label1.Text = actual.NmUsuario;
-            Button3.Enabled = true;
 
-            Session["botones"] = botones;
-            //UpdatePanelSettings.Update();
         }
 
-        protected void Button2_Click(object sender, EventArgs e)
+
+
+        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
-
-            if (FileUpload1.HasFile)
+            
+            ImageButton clickedButton = (ImageButton)sender;
+            
+            if (firstmoves < 4)
             {
-                FileUpload1.SaveAs(Server.MapPath("~/Archivos/" + FileUpload1.FileName));
-
-
-                botones = (ImageButton[,])Session["botones"];
-                Ficaha[,] ta = new Ficaha[8, 8];
-                for (int i = 0; i < 8; i++)
+                if (turnoactual == "negro")
                 {
-                    for (int j = 0; j < 8; j++)
+                    //Ficaha clicke;
+                    for(int i = 0; i < fila; i++)
                     {
-                        Ficaha agrego = new Ficaha();
-                        agrego.llenado = false;
-                        ta[i, j] = agrego;
-                    }
-                }
-                player = new Jugador();
-                turnos = new string[2];
-                Random rnd = new Random();
-                turnos[0] = "blanco";
-                turnos[1] = "negro";
-                int aux = rnd.Next(turnos.Length);
-                player.color = turnos[aux];
-                Label3.Text = player.color;
-                Label4.Text = "Maquina";
-                if (player.color == "blanco")
-                {
-                    Label6.Text = "Negro";
-                }
-                else
-                {
-                    Label6.Text = "Blanco";
-                }
-                actual = (Usuario)Session["Usuario"];
-                Label1.Text = actual.NmUsuario;
-
-                player.color = turnos[aux];
-                string color = "";
-                string x = "";
-                int puntne = 0;
-                int puntbl = 0;
-                int y = -1;
-                string tiro = "";
-                //Label6.Text = "Cerro";
-                for (int i = 0; i < 8; i++)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        botones[i, j].Enabled = true;
-                    }
-                }
-                //"C:\Users\Byron Alvarez\Desktop\Proyecto\Proyecto\Archivos" + FileUpload1.FileName
-                XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyectos\Proyecto\Proyecto\Archivos\" + FileUpload1.FileName);
-                while (reader.Read())
-                {
-                    //Label6.Text = "si while";
-                    if (reader.IsStartElement())
-                    {
-                        //return only when you have START tag  
-                        switch (reader.Name.ToString())
+                        for(int j = 0; j<columnas; j++)
                         {
-                            case "color":
-                                color = reader.ReadString();
-                                tiro = color;
-                                //Label1.Text = tiro;
-                                break;
-                            case "columna":
-                                x = reader.ReadString();
-                                break;
-                            case "fila":
-                                y = Int32.Parse(reader.ReadString());
-                                break;
-                                //case "siguienteTiro":
-                                //    tiro = reader.ReadString();
-                                //    break;
-                        }
-
-                    }
-                    Session["turnac"] = tiro;
-                    if (color != "" & x != "" & y != -1)
-                    {
-                        //Label5.Text = "entre al if";
-                        try
-                        {
-                            Ficaha agre = new Ficaha();
-                            agre.color = color;
-                            agre.x = x;
-                            agre.x1 = leer(x);
-                            agre.y = y - 1;
-                            agre.llenado = true;
-                            ta[(int)agre.y, agre.x1] = agre;
-                            for (int i = 0; i < 8; i++)
+                            if(clickedButton.ID == botones[i, j].ID)
                             {
-                                for (int j = 0; j < 8; j++)
-                                {
-                                    if (i == agre.y & j == agre.x1 & agre.color == "blanco")
-                                    {
-                                        botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
-                                        //botones[i, j].Enabled = false;
-
-                                        puntbl++;
-                                    }
-                                    else if (i == agre.y & j == agre.x1 & agre.color == "negro")
-                                    {
-
-                                        botones[i, j].ImageUrl = ("stuff\\negra.jpg");
-                                        //botones[i, j].Enabled = false;
-                                        puntne++;
-                                    }
-                                    else if (ta[i, j].llenado == false)
-                                    {
-                                        botones[i, j].ImageUrl = ("stuff\\tans.png");
-                                    }
-
-
-                                }
+                                tablero[i, j].llenado = true;
+                                tablero[i, j].color = "negro";
                             }
                         }
-                        catch
+                    }
+                    
+                    if (player.color == "negro")
+                    {
+                        Label6.Text = "Blanco" + "<--";
+                        Label3.Text = "Negro";
+                    }
+                    else if (player.color != "negro")
+                    {
+                        Label3.Text = "Blanco" + "<--";
+                        Label6.Text = "Negro";
+                    }
+                    turnoactual = "blanco";
+                    PintarNegro();
+                }
+                else if (turnoactual == "blanco")
+                {
+                    //Ficaha clicke;
+                    for (int i = 0; i < fila; i++)
+                    {
+                        for (int j = 0; j < columnas; j++)
                         {
+                            if (clickedButton.ID == botones[i, j].ID)
+                            {
+                                tablero[i, j].llenado = true;
+                                tablero[i, j].color = "blanco";
+                            }
+                        }
+                    }
+                    if (player.color == "blanco")
+                    {
+                        Label6.Text = "Negro" + "<--";
+                        Label3.Text = "Blanco";
+                    }
+                    else if (player.color != "blanco")
+                    {
+                        Label3.Text = "Negro" + "<--";
+                        Label6.Text = "Blanco";
+                    }
+                    turnoactual = "negro";
+                    PintarBlanco();
+                }
+                firstmoves += 1;
+                for (int i = 0; i < fila; i++)
+                {
+                    for (int j = 0; j < columnas; j++)
+                    {
+                        botones[i, j].Enabled = false;
+                    }
+                }
+                enmedioX = (columnas / 2);
+                enmedioY = (fila / 2);
+                botones[enmedioY - 1, enmedioX - 1].Enabled = true;
+                botones[enmedioY - 1, enmedioX].Enabled = true;
+                botones[enmedioY, enmedioX - 1].Enabled = true;
+                botones[enmedioY, enmedioX].Enabled = true;
+                if (firstmoves == 4)
+                {
+                    for (int i = 0; i < fila; i++)
+                    {
+                        for (int j = 0; j < columnas; j++)
+                        {
+                            botones[i, j].Enabled = true;
 
                         }
-
-
-                        color = "";
-                        x = "";
-                        y = -1;
                     }
-
                 }
-                if (player.color == tiro)
-                {
-                    Label3.Text = player.color + "<-";
-                }
-                else
-                {
-                    Label6.Text = tiro + "<-";
-                }
-                reader.Close();
-                tablero = ta;
-                Session["scoren"] = puntne;
-                Session["scoreb"] = puntbl;
-                Session["tab"] = tablero;
-                Session["botones"] = botones;
-                //Bloqueo();
-                Button3.Enabled = true;
             }
             else
             {
 
-            }
-        }
-
-        protected void Button3_Click(object sender, EventArgs e)
-        {
-            string ruta = TextBox1.Text;
-            if (ruta == null | ruta == " ")
-            {
-                TextBox1.Text = "No coloco una ruta con el nombre del archivo";
-            }
-
-            //Label6.Text = "Si entre al if";
-            tablero = (Ficaha[,])Session["tab"];
-            XmlWriterSettings set = new XmlWriterSettings();
-            set.Indent = true;
-            string tiro = (string)Session["turnac"];
-            XmlWriter xmlWriter = XmlWriter.Create(@"" + ruta, set);
-
-            xmlWriter.WriteStartDocument();
-
-            xmlWriter.WriteStartElement("tablero");
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
+                if (turnoactual == "negro")
                 {
-                    if (tablero[i, j] != null)
+                    for (int i = 0; i < fila; i++)
                     {
-
-                        xmlWriter.WriteStartElement("ficha");
-                        xmlWriter.WriteStartElement("color");
-                        xmlWriter.WriteString(tablero[i, j].color);
-                        xmlWriter.WriteEndElement();
-                        xmlWriter.WriteStartElement("columna");
-                        xmlWriter.WriteString(tablero[i, j].x);
-                        xmlWriter.WriteEndElement();
-                        xmlWriter.WriteStartElement("fila");
-                        xmlWriter.WriteString((tablero[i, j].y + 1).ToString());
-                        xmlWriter.WriteEndElement();
-                        xmlWriter.WriteEndElement();
-
+                        for (int j = 0; j < columnas; j++)
+                        {
+                            if (clickedButton.ID == botones[i, j].ID)
+                            {
+                                //tablero[i, j].llenado = true;
+                                //tablero[i, j].color = "negro";
+                                MovimientoNegro((int)tablero[i,j].y, tablero[i, j].x1, tablero[i, j]);
+                            }
+                        }
                     }
+                    
+                    
+
+                    //Session["turnac"] = "blanco";
 
                 }
+                else if (turnoactual == "blanco")
+                {
+                    for (int i = 0; i < fila; i++)
+                    {
+                        for (int j = 0; j < columnas; j++)
+                        {
+                            if (clickedButton.ID == botones[i, j].ID)
+                            {
+                                //tablero[i, j].llenado = true;
+                                //tablero[i, j].color = "blanco";
+                                MovimientoBlanco((int)tablero[i, j].y, tablero[i, j].x1, tablero[i, j]);
+                            }
+                        }
+                    }
+                    
 
-
+                }
+                
             }
-            xmlWriter.WriteStartElement("siguienteTiro");
-            xmlWriter.WriteStartElement("color");
-            xmlWriter.WriteString(tiro);
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndDocument();
-
-            xmlWriter.Close();
-
-            Button3.Enabled = true;
-        }
-
-        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
-        {
-            string idaux;
-            int id;
-            turnoactual = (string)Session["turnac"];
-            Label7.Text = turnoactual;
-            Label5.Text = turnoactual;
-            ImageButton clickedButton = (ImageButton)sender;
-            botones = (ImageButton[,])Session["botones"];
-            tablero = (Ficaha[,])Session["tab"];
-
-            if (turnoactual == "negro")
-            {
-                string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
-                string javaScript2 = "parar2();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script2", javaScript2, true);
-                idaux = clickedButton.ID;
-                id = Int32.Parse(idaux.Substring(1, 2));
-                tablero = (Ficaha[,])Session["tab"];
-                Ficaha nueva = new Ficaha();
-                nueva = Creacion(id, "negro");
-                nueva.llenado = true;
-                MovimientoNegro((int)nueva.y, nueva.x1, nueva);
-                if (player.color == "negro")
-                {
-                    numjugadas1 += 1;
-                    Label6.Text = "Blanco" + "<--";
-                    Label3.Text = "Negro";
-                }
-                else if (player.color != "negro")
-                {
-                    Label3.Text = "Blanco" + "<--";
-                    Label6.Text = "Negro";
-                }
-                Session["turnac"] = "blanco";
-
-            }
-            else if (turnoactual == "blanco")
-            {
-
-                string javaScript3 = "cronometrar2();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script3", javaScript3, true);
-                string javaScript4 = "parar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript4, true);
-                idaux = clickedButton.ID;
-                id = Int32.Parse(idaux.Substring(1, 2));
-                tablero = (Ficaha[,])Session["tab"];
-                Ficaha nueva = new Ficaha();
-                nueva = Creacion(id, "blanco");
-                nueva.llenado = true;
-                MovimientoBlanco((int)nueva.y, nueva.x1, nueva);
-                if (player.color == "blanco")
-                {
-                    numjugadas1 += 1;
-                    Label6.Text = "Negro" + "<--";
-                    Label3.Text = "Blanco";
-                }
-                else if (player.color != "blanco")
-                {
-                    Label3.Text = "Negro" + "<--";
-                    Label6.Text = "Blanco";
-                }
-                Session["turnac"] = "negro";
-
-            }
-            Button3.Enabled = true;
-            Session["botones"] = botones;
-            //Label7.Text = numjugadas1.ToString();
-            //Bloqueo();
             Puntuaciones();
-            VerificarJuego();
+
 
         }
 
@@ -593,78 +373,6 @@ namespace Proyecto.Pages
             return x1;
         }
 
-        public void llenado()
-        {
-
-            botones[0, 0] = i01;
-            botones[0, 1] = i02;
-            botones[0, 2] = i03;
-            botones[0, 3] = i04;
-            botones[0, 4] = i05;
-            botones[0, 5] = i06;
-            botones[0, 6] = i07;
-            botones[0, 7] = i08;
-            botones[1, 0] = i09;
-            botones[1, 1] = i10;
-            botones[1, 2] = i11;
-            botones[1, 3] = i12;
-            botones[1, 4] = i13;
-            botones[1, 5] = i14;
-            botones[1, 6] = i15;
-            botones[1, 7] = i16;
-            botones[2, 0] = i17;
-            botones[2, 1] = i18;
-            botones[2, 2] = i19;
-            botones[2, 3] = i20;
-            botones[2, 4] = i21;
-            botones[2, 5] = i22;
-            botones[2, 6] = i23;
-            botones[2, 7] = i24;
-            botones[3, 0] = i25;
-            botones[3, 1] = i26;
-            botones[3, 2] = i27;
-            botones[3, 3] = i28;
-            botones[3, 4] = i29;
-            botones[3, 5] = i30;
-            botones[3, 6] = i31;
-            botones[3, 7] = i32;
-            botones[4, 0] = i33;
-            botones[4, 1] = i34;
-            botones[4, 2] = i35;
-            botones[4, 3] = i36;
-            botones[4, 4] = i37;
-            botones[4, 5] = i38;
-            botones[4, 6] = i39;
-            botones[4, 7] = i40;
-            botones[5, 0] = i41;
-            botones[5, 1] = i42;
-            botones[5, 2] = i43;
-            botones[5, 3] = i44;
-            botones[5, 4] = i45;
-            botones[5, 5] = i46;
-            botones[5, 6] = i47;
-            botones[5, 7] = i48;
-            botones[6, 0] = i49;
-            botones[6, 1] = i50;
-            botones[6, 2] = i51;
-            botones[6, 3] = i52;
-            botones[6, 4] = i53;
-            botones[6, 5] = i54;
-            botones[6, 6] = i55;
-            botones[6, 7] = i56;
-            botones[7, 0] = i57;
-            botones[7, 1] = i58;
-            botones[7, 2] = i59;
-            botones[7, 3] = i60;
-            botones[7, 4] = i61;
-            botones[7, 5] = i62;
-            botones[7, 6] = i63;
-            botones[7, 7] = i64;
-            Session["botones"] = botones;
-
-
-
-        }
 
         public void Bloqueo()
         {
@@ -847,16 +555,27 @@ namespace Proyecto.Pages
 
                             if (move)
                             {
+                                nueva.color = "blanco";
+                                nueva.llenado = true;
                                 tablero[(int)nueva.y, nueva.x1] = nueva;
                                 int auxi = change.Count;
                                 for (int k = 0; k < auxi; k++)
                                 {
                                     change[k].color = "blanco";
                                 }
+                                if (player.color == "blanco")
+                                {
+                                    Label6.Text = "Negro" + "<--";
+                                    Label3.Text = "Blanco";
+                                }
+                                else if (player.color != "blanco")
+                                {
+                                    Label3.Text = "Negro" + "<--";
+                                    Label6.Text = "Blanco";
+                                }
                                 PintarBlanco();
-                                Session["turnac"] = "negro";
-                                Session["tab"] = tablero;
-                                Session["botones"] = botones;
+                                turnoactual = "negro";
+                                
                             }
                             else
                             {
@@ -938,17 +657,26 @@ namespace Proyecto.Pages
                             }
                             if (move)
                             {
+                                nueva.color = "negro";
+                                nueva.llenado = true;
                                 tablero[(int)nueva.y, nueva.x1] = nueva;
                                 int auxi = change.Count;
                                 for (int k = 0; k < auxi; k++)
                                 {
                                     change[k].color = "negro";
                                 }
-
+                                if (player.color == "negro")
+                                {
+                                    Label6.Text = "Blanco" + "<--";
+                                    Label3.Text = "Negro";
+                                }
+                                else if (player.color != "negro")
+                                {
+                                    Label3.Text = "Blanco" + "<--";
+                                    Label6.Text = "Negro";
+                                }
                                 PintarNegro();
-                                Session["turnac"] = "blanco";
-                                Session["tab"] = tablero;
-                                Session["botones"] = botones;
+                                turnoactual = "blanco";
                             }
                             else
                             {
@@ -1088,9 +816,9 @@ namespace Proyecto.Pages
 
         public void PintarBlanco()
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < fila; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < columnas; j++)
                 {
                     if (tablero[i, j].color == "blanco")
                     {
@@ -1102,9 +830,9 @@ namespace Proyecto.Pages
 
         public void PintarNegro()
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < fila; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < columnas; j++)
                 {
                     if (tablero[i, j].color == "negro")
                     {
@@ -1117,9 +845,9 @@ namespace Proyecto.Pages
         public void VerificarJuego()
         {
             int verfi = 0;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < fila; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < columnas; j++)
                 {
                     if (tablero[i, j].llenado == true)
                     {
@@ -1155,6 +883,57 @@ namespace Proyecto.Pages
 
                 }
             }
+            int white = 0;
+            int black = 0;
+            for (int i = 0; i < fila; i++)
+            {
+                for (int j = 0; j < columnas; j++)
+                {
+                    if (tablero[i, j].color == "blanco")
+                    {
+                        white += 1;
+
+                    }
+                    else if (tablero[i, j].color == "negro")
+                    {
+                        black += 1;
+                    }
+                }
+            }
+            if (white == 0)
+            {
+                if (player.color == "blanco")
+                {
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", script, true);
+                    actual.PartidasGanadas += 1;
+                    //SQLcreationsWin();
+                }
+                else
+                {
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasPerdidas += 1;
+                    //SQLcreationsLoose();
+                }
+            }
+            else if (black == 0)
+            {
+                if (player.color == "negro")
+                {
+                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasGanadas += 1;
+                    //SQLcreationsWin();
+                }
+                else
+                {
+                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    actual.PartidasPerdidas += 1;
+                    //SQLcreationsLoose();
+                }
+            }
             Session["Usuario"] = actual;
 
 
@@ -1166,9 +945,9 @@ namespace Proyecto.Pages
         {
             player.score = 0;
             score2 = 0;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < fila; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < columnas; j++)
                 {
                     if (tablero[i, j].color == player.color)
                     {
@@ -1299,5 +1078,130 @@ namespace Proyecto.Pages
                 }
             }
         }
+
+        public void CreacionTablero()
+        {
+            
+            int cont = 0;
+            string[] abece = new string[20] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "U" };
+            //columnas = Int32.Parse(TextBox1.Text);
+            //fila = Int32.Parse(TextBox2.Text);
+            tablero = new Ficaha[fila, columnas];
+            botones = new ImageButton[fila, columnas];
+            TableRow first = new TableRow();
+            TableCell fas = new TableCell();
+            fas.Text = ".";
+            fas.BorderWidth = 2;
+            first.Cells.Add(fas);
+            for (int i = 0; i < columnas; i++)
+            {
+                TableCell y = new TableCell();
+                y.Text = abece[i];
+                y.BorderWidth = 2;
+
+                first.Cells.Add(y);
+            }
+            Table1.Rows.Add(first);
+            for (int i = 0; i < fila; i++)
+            {
+                TableRow r = new TableRow();
+                TableCell ias = new TableCell();
+                ias.Text = (i + 1).ToString();
+                ias.BorderWidth = 2;
+                r.Cells.Add(ias);
+                for (int j = 0; j < columnas; j++)
+                {
+                    
+                    TableCell niu = new TableCell();
+                    niu.BorderWidth = 2;
+                    ImageButton ibt = new ImageButton
+                    {
+                        ID = "i" + cont.ToString(),
+                        ImageUrl = "stuff\\tans.png"
+                    };
+                    ibt.Click += new ImageClickEventHandler(ImageButton1_Click);
+                    botones[i, j] = ibt;
+                    Ficaha nueva = new Ficaha();
+                    nueva.llenado = false;
+                    nueva.x = abece[j];
+                    nueva.x1 = j;
+                    nueva.y = i;
+                    tablero[i, j] = nueva;
+                    niu.Controls.Add(ibt);
+                    r.Cells.Add(niu);
+                    ListItem li = new ListItem(ibt.ID, cont.ToString()); ;
+                    DropDownList1.Items.Add(li);
+                    //Page.Controls.Add(ibt);
+                    cont++;
+                    
+
+                }
+                
+                Table1.Rows.Add(r);
+                
+            }
+            
+        }
+
+        public void MOdificacionTablero()
+        {
+
+            int cont = 0;
+            string[] abece = new string[20] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "U" };
+            //columnas = Int32.Parse(TextBox1.Text);
+            //fila = Int32.Parse(TextBox2.Text);
+            
+            botones2 = new ImageButton[fila, columnas];
+            TableRow first = new TableRow();
+            TableCell fas = new TableCell();
+            fas.Text = ".";
+            fas.BorderWidth = 2;
+            first.Cells.Add(fas);
+            for (int i = 0; i < columnas; i++)
+            {
+                TableCell y = new TableCell();
+                y.Text = abece[i];
+                y.BorderWidth = 2;
+
+                first.Cells.Add(y);
+            }
+            Table1.Rows.Add(first);
+            for (int i = 0; i < fila; i++)
+            {
+                TableRow r = new TableRow();
+                TableCell ias = new TableCell();
+                ias.Text = (i + 1).ToString();
+                ias.BorderWidth = 2;
+                r.Cells.Add(ias);
+                for (int j = 0; j < columnas; j++)
+                {
+
+                    TableCell niu = new TableCell();
+                    niu.BorderWidth = 2;
+                    ImageButton ibt = new ImageButton
+                    {
+                        ID = "i" + cont.ToString(),
+                        ImageUrl = "stuff\\tans.png"
+                    };
+                    ibt.Click += new ImageClickEventHandler(ImageButton1_Click);
+                    botones2[i, j] = ibt;
+                    niu.Controls.Add(ibt);
+                    r.Cells.Add(niu);
+                    ListItem li = new ListItem(ibt.ID, cont.ToString()); ;
+                    DropDownList1.Items.Add(li);
+                    //Page.Controls.Add(ibt);
+                    cont++;
+
+
+                }
+
+                Table1.Rows.Add(r);
+                botones2 = botones;
+
+
+            }
+
+        }
+
     }
 }
