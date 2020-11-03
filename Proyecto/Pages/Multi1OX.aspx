@@ -4,6 +4,20 @@
         .auto-style3 {
             width: 316px;
         }
+        .auto-style4 {
+            width: 316px;
+            height: 12px;
+        }
+        .auto-style5 {
+            height: 12px;
+        }
+        .auto-style6 {
+            width: 316px;
+            height: 11px;
+        }
+        .auto-style7 {
+            height: 11px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="conte" runat="server">
@@ -100,6 +114,20 @@
             </td>
         </tr>
         <tr>
+            <td class="auto-style4">
+                Turno Inicial:</td>
+            <td class="auto-style5">
+            </td>
+        </tr>
+        <tr>
+            <td class="auto-style6">
+                <asp:RadioButton ID="RadioButton5" runat="server" GroupName="inicio" />
+&nbsp;Casa</td>
+            <td class="auto-style7">
+                <asp:RadioButton ID="RadioButton6" runat="server" GroupName="inicio" />
+&nbsp;Visitante</td>
+        </tr>
+        <tr>
             <td class="auto-style3">
                 <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Iniciar Juego" Width="217px" />
             </td>
@@ -114,7 +142,7 @@
                 <asp:FileUpload ID="FileUpload1" runat="server" />
             </td>
             <td>
-                <asp:Button ID="Button2" runat="server" Text="Cargar Partida" Width="237px" />
+                <asp:Button ID="Button2" runat="server" Text="Cargar Partida" Width="237px" OnClick="Button2_Click" />
             </td>
         </tr>
         <tr>

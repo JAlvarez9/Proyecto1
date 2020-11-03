@@ -16,7 +16,7 @@ namespace Proyecto.Pages
         public SqlConnection conexion;
         Usuario actual = new Usuario();
         static Jugador player;
-        static int score2;
+        //static int score2;
         static string[] turnos = new string[2];
         static string turnoactual = "";
         static Ficaha[,] tablero;
@@ -46,10 +46,12 @@ namespace Proyecto.Pages
                 jugador2.colors = (List<string>)Session["colors2"];
                 CreacionTablero();
                 Inicializacion();
-                Button1.Enabled = false;
+                
             }
             else
             {
+                jugador1.colors = (List<string>)Session["colors1"];
+                jugador2.colors = (List<string>)Session["colors2"];
                 apertura = (Boolean)Session["apertura"];
                 columnas = (int)Session["columnas"];
                 fila = (int)Session["filas"];
@@ -70,20 +72,19 @@ namespace Proyecto.Pages
             Random rnd = new Random();
             int aux = rnd.Next(turnos.Length);
             player.color = turnos[aux];
-            turnoactual = "negro";
-            Label4.Text = "Maquina";
-            if (player.color == "blanco")
+            turnoactual = (string) Session["inicio"];
+            Label4.Text = "Jugador2";
+            
+            for(int i =0; i< jugador1.colors.Count; i++)
             {
-                Label3.Text = player.color;
-                Label6.Text = "Negro";
+                ListBox1.Items.Add(jugador1.colors[i]);
             }
-            else
+            for (int i = 0; i < jugador2.colors.Count; i++)
             {
-                Label3.Text = player.color;
-                Label6.Text = "Blanco";
+                ListBox2.Items.Add(jugador2.colors[i]);
             }
 
-            turnoactual = "negro";
+            
             if (turnoactual == "player1")
             {
                 Label3.Text = jugador1.colors[color1] + "<--";
@@ -97,7 +98,7 @@ namespace Proyecto.Pages
             
             actual = (Usuario)Session["Usuario"];
             Label1.Text = actual.NmUsuario;
-            
+            jugador1.name = actual.NmUsuario;
 
             if (apertura)
             {
@@ -132,6 +133,17 @@ namespace Proyecto.Pages
                 tablero[enmedioY, enmedioX].color = jugador1.colors[1];
                 color1 += 2;
                 color2 += 2;
+                TurnosColores();
+                if (turnoactual == "player1")
+                {
+                    Label3.Text = jugador1.colors[color1] + "<--";
+                    Label6.Text = jugador2.colors[color2];
+                }
+                else if (turnoactual == "player2")
+                {
+                    Label3.Text = jugador1.colors[color1];
+                    Label6.Text = jugador2.colors[color2] + "<--";
+                }
             }
             PintarTablero();
         }
@@ -143,22 +155,54 @@ namespace Proyecto.Pages
             {
                 TextBox1.Text = "No coloco una ruta con el nombre del archivo";
             }
-
-            //Label6.Text = "Si entre al if";
-            tablero = (Ficaha[,])Session["tab"];
+            
             XmlWriterSettings set = new XmlWriterSettings();
             set.Indent = true;
-            string tiro = (string)Session["turnac"];
+            string tiro = " ";
+            if (turnoactual == "player1")
+            {
+                tiro = jugador1.colors[color1];
+            }else if(turnoactual == "player2")
+            {
+                tiro = jugador2.colors[color2];
+            }
+            
             XmlWriter xmlWriter = XmlWriter.Create(@"" + ruta, set);
 
             xmlWriter.WriteStartDocument();
 
-            xmlWriter.WriteStartElement("tablero");
-            for (int i = 0; i < 8; i++)
+            xmlWriter.WriteStartElement("partida");
+            xmlWriter.WriteStartElement("filas");
+            xmlWriter.WriteString(fila.ToString());
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteStartElement("columnas");
+            xmlWriter.WriteString(columnas.ToString());
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteStartElement("Jugador1");
+            for(int i =0; i < jugador1.colors.Count; i++)
             {
-                for (int j = 0; j < 8; j++)
+                xmlWriter.WriteStartElement("color");
+                xmlWriter.WriteString(jugador1.colors[i]);
+                xmlWriter.WriteEndElement();
+            }
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteStartElement("Jugador2");
+            for (int i = 0; i < jugador2.colors.Count; i++)
+            {
+                xmlWriter.WriteStartElement("color");
+                xmlWriter.WriteString(jugador2.colors[i]);
+                xmlWriter.WriteEndElement();
+            }
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteStartElement("Modalidad");
+            xmlWriter.WriteString("Normal");
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteStartElement("tablero");
+            for (int i = 0; i < fila; i++)
+            {
+                for (int j = 0; j < columnas; j++)
                 {
-                    if (tablero[i, j] != null)
+                    if (tablero[i, j].llenado == true)
                     {
 
                         xmlWriter.WriteStartElement("ficha");
@@ -185,21 +229,84 @@ namespace Proyecto.Pages
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndElement();
             xmlWriter.WriteEndDocument();
-
             xmlWriter.Close();
+            
+        }
 
-            Button1.Enabled = true;
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            botones = (ImageButton[,])Session["botones"];
+            tablero = (Ficaha[,])Session["tab"];
+            actual = (Usuario)Session["Usuario"];
+            int fill = 0;
+            for (int i = 0; i < fila; i++)
+            {
+                for (int j = 0; j < columnas; j++)
+                {
+                    if (tablero[i, j].llenado == true)
+                    {
+                        fill += 1;
+                    }
+                }
+            }
+            if (fill == 63)
+            {
+                jugador1.score = 0;
+                jugador2.score = 0;
+                for (int i = 0; i < fila; i++)
+                {
+                    for (int j = 0; j < columnas; j++)
+                    {
+                        if (jugador1.colors.Contains(tablero[i, j].color))
+                        {
+                            jugador1.score += 1;
+                        }
+                        else if (jugador2.colors.Contains(tablero[i, j].color))
+                        {
+                            jugador2.score += 1;
+                        }
+                    }
+                }
+                if (jugador1.score > jugador2.score)
+                {
+                    jugador1.score += 1;
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa gano');", true);
+                }
+                else if (jugador1.score < jugador2.score)
+                {
+                    jugador2.score += 1;
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa perdio');", true);
+                }
+            }
+        }
+
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            if (turnoactual == "player1")
+            {
+                Label3.Text = jugador1.colors[color1];
+                Label6.Text = jugador2.colors[color2] + "<--";
+                turnoactual = "player2";
+
+            }
+            else if (turnoactual == "player2")
+            {
+                Label3.Text = jugador1.colors[color1] + "<-";
+                Label6.Text = jugador2.colors[color2];
+                turnoactual = "player1";
+
+            }
         }
 
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
-
             ImageButton clickedButton = (ImageButton)sender;
 
             if (firstmoves < 4 & apertura == true)
             {
-                if (turnoactual == "negro")
+                if (turnoactual == "player1")
                 {
                     //Ficaha clicke;
                     for (int i = 0; i < fila; i++)
@@ -209,25 +316,18 @@ namespace Proyecto.Pages
                             if (clickedButton.ID == botones[i, j].ID)
                             {
                                 tablero[i, j].llenado = true;
-                                tablero[i, j].color = "negro";
+                                tablero[i, j].color = jugador1.colors[color1];
                             }
                         }
                     }
-
-                    if (player.color == "negro")
-                    {
-                        Label6.Text = "Blanco" + "<--";
-                        Label3.Text = "Negro";
-                    }
-                    else if (player.color != "negro")
-                    {
-                        Label3.Text = "Blanco" + "<--";
-                        Label6.Text = "Negro";
-                    }
-                    turnoactual = "blanco";
-                    PintarNegro();
+                    color1 += 1;
+                    TurnosColores();
+                    Label3.Text = jugador1.colors[color1];
+                    Label6.Text = jugador2.colors[color2] + "<--";
+                    turnoactual = "player2";
+                    PintarTablero();
                 }
-                else if (turnoactual == "blanco")
+                else if (turnoactual == "player2")
                 {
                     //Ficaha clicke;
                     for (int i = 0; i < fila; i++)
@@ -237,22 +337,16 @@ namespace Proyecto.Pages
                             if (clickedButton.ID == botones[i, j].ID)
                             {
                                 tablero[i, j].llenado = true;
-                                tablero[i, j].color = "blanco";
+                                tablero[i, j].color = jugador2.colors[color2];
                             }
                         }
                     }
-                    if (player.color == "blanco")
-                    {
-                        Label6.Text = "Negro" + "<--";
-                        Label3.Text = "Blanco";
-                    }
-                    else if (player.color != "blanco")
-                    {
-                        Label3.Text = "Negro" + "<--";
-                        Label6.Text = "Blanco";
-                    }
-                    turnoactual = "negro";
-                    PintarBlanco();
+                    color2 += 1;
+                    TurnosColores();
+                    Label3.Text = jugador1.colors[color1] + "<-";
+                    Label6.Text = jugador2.colors[color2];
+                    turnoactual = "player1";
+                    PintarTablero();
                 }
                 firstmoves += 1;
                 for (int i = 0; i < fila; i++)
@@ -279,11 +373,12 @@ namespace Proyecto.Pages
                         }
                     }
                 }
+                Puntuaciones();
             }
             else
             {
 
-                if (turnoactual == "negro")
+                if (turnoactual == "player1")
                 {
                     for (int i = 0; i < fila; i++)
                     {
@@ -291,19 +386,13 @@ namespace Proyecto.Pages
                         {
                             if (clickedButton.ID == botones[i, j].ID)
                             {
-                                //tablero[i, j].llenado = true;
-                                //tablero[i, j].color = "negro";
-                                MovimientoNegro((int)tablero[i, j].y, tablero[i, j].x1, tablero[i, j]);
+                                MovimientoPlayer1((int)tablero[i, j].y, tablero[i, j].x1, tablero[i, j]);
                             }
                         }
                     }
-
-
-
-                    //Session["turnac"] = "blanco";
-
+                    
                 }
-                else if (turnoactual == "blanco")
+                else if (turnoactual == "player2")
                 {
                     for (int i = 0; i < fila; i++)
                     {
@@ -311,161 +400,28 @@ namespace Proyecto.Pages
                         {
                             if (clickedButton.ID == botones[i, j].ID)
                             {
-                                //tablero[i, j].llenado = true;
-                                //tablero[i, j].color = "blanco";
-                                MovimientoBlanco((int)tablero[i, j].y, tablero[i, j].x1, tablero[i, j]);
+                                MovimientoPlayer2((int)tablero[i, j].y, tablero[i, j].x1, tablero[i, j]);
                             }
                         }
                     }
 
 
                 }
-
+                Puntuaciones();
+                VerificarJuego();
             }
-            Puntuaciones();
+            PintarTablero();
+            
 
 
         }
         
-        public Ficaha Creacion(int id, string color)
-        {
-            Ficaha nueva = new Ficaha();
-            if (color == "negro")
-            {
-                nueva.color = "negro";
-
-                nueva.y = Math.Floor((double)id / 8);
-                int res = (id % 8) - 1;
-                nueva.x1 = res;
-                if (id == 8 | id == 16 | id == 24 | id == 32 | id == 40 | id == 48 | id == 56 | id == 64)
-                {
-                    nueva.y = (id / 8) - 1;
-                    nueva.x = "H";
-                    nueva.x1 = 7;
-                    return nueva;
-                }
-
-
-                switch (res)
-                {
-                    case 0:
-                        nueva.x = "A";
-                        break;
-                    case 1:
-                        nueva.x = "B";
-                        break;
-                    case 2:
-                        nueva.x = "C";
-                        break;
-                    case 3:
-                        nueva.x = "D";
-                        break;
-                    case 4:
-                        nueva.x = "E";
-                        break;
-                    case 5:
-                        nueva.x = "F";
-                        break;
-                    case 6:
-                        nueva.x = "G";
-                        break;
-
-
-                }
-
-                return nueva;
-
-            }
-            if (color == "blanco")
-            {
-                nueva.color = "blanco";
-
-                nueva.y = Math.Floor((double)id / 8);
-                int res = (id % 8) - 1;
-                if (id == 8 | id == 16 | id == 24 | id == 32 | id == 40 | id == 48 | id == 56 | id == 64)
-                {
-                    nueva.y = (id / 8) - 1;
-                    nueva.x = "H";
-                    nueva.x1 = 7;
-                    return nueva;
-                }
-                nueva.x1 = res;
-
-
-
-                switch (res)
-                {
-                    case 0:
-                        nueva.x = "A";
-                        break;
-                    case 1:
-                        nueva.x = "B";
-                        break;
-                    case 2:
-                        nueva.x = "C";
-                        break;
-                    case 3:
-                        nueva.x = "D";
-                        break;
-                    case 4:
-                        nueva.x = "E";
-                        break;
-                    case 5:
-                        nueva.x = "F";
-                        break;
-                    case 6:
-                        nueva.x = "G";
-                        break;
-
-
-                }
-
-                return nueva;
-
-            }
-            return null;
-
-        }
-
-        public int leer(string a)
-        {
-            int x1 = -1;
-            switch (a)
-            {
-                case "A":
-                    x1 = 0;
-                    break;
-                case "B":
-                    x1 = 1;
-                    break;
-                case "C":
-                    x1 = 2;
-                    break;
-                case "D":
-                    x1 = 3;
-                    break;
-                case "E":
-                    x1 = 4;
-                    break;
-                case "F":
-                    x1 = 5;
-                    break;
-                case "G":
-                    x1 = 6;
-                    break;
-                case "H":
-                    x1 = 7;
-                    break;
-
-            }
-            return x1;
-        }
-        
-        public void MovimientoBlanco(int y, int x, Ficaha nueva)
+        public void MovimientoPlayer1(int y, int x, Ficaha nueva)
         {
 
             int id;
             Boolean move = false;
+            Boolean next = false;
 
             for (int i = y - 1; i <= y + 1; i++)
             {
@@ -478,74 +434,62 @@ namespace Proyecto.Pages
                         {
 
                         }
-                        else if (tablero[i, j].color == "negro")
+                        else if (jugador2.colors.Contains(tablero[i,j].color))
                         {
                             if (i == y - 1 && j == x - 1)
                             {
                                 //Label3.Text = "UL";
-                                move = RecursivoBlanco(i, j, "UL");
+                                move = RecursivoPlayer1(i, j, "UL");
                             }
                             else if (i == y && j == x - 1)
                             {
                                 //Label3.Text = "L";
-                                move = RecursivoBlanco(i, j, "L");
+                                move = RecursivoPlayer1(i, j, "L");
                             }
                             else if (i == y + 1 && j == x - 1)
                             {
                                 //Label3.Text = "DL";
-                                move = RecursivoBlanco(i, j, "DL");
+                                move = RecursivoPlayer1(i, j, "DL");
                             }
                             else if (i == y - 1 && j == x)
                             {
                                 //Label3.Text = "U";
-                                move = RecursivoBlanco(i, j, "U");
+                                move = RecursivoPlayer1(i, j, "U");
                             }
                             else if (i == y + 1 && j == x)
                             {
                                 //Label3.Text = "D";
-                                move = RecursivoBlanco(i, j, "D");
+                                move = RecursivoPlayer1(i, j, "D");
                             }
                             else if (i == y - 1 && j == x + 1)
                             {
                                 //Label3.Text = "UR";
-                                move = RecursivoBlanco(i, j, "UR");
+                                move = RecursivoPlayer1(i, j, "UR");
                             }
                             else if (i == y && j == x + 1)
                             {
                                 //Label3.Text = "R";
-                                move = RecursivoBlanco(i, j, "R");
+                                move = RecursivoPlayer1(i, j, "R");
                             }
                             else if (i == y + 1 && j == x + 1)
                             {
                                 //Label3.Text = "DR";
-                                move = RecursivoBlanco(i, j, "DR");
+                                move = RecursivoPlayer1(i, j, "DR");
                             }
 
                             if (move)
                             {
-                                nueva.color = "blanco";
+                                nueva.color = jugador1.colors[color1];
                                 nueva.llenado = true;
                                 tablero[(int)nueva.y, nueva.x1] = nueva;
                                 int auxi = change.Count;
                                 for (int k = 0; k < auxi; k++)
                                 {
-                                    change[k].color = "blanco";
+                                    change[k].color = jugador1.colors[color1];
                                 }
-                                if (player.color == "blanco")
-                                {
-
-                                    Label6.Text = "Negro" + "<--";
-                                    Label3.Text = "Blanco";
-                                }
-                                else if (player.color != "blanco")
-                                {
-                                    Label3.Text = "Negro" + "<--";
-                                    Label6.Text = "Blanco";
-                                }
-                                
-                                
+                                next = true;
                                 PintarTablero();
-                                turnoactual = "negro";
+                                turnoactual = "player2";
                                 
                             }
                             else
@@ -563,16 +507,22 @@ namespace Proyecto.Pages
 
                 }
             }
-
+            if (next)
+            {
+                color1 += 1;
+                TurnosColores();
+                Label3.Text = jugador1.colors[color1];
+                Label6.Text = jugador2.colors[color2] + "<--";
+            }
 
 
 
         }
 
-        public void MovimientoNegro(int y, int x, Ficaha nueva)
+        public void MovimientoPlayer2(int y, int x, Ficaha nueva)
         {
             Boolean move = false;
-
+            Boolean next = false;
             for (int i = y - 1; i <= y + 1; i++)
             {
                 for (int j = x - 1; j <= x + 1; j++)
@@ -584,72 +534,63 @@ namespace Proyecto.Pages
                         {
 
                         }
-                        else if (tablero[i, j].color == "blanco")
+                        else if (jugador1.colors.Contains(tablero[i, j].color))
                         {
                             if (i == y - 1 && j == x - 1)
                             {
                                 //Label3.Text = "UL";
-                                move = RecursivoNegro(i, j, "UL");
+                                move = RecursivoPlayer2(i, j, "UL");
                             }
                             else if (i == y && j == x - 1)
                             {
                                 //Label3.Text = "L";
-                                move = RecursivoNegro(i, j, "L");
+                                move = RecursivoPlayer2(i, j, "L");
                             }
                             else if (i == y + 1 && j == x - 1)
                             {
                                 //Label3.Text = "DL";
-                                move = RecursivoNegro(i, j, "DL");
+                                move = RecursivoPlayer2(i, j, "DL");
                             }
                             else if (i == y - 1 && j == x)
                             {
                                 //Label3.Text = "U";
-                                move = RecursivoNegro(i, j, "U");
+                                move = RecursivoPlayer2(i, j, "U");
                             }
                             else if (i == y + 1 && j == x)
                             {
                                 //Label3.Text = "D";
-                                move = RecursivoNegro(i, j, "D");
+                                move = RecursivoPlayer2(i, j, "D");
                             }
                             else if (i == y - 1 && j == x + 1)
                             {
                                 //Label3.Text = "UR";
-                                move = RecursivoNegro(i, j, "UR");
+                                move = RecursivoPlayer2(i, j, "UR");
                             }
                             else if (i == y && j == x + 1)
                             {
                                 //Label3.Text = "R";
-                                move = RecursivoNegro(i, j, "R");
+                                move = RecursivoPlayer2(i, j, "R");
                             }
                             else if (i == y + 1 && j == x + 1)
                             {
                                 //Label3.Text = "DR";
-                                move = RecursivoNegro(i, j, "DR");
+                                move = RecursivoPlayer2(i, j, "DR");
                             }
                             if (move)
                             {
-                                nueva.color = "negro";
+                                nueva.color = jugador2.colors[color2];
                                 nueva.llenado = true;
                                 tablero[(int)nueva.y, nueva.x1] = nueva;
                                 int auxi = change.Count;
                                 for (int k = 0; k < auxi; k++)
                                 {
-                                    change[k].color = "negro";
+                                    change[k].color = jugador2.colors[color2]; ;
                                 }
-                                if (player.color == "negro")
-                                {
-                                    Label6.Text = "Blanco" + "<--";
-                                    Label3.Text = "Negro";
-                                }
-                                else if (player.color != "negro")
-                                {
-                                    Label3.Text = "Blanco" + "<--";
-                                    Label6.Text = "Negro";
-                                }
-                                
-                                
+                                next = true;
+
+
                                 PintarTablero();
-                                turnoactual = "blanco";
+                                turnoactual = "player1";
                             }
                             else
                             {
@@ -665,11 +606,17 @@ namespace Proyecto.Pages
 
                 }
             }
-
+            if (next)
+            {
+                color2 += 1;
+                TurnosColores();
+                Label3.Text = jugador1.colors[color1] + "<-";
+                Label6.Text = jugador2.colors[color2];
+            }
 
         }
 
-        public Boolean RecursivoBlanco(int y1, int x1, string D)
+        public Boolean RecursivoPlayer1(int y1, int x1, string D)
         {
 
             int y = y1;
@@ -684,11 +631,11 @@ namespace Proyecto.Pages
             //Label4.Text = y.ToString();
             posi = Direction(posi.Item1, posi.Item2, D);
 
-            if (tablero[posi.Item1, posi.Item2].color == "negro")
+            if (jugador2.colors.Contains(tablero[posi.Item1, posi.Item2].color))
             {
-                moves = RecursivoBlanco(posi.Item1, posi.Item2, D);
+                moves = RecursivoPlayer1(posi.Item1, posi.Item2, D);
             }
-            else if (tablero[posi.Item1, posi.Item2].color == "blanco")
+            else if (jugador1.colors.Contains(tablero[posi.Item1, posi.Item2].color))
             {
                 moves = true;
 
@@ -704,7 +651,7 @@ namespace Proyecto.Pages
             return moves;
         }
 
-        public Boolean RecursivoNegro(int y1, int x1, string D)
+        public Boolean RecursivoPlayer2(int y1, int x1, string D)
         {
             int y = y1;
             int x = x1;
@@ -717,11 +664,11 @@ namespace Proyecto.Pages
             posi = Direction(posi.Item1, posi.Item2, D);
 
             //System.Diagnostics.Debug.WriteLine(y.ToString() + "|" + x.ToString());
-            if (tablero[posi.Item1, posi.Item2].color == "blanco")
+            if (jugador1.colors.Contains(tablero[posi.Item1, posi.Item2].color))
             {
-                moves = RecursivoNegro(posi.Item1, posi.Item2, D);
+                moves = RecursivoPlayer2(posi.Item1, posi.Item2, D);
             }
-            else if (tablero[posi.Item1, posi.Item2].color == "negro")
+            else if (jugador2.colors.Contains(tablero[posi.Item1, posi.Item2].color))
             {
                 moves = true;
 
@@ -785,35 +732,7 @@ namespace Proyecto.Pages
             var posi = new Tuple<int, int>(y1, x1);
             return posi;
         }
-
-        public void PintarBlanco()
-        {
-            for (int i = 0; i < fila; i++)
-            {
-                for (int j = 0; j < columnas; j++)
-                {
-                    if (tablero[i, j].color == "blanco")
-                    {
-                        botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
-                    }
-                }
-            }
-        }
-
-        public void PintarNegro()
-        {
-            for (int i = 0; i < fila; i++)
-            {
-                for (int j = 0; j < columnas; j++)
-                {
-                    if (tablero[i, j].color == "negro")
-                    {
-                        botones[i, j].ImageUrl = ("stuff/negra.jpg");
-                    }
-                }
-            }
-        }
-
+        
         public void PintarTablero()
         {
             for (int i = 0; i < fila; i++)
@@ -853,11 +772,7 @@ namespace Proyecto.Pages
                             botones[i, j].ImageUrl = ("stuff/gris.jpg");
                             break;
                     }
-
-                    if (tablero[i, j].color == "negro")
-                    {
-                        botones[i, j].ImageUrl = ("stuff/negra.jpg");
-                    }
+                    
                 }
             }
         }
@@ -880,79 +795,56 @@ namespace Proyecto.Pages
             actual = (Usuario)Session["Usuario"];
             if (verfi == 64)
             {
-                if (player.score > score2)
+                if (jugador1.score > jugador2.score)
                 {
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa gano');", true);
                     actual.PartidasGanadas += 1;
                     SQLcreationsWin();
                 }
-                else if (player.score < score2)
+                else if (jugador1.score < jugador2.score)
                 {
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa perdio');", true);
                     actual.PartidasPerdidas += 1;
                     SQLcreationsLoose();
 
                 }
-                else if (player.score == score2)
+                else if (jugador1.score == jugador2.score)
                 {
-                    string script = string.Format("alert('El jugador empato:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Los jugadores empataron');", true);
                     actual.PartidasEmpatadas += 1;
+                    SQLcreationsDraw();
 
                 }
             }
-            int white = 0;
-            int black = 0;
+            int j1 = 0;
+            int j2 = 0;
             for (int i = 0; i < fila; i++)
             {
                 for (int j = 0; j < columnas; j++)
                 {
-                    if (tablero[i, j].color == "blanco")
+                    if (jugador1.colors.Contains(tablero[i,j].color))
                     {
-                        white += 1;
+                        j1 += 1;
 
                     }
-                    else if (tablero[i, j].color == "negro")
+                    else if (jugador2.colors.Contains(tablero[i, j].color))
                     {
-                        black += 1;
+                        j2 += 1;
                     }
                 }
             }
-            if (white == 0)
+            if (j1 == 0)
             {
-                if (player.color == "blanco")
-                {
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", script, true);
-                    actual.PartidasGanadas += 1;
-                    //SQLcreationsWin();
-                }
-                else
-                {
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                    actual.PartidasPerdidas += 1;
-                    //SQLcreationsLoose();
-                }
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa perdio');", true);
+                actual.PartidasPerdidas += 1;
+                SQLcreationsLoose();
+                
             }
-            else if (black == 0)
+            else if (j2 == 0)
             {
-                if (player.color == "negro")
-                {
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                    actual.PartidasGanadas += 1;
-                    //SQLcreationsWin();
-                }
-                else
-                {
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                    actual.PartidasPerdidas += 1;
-                    //SQLcreationsLoose();
-                }
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa gana');", true);
+                actual.PartidasGanadas += 1;
+                SQLcreationsWin();
             }
             Session["Usuario"] = actual;
 
@@ -963,24 +855,24 @@ namespace Proyecto.Pages
 
         public void Puntuaciones()
         {
-            player.score = 0;
-            score2 = 0;
+            jugador1.score = 0;
+            jugador2.score = 0;
             for (int i = 0; i < fila; i++)
             {
                 for (int j = 0; j < columnas; j++)
                 {
-                    if (tablero[i, j].color == player.color)
+                    if (jugador1.colors.Contains(tablero[i, j].color))
                     {
-                        player.score = player.score + 1;
+                        jugador1.score += 1;
                     }
-                    else if (tablero[i, j].color != player.color && tablero[i, j].llenado == true)
+                    else if (jugador2.colors.Contains(tablero[i, j].color))
                     {
-                        score2 = score2 + 1;
+                        jugador2.score += 1;
                     }
                 }
             }
-            Label2.Text = player.score.ToString();
-            Label5.Text = score2.ToString();
+            Label2.Text = jugador1.score.ToString();
+            Label5.Text = jugador2.score.ToString();
         }
 
         public void SQLcreationsWin()
@@ -1049,56 +941,7 @@ namespace Proyecto.Pages
             Label8.Text = this.error;
 
         }
-
-        protected void Button4_Click(object sender, EventArgs e)
-        {
-            botones = (ImageButton[,])Session["botones"];
-            tablero = (Ficaha[,])Session["tab"];
-            actual = (Usuario)Session["Usuario"];
-            int fill = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (tablero[i, j].llenado == true)
-                    {
-                        fill += 1;
-                    }
-                }
-            }
-            if (fill == 63)
-            {
-                player.score = 0;
-                score2 = 0;
-                for (int i = 0; i < 8; i++)
-                {
-                    for (int j = 0; j < 8; j++)
-                    {
-                        if (tablero[i, j].color == player.color)
-                        {
-                            player.score = player.score + 1;
-                        }
-                        else if (tablero[i, j].color != player.color && tablero[i, j].llenado == true)
-                        {
-                            score2 = score2 + 1;
-                        }
-                    }
-                }
-                if (player.score > score2)
-                {
-                    player.score += 1;
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                }
-                else
-                {
-                    score2 += 1;
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                }
-            }
-        }
-
+        
         public void CreacionTablero()
         {
 
@@ -1148,7 +991,7 @@ namespace Proyecto.Pages
                     tablero[i, j] = nueva;
                     niu.Controls.Add(ibt);
                     r.Cells.Add(niu);
-                    ListItem li = new ListItem(ibt.ID, cont.ToString()); ;
+                    
                     cont++;
                 }
 
@@ -1200,7 +1043,7 @@ namespace Proyecto.Pages
                     botones2[i, j] = ibt;
                     niu.Controls.Add(ibt);
                     r.Cells.Add(niu);
-                    ListItem li = new ListItem(ibt.ID, cont.ToString()); ;
+                    
                     
                     cont++;
 
@@ -1209,22 +1052,30 @@ namespace Proyecto.Pages
 
                 Table1.Rows.Add(r);
                 botones2 = botones;
-
-
+                
             }
-
+            for(int i = 0; i<fila; i++)
+            {
+                for(int j =0; j < columnas; j++)
+                {
+                    botones[i, j].Enabled = true;
+                }
+            }
+            PintarTablero();
         }
 
         public void TurnosColores()
         {
-            if(color1 > jugador1.colors.Count)
+            if(color1 == jugador1.colors.Count)
             {
                 color1 = 0;
             }
-            if(color2 > jugador2.colors.Count)
+            if(color2 == jugador2.colors.Count)
             {
                 color2 = 0;
             }
         }
+
+        
     }
 }

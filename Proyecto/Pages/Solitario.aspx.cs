@@ -183,7 +183,7 @@ namespace Proyecto.Pages
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            Boolean tiene = FileUpload1.HasFile;
+            //Boolean tiene = FileUpload1.HasFile;
             if (FileUpload1.HasFile)
             {
                 FileUpload1.SaveAs(Server.MapPath("~/Archivos/" + FileUpload1.FileName));

@@ -134,7 +134,7 @@
                          <asp:TextBox ID="TextBox1" runat="server" Width="180px"></asp:TextBox>
                      </td>
                      <td>
-                         <asp:Button ID="Button6" runat="server" Text="Guardar Partida" Width="195px" />
+                         <asp:Button ID="Button1" runat="server" Text="Guardar Partida" Width="195px" OnClick="Button1_Click" />
                      </td>
                  </tr>
              </table>
@@ -175,7 +175,9 @@
             <tr>
                 <td class="auto-style17">
                     
-                    <asp:Button ID="Button1" runat="server" OnClick="Button4_Click" Text="Finalizar" />
+                    <asp:ListBox ID="ListBox1" runat="server" Width="71px"></asp:ListBox>
+                    
+                    <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Finalizar" />
                     <asp:Label ID="Label9" runat="server"></asp:Label>
                     <br />
                     
@@ -188,7 +190,8 @@
                     
                 </td>
                 <td>
-                    <asp:Button ID="Button5" runat="server" Text="Skip" />
+                    <asp:ListBox ID="ListBox2" runat="server" Width="71px"></asp:ListBox>
+                    <asp:Button ID="Button3" runat="server" Text="Skip" OnClick="Button3_Click" />
                     <asp:Label ID="Label10" runat="server"></asp:Label>
                     
                     <br />

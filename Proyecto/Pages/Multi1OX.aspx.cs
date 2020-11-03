@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Proyecto.App_Code;
+using System.Xml;
 
 namespace Proyecto.Pages
 {
@@ -20,8 +22,8 @@ namespace Proyecto.Pages
             List<string> colors2 = new List<string>();
             Boolean apertura;
             Boolean igual = false;
-            Session["columnas"] = Int32.Parse(DropDownList1.Text);
-            Session["filas"] = Int32.Parse(DropDownList2.Text);
+            Session["filas"] = Int32.Parse(DropDownList1.Text);
+            Session["columnas"] = Int32.Parse(DropDownList2.Text);
             if (RadioButton3.Checked)
             {
                 apertura = true;
@@ -58,7 +60,13 @@ namespace Proyecto.Pages
             }
             Session["colors1"] = colors1;
             Session["colors2"] = colors2;
-            
+            if (RadioButton5.Checked)
+            {
+                Session["inicio"] = "player1";
+            }else if (RadioButton6.Checked)
+            {
+                Session["inicio"] = "player2";
+            }
             if (RadioButton1.Checked & igual == false)
             {
                 Response.Redirect("Multi2OX.aspx");
@@ -68,6 +76,42 @@ namespace Proyecto.Pages
                 Response.Redirect("Multi2OXIn.aspx");
             }
 
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            int filas = Int32.Parse(DropDownList1.Text);
+            int columnas = Int32.Parse(DropDownList2.Text);
+            if (FileUpload1.HasFile)
+            {
+                FileUpload1.SaveAs(Server.MapPath("~/Archivos/" + FileUpload1.FileName));
+                Ficaha[,] ta = new Ficaha[8, 8];
+                for (int i = 0; i < filas; i++)
+                {
+                    for (int j = 0; j < columnas; j++)
+                    {
+                        Ficaha agrego = new Ficaha();
+                        agrego.llenado = false;
+                        ta[i, j] = agrego;
+                    }
+                }
+                XmlReader reader = XmlReader.Create(@"C:\Users\Byron Alvarez\Desktop\Proyectos\Proyecto\Proyecto\Archivos\" + FileUpload1.FileName);
+                while (reader.Read())
+                {
+                    if (reader.IsStartElement())
+                    {
+                        switch (reader.Name.ToString())
+                        {
+                            case "filas":
+                                Session["filas"] = Int32.Parse(reader.ReadString());
+                                break;
+                            case "columnas":
+                                Session["columnas"] = Int32.Parse(reader.ReadString());
+                                break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
