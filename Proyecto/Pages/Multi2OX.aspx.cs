@@ -447,7 +447,7 @@ namespace Proyecto.Pages
                 
             }
 
-            RePintarTablero();
+            
 
 
         }
@@ -1186,49 +1186,7 @@ namespace Proyecto.Pages
             }
         }
 
-        public void RePintarTablero()
-        {
-            for(int i = 0; i < fila; i++)
-            {
-                for (int j = 0; j < columnas; j++)
-                {
-                    switch (tablero[i, j].color)
-                    {
-                        case "blanco":
-                            botones[i, j].ImageUrl = ("stuff/blanca.jpg");
-                            break;
-                        case "negro":
-                            botones[i, j].ImageUrl = ("stuff/negra.jpg");
-                            break;
-                        case "rojo":
-                            botones[i, j].ImageUrl = ("stuff/roja.jpg");
-                            break;
-                        case "amarillo":
-                            botones[i, j].ImageUrl = ("stuff/amarillo.jpg");
-                            break;
-                        case "azul":
-                            botones[i, j].ImageUrl = ("stuff/azul.jpg");
-                            break;
-                        case "anaranjado":
-                            botones[i, j].ImageUrl = ("stuff/anaranjado.jpg");
-                            break;
-                        case "verde":
-                            botones[i, j].ImageUrl = ("stuff/verde.jpg");
-                            break;
-                        case "violeta":
-                            botones[i, j].ImageUrl = ("stuff/violeta.jpg");
-                            break;
-                        case "celeste":
-                            botones[i, j].ImageUrl = ("stuff/celeste.jpg");
-                            break;
-                        case "gris":
-                            botones[i, j].ImageUrl = ("stuff/gris.jpg");
-                            break;
-                    }
-                }
-            }
-
-        }
+        
 
         
     }
