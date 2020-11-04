@@ -247,7 +247,6 @@ namespace Proyecto.Pages
                             case "color":
                                 color = reader.ReadString();
                                 tiro = color;
-                                //Label1.Text = tiro;
                                 break;
                             case "columna":
                                 x = reader.ReadString();
@@ -255,9 +254,7 @@ namespace Proyecto.Pages
                             case "fila":
                                 y = Int32.Parse(reader.ReadString());
                                 break;
-                                //case "siguienteTiro":
-                                //    tiro = reader.ReadString();
-                                //    break;
+                                
                         }
 
                     }

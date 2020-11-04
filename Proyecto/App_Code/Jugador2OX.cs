@@ -9,7 +9,7 @@ namespace Proyecto.App_Code
     {
         public string name { get; set; }
 
-        public List<string> colors { get; set; }
+        public List<string> colors = new List<string>();
 
         public int score { get; set; }
 

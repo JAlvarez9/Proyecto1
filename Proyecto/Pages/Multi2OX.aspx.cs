@@ -16,7 +16,6 @@ namespace Proyecto.Pages
         public SqlConnection conexion;
         Usuario actual = new Usuario();
         static Jugador player;
-        //static int score2;
         static string[] turnos = new string[2];
         static string turnoactual = "";
         static Ficaha[,] tablero;
@@ -33,29 +32,62 @@ namespace Proyecto.Pages
         public Jugador2OX jugador2 = new Jugador2OX();
         static int color1 = 0;
         static int color2 = 0;
+        Boolean cargar;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            cargar = (Boolean)Session["cargar"];
             if (!IsPostBack)
             {
-                columnas = (int)Session["columnas"];
-                fila = (int)Session["filas"];
-                apertura = (Boolean)Session["apertura"];
-                jugador1.colors = (List<string>)Session["colors1"];
-                jugador2.colors = (List<string>)Session["colors2"];
-                CreacionTablero();
-                Inicializacion();
-                
+                if (cargar)
+                {
+                    
+                    columnas = (int)Session["columnas"];
+                    fila = (int)Session["filas"];
+                    jugador1 = (Jugador1OX) Session["jugador1"];
+                    jugador2 = (Jugador2OX) Session["jugador2"];
+                    tablero = (Ficaha[,])Session["tablero"];
+                    apertura = (Boolean)Session["apertura"];
+                    turnoactual = (string)Session["turnoactual"];
+                    color1 = (int)Session["color1"];
+                    color2 = (int)Session["color2"];
+                    CreacionTableroCarga();
+                }
+                else
+                {
+                    columnas = (int)Session["columnas"];
+                    fila = (int)Session["filas"];
+                    apertura = (Boolean)Session["apertura"];
+                    jugador1.colors = (List<string>)Session["colors1"];
+                    jugador2.colors = (List<string>)Session["colors2"];
+                    CreacionTablero();
+                    Inicializacion();
+
+                }
+
             }
             else
             {
-                jugador1.colors = (List<string>)Session["colors1"];
-                jugador2.colors = (List<string>)Session["colors2"];
-                apertura = (Boolean)Session["apertura"];
-                columnas = (int)Session["columnas"];
-                fila = (int)Session["filas"];
-                MOdificacionTablero();
+                if (cargar)
+                {
+                    jugador1 = (Jugador1OX)Session["jugador1"];
+                    jugador2 = (Jugador2OX)Session["jugador2"];
+                    apertura = (Boolean)Session["apertura"];
+                    columnas = (int)Session["columnas"];
+                    fila = (int)Session["filas"];
+                    MOdificacionTablero();
+                }
+                else
+                {
+                    jugador1.colors = (List<string>)Session["colors1"];
+                    jugador2.colors = (List<string>)Session["colors2"];
+                    apertura = (Boolean)Session["apertura"];
+                    columnas = (int)Session["columnas"];
+                    fila = (int)Session["filas"];
+                    MOdificacionTablero();
+                }
+
+                
                  
             }
 
@@ -66,6 +98,8 @@ namespace Proyecto.Pages
 
         public void Inicializacion()
         {
+            color1 = 0;
+            color2 = 0;
             player = new Jugador();
             turnos[0] = "player1";
             turnos[1] = "player2";
@@ -303,7 +337,7 @@ namespace Proyecto.Pages
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
             ImageButton clickedButton = (ImageButton)sender;
-
+            //clickedButton.ImageUrl = ("stuff/amarillo.jpg");
             if (firstmoves < 4 & apertura == true)
             {
                 if (turnoactual == "player1")
@@ -374,6 +408,7 @@ namespace Proyecto.Pages
                     }
                 }
                 Puntuaciones();
+
             }
             else
             {
@@ -409,9 +444,10 @@ namespace Proyecto.Pages
                 }
                 Puntuaciones();
                 VerificarJuego();
+                
             }
-            PintarTablero();
-            
+
+            RePintarTablero();
 
 
         }
@@ -488,7 +524,7 @@ namespace Proyecto.Pages
                                     change[k].color = jugador1.colors[color1];
                                 }
                                 next = true;
-                                PintarTablero();
+                                
                                 turnoactual = "player2";
                                 
                             }
@@ -511,6 +547,7 @@ namespace Proyecto.Pages
             {
                 color1 += 1;
                 TurnosColores();
+                PintarTablero();
                 Label3.Text = jugador1.colors[color1];
                 Label6.Text = jugador2.colors[color2] + "<--";
             }
@@ -587,9 +624,7 @@ namespace Proyecto.Pages
                                     change[k].color = jugador2.colors[color2]; ;
                                 }
                                 next = true;
-
-
-                                PintarTablero();
+                                
                                 turnoactual = "player1";
                             }
                             else
@@ -610,6 +645,7 @@ namespace Proyecto.Pages
             {
                 color2 += 1;
                 TurnosColores();
+                PintarTablero();
                 Label3.Text = jugador1.colors[color1] + "<-";
                 Label6.Text = jugador2.colors[color2];
             }
@@ -1064,6 +1100,80 @@ namespace Proyecto.Pages
             PintarTablero();
         }
 
+        public void CreacionTableroCarga()
+        {
+
+            int cont = 0;
+            string[] abece = new string[20] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "U" };
+            botones = new ImageButton[fila, columnas];
+            TableRow first = new TableRow();
+            TableCell fas = new TableCell();
+            fas.Text = ".";
+            fas.BorderWidth = 2;
+            first.Cells.Add(fas);
+            for (int i = 0; i < columnas; i++)
+            {
+                TableCell y = new TableCell();
+                y.Text = abece[i];
+                y.BorderWidth = 2;
+
+                first.Cells.Add(y);
+            }
+            Table1.Rows.Add(first);
+            for (int i = 0; i < fila; i++)
+            {
+                TableRow r = new TableRow();
+                TableCell ias = new TableCell();
+                ias.Text = (i + 1).ToString();
+                ias.BorderWidth = 2;
+                r.Cells.Add(ias);
+                for (int j = 0; j < columnas; j++)
+                {
+                    tablero[i, j].x = abece[j];
+                    tablero[i, j].x1 = j;
+                    tablero[i, j].y = i;
+                    TableCell niu = new TableCell();
+                    niu.BorderWidth = 2;
+                    ImageButton ibt = new ImageButton
+                    {
+                        ID = "i" + cont.ToString(),
+                        ImageUrl = "stuff\\tans.png"
+                    };
+                    ibt.Click += new ImageClickEventHandler(ImageButton1_Click);
+                    botones[i, j] = ibt;
+                    niu.Controls.Add(ibt);
+                    r.Cells.Add(niu);
+
+                    cont++;
+                }
+
+                Table1.Rows.Add(r);
+
+            }
+            for (int i = 0; i < jugador1.colors.Count; i++)
+            {
+                ListBox1.Items.Add(jugador1.colors[i]);
+            }
+            for (int i = 0; i < jugador2.colors.Count; i++)
+            {
+                ListBox2.Items.Add(jugador2.colors[i]);
+            }
+            Label1.Text = jugador1.name;
+            Label4.Text = jugador2.name;
+            if (turnoactual == "player1")
+            {
+                Label3.Text = jugador1.colors[color1] + "<--";
+                Label6.Text = jugador2.colors[color2];
+            }
+            else if (turnoactual == "player2")
+            {
+                Label3.Text = jugador1.colors[color1];
+                Label6.Text = jugador2.colors[color2] + "<--";
+            }
+            Puntuaciones();
+            PintarTablero();
+        }
+
         public void TurnosColores()
         {
             if(color1 == jugador1.colors.Count)
@@ -1074,6 +1184,50 @@ namespace Proyecto.Pages
             {
                 color2 = 0;
             }
+        }
+
+        public void RePintarTablero()
+        {
+            for(int i = 0; i < fila; i++)
+            {
+                for (int j = 0; j < columnas; j++)
+                {
+                    switch (tablero[i, j].color)
+                    {
+                        case "blanco":
+                            botones[i, j].ImageUrl = ("stuff/blanca.jpg");
+                            break;
+                        case "negro":
+                            botones[i, j].ImageUrl = ("stuff/negra.jpg");
+                            break;
+                        case "rojo":
+                            botones[i, j].ImageUrl = ("stuff/roja.jpg");
+                            break;
+                        case "amarillo":
+                            botones[i, j].ImageUrl = ("stuff/amarillo.jpg");
+                            break;
+                        case "azul":
+                            botones[i, j].ImageUrl = ("stuff/azul.jpg");
+                            break;
+                        case "anaranjado":
+                            botones[i, j].ImageUrl = ("stuff/anaranjado.jpg");
+                            break;
+                        case "verde":
+                            botones[i, j].ImageUrl = ("stuff/verde.jpg");
+                            break;
+                        case "violeta":
+                            botones[i, j].ImageUrl = ("stuff/violeta.jpg");
+                            break;
+                        case "celeste":
+                            botones[i, j].ImageUrl = ("stuff/celeste.jpg");
+                            break;
+                        case "gris":
+                            botones[i, j].ImageUrl = ("stuff/gris.jpg");
+                            break;
+                    }
+                }
+            }
+
         }
 
         

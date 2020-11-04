@@ -35,9 +35,6 @@
             height: 28px;
             width: 136px;
         }
-        .auto-style15 {
-            width: 323px;
-        }
         .auto-style16 {
             width: 100%;
             height: 378px;
@@ -53,75 +50,94 @@
 
         }
 
-        .auto-style23 {
-            height: 74px;
-        }
-
-        .auto-style25 {
-            overflow: scroll;
-            height: 372px;
+        .auto-style26 {
+            width: 237px;
         }
 
     </style>
-    <script>
-        //se obtuvo ayuda del siguiente link para la realizacion del codigo https://es.stackoverflow.com/questions/200537/crear-tabla-din%C3%A1mica-html-y-js
-        function crear(){
-            var col = '<%=columnas%>';
-            var filas = '<%=filas%>';
-            var tabla = "<table border=\"0\">";
-            var cont = 0;
-            var cont2 = 0;
-            var ident = cont2 + cont;
-    	    mai=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","U","V","W","X","Y","Z"];
-    	    tabla+="<tr><td></td>";
-    	    for(j=0;j<col;j++){ 
-        	    tabla+="<td>"+(mai[j])+ "</td>";
-    	    }
-    	    tabla+="</tr>";
-            //<asp:ImageButton ID="i01" runat="server" ImageUrl="stuff\tans.png" Height="35px" OnClick="ImageButton1_Click" Width="45px"/>
-    	    for(i=0;i<filas;i++){
-        	    tabla+="<tr>";
-        	    tabla+="<td>"+(i+1)+ "</td>";
-                for (j = 0; j < col; j++){
-                    tabla += "<td>"+"<input type=\"button\" size=\"15\">"+ "</td>";
-                    cont++;
-            	    if(cont < 9){
-        			cont2++;
-        			cont = 0
-        		    }
-        		    ident = cont2+cont;
-        	    }
-        	    tabla+="</tr>";
-    	    }
-    	    tabla+="</table>";
-    	    document.getElementById("tabla").innerHTML=tabla;
-	    }
-       }
+    <script type="text/javascript">
+        //se consigui parte del codigo de https://francescricart.com/ejercicio-js-crear-un-cronometro-con-javascript/    
+	    window.onload = init;
+        function init(){
+            h = 0;
+            m = 0;
+            s = 0;
+            h2 = 0;
+            m2 = 0;
+            s2 = 0;
+            if(times )
+            document.getElementById("hms").innerHTML = "00:00:00";
+            document.getElementById("hms2").innerHTML = "00:00:00";
+            
+            
+        }         
+        function cronometrar(){
+            escribir();
+            id = setInterval(escribir,1000);
+            
+        }
+        function cronometrar2(){
+            escribir2();
+            id2 = setInterval(escribir2,1000);
+            
+        }
+        function escribir(){
+            var hAux, mAux, sAux;
+            s++;
+            if (s>59){m++;s=0;}
+            if (m>59){h++;m=0;}
+            if (h>24){h=0;}
 
+            if (s<10){sAux="0"+s;}else{sAux=s;}
+            if (m<10){mAux="0"+m;}else{mAux=m;}
+            if (h<10){hAux="0"+h;}else{hAux=h;}
+
+            document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux; 
+        }
+        function escribir2(){
+            var hAux2, mAux2, sAux2;
+            s2++;
+            if (s2>59){m2++;s2=0;}
+            if (m2>59){h2++;m2=0;}
+            if (h2>24){h2=0;}
+
+            if (s2<10){sAux2="0"+s2;}else{sAux2=s2;}
+            if (m2<10){mAux2="0"+m2;}else{mAux2=m2;}
+            if (h2<10){hAux2="0"+h2;}else{hAux2=h2;}
+
+            document.getElementById("hms2").innerHTML = hAux2 + ":" + mAux2 + ":" + sAux2; 
+            
+        }
+        function parar(){
+            clearInterval(id);
+            
+
+        }
+        function parar2(){
+            clearInterval(id2);
+            
+
+        }
+        
     </script>
+    
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="conte" runat="server">
 
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-        <ContentTemplate>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+         <ContentTemplate>
             <asp:ScriptManager ID="ScriptManager1" runat="server">
             </asp:ScriptManager>
-            <table class="auto-style23">
-            <tr>
-                <td >
-                    <asp:Button ID="Button1" runat="server" Height="43px" OnClick="Button1_Click" Text="Nueva Partida" Width="205px" />
-                </td>
-                <td >
-                    <asp:FileUpload ID="FileUpload1" runat="server" accept=".xml" Width="145px"/>
-                    <asp:Button ID="Button2" runat="server" Height="22px" OnClick="Button2_Click" Text="Cargar Partida" Width="234px" />
-                </td>
-                <td class="auto-style15" >
-                    <asp:TextBox ID="TextBox1" runat="server" Width="195px"></asp:TextBox>
-                    <asp:Button ID="Button3" runat="server" Height="26px" OnClick="Button3_Click" Text="Guardar Partida" Width="207px" />
-                </td>
-            </tr>
-        </table>
+             <table style="width:100%;">
+                 <tr>
+                     <td class="auto-style26">
+                         <asp:TextBox ID="TextBox1" runat="server" Width="180px"></asp:TextBox>
+                     </td>
+                     <td>
+                         <asp:Button ID="Button1" runat="server" Text="Guardar Partida" Width="195px" OnClick="Button1_Click" />
+                     </td>
+                 </tr>
+             </table>
         <br />
         <table style="width:100%;">
             <tr>
@@ -152,27 +168,30 @@
                     <asp:Label ID="Label6" runat="server"></asp:Label>
                 </td>
             </tr>
-        </table class="hide">
+        </table >
         <asp:Label ID="Label8" runat="server"></asp:Label>
         <br />
         <table class="auto-style16">
             <tr>
                 <td class="auto-style17">
                     
-                    <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Finalizar" />
+                    <asp:ListBox ID="ListBox1" runat="server" Width="71px"></asp:ListBox>
+                    
+                    <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Finalizar" />
                     <asp:Label ID="Label9" runat="server"></asp:Label>
                     <br />
                     
                 </td>
                 <td class="auto-style18">
                     
-                    <div id="tabla" class="auto-style25">
-
+                    <div id="tabla" style="width: 500px; height:300px; overflow:scroll;" >
+                        <asp:Table ID="Table1" runat="server" BorderWidth="2"></asp:Table>
                     </div>
                     
                 </td>
                 <td>
-                    <asp:Button ID="Button5" runat="server" Text="Skip" />
+                    <asp:ListBox ID="ListBox2" runat="server" Width="71px"></asp:ListBox>
+                    <asp:Button ID="Button3" runat="server" Text="Skip" OnClick="Button3_Click" />
                     <asp:Label ID="Label10" runat="server"></asp:Label>
                     
                     <br />
@@ -181,11 +200,8 @@
         </table>
         <br />
        
-
-
         </ContentTemplate>
     </asp:UpdatePanel>
 
 </asp:Content>
-
 
