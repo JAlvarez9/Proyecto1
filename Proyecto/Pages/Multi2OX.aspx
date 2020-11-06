@@ -178,7 +178,6 @@
                     <asp:ListBox ID="ListBox1" runat="server" Width="71px"></asp:ListBox>
                     
                     <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Finalizar" />
-                    <asp:Label ID="Label9" runat="server"></asp:Label>
                     <br />
                     
                 </td>
@@ -192,7 +191,6 @@
                 <td>
                     <asp:ListBox ID="ListBox2" runat="server" Width="71px"></asp:ListBox>
                     <asp:Button ID="Button3" runat="server" Text="Skip" OnClick="Button3_Click" />
-                    <asp:Label ID="Label10" runat="server"></asp:Label>
                     
                     <br />
                 </td>
@@ -203,5 +201,20 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
+     <asp:UpdatePanel runat="server" ID="UpdatePanel2" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:Timer ID="Cronometro1" runat="server" OnTick="Timer1_Tick" Interval="1000"></asp:Timer>
+            <asp:Timer ID="Cronometro2" runat="server" Interval="1000" OnTick="Cronometro2_Tick" ></asp:Timer>
+            <asp:Label ID="Label7" runat="server"></asp:Label>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Label ID="Label9" runat="server"></asp:Label>
+
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="Cronometro1" EventName="Tick" />
+            <asp:AsyncPostBackTrigger ControlID="Cronometro2" EventName="Tick" />
+        </Triggers>
+    </asp:UpdatePanel>
 </asp:Content>
 

@@ -73,50 +73,7 @@
         }
 
     </style>
-    <script type="text/javascript">
-        //se consigui parte del codigo de https://francescricart.com/ejercicio-js-crear-un-cronometro-con-javascript/    
-	    window.onload = init;
-        function init(){
-            h = 0;
-            m = 0;
-            s = 0;
-            h2 = 0;
-            m2 = 0;
-            s2 = 0;
-            if(times )
-            document.getElementById("hms").innerHTML = "00:00:00";
-            document.getElementById("hms2").innerHTML = "00:00:00";
-            
-            
-        }         
-        function cronometrar(){
-            escribir();
-            id = setInterval(escribir,1000);
-            
-        }
-        
-        function escribir(){
-            var hAux, mAux, sAux;
-            s++;
-            if (s>59){m++;s=0;}
-            if (m>59){h++;m=0;}
-            if (h>24){h=0;}
-
-            if (s<10){sAux="0"+s;}else{sAux=s;}
-            if (m<10){mAux="0"+m;}else{mAux=m;}
-            if (h<10){hAux="0"+h;}else{hAux=h;}
-
-            document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux; 
-        }
-        
-        function parar(){
-            clearInterval(id);
-            
-
-        }
-        
-    </script>
-
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="conte" runat="server">
 
@@ -177,7 +134,6 @@
                 <td class="auto-style17">
                     
                     <asp:Button ID="Button5" runat="server" OnClick="Button5_Click" Text="Finalizar" />
-                    <div id="hms"></div>
                     <br />
                     
                 </td>
@@ -425,6 +381,17 @@
         <asp:PostBackTrigger ControlID = "Button2" />
 
     </Triggers>
+    </asp:UpdatePanel>
+    
+    <asp:UpdatePanel runat="server" ID="UpdatePanel2" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:Timer ID="Cronometro1" runat="server" OnTick="Timer1_Tick" Interval="1000"></asp:Timer>
+            <asp:Label ID="Label8" runat="server"></asp:Label>
+
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="Cronometro1" EventName="Tick" />
+        </Triggers>
     </asp:UpdatePanel>
 
 </asp:Content>

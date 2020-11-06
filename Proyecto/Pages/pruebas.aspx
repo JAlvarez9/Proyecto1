@@ -60,12 +60,15 @@
     </style>
    
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="conte" runat="server">
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        
          <ContentTemplate>
             <asp:ScriptManager ID="ScriptManager1" runat="server">
             </asp:ScriptManager>
+             
             <table class="auto-style23">
             <tr>
                 <td >
@@ -117,11 +120,11 @@
                 <td class="auto-style17">
                     
                     <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Finalizar" />
-                    <asp:Label ID="Label9" runat="server"></asp:Label>
-                    <br />
                     
-                    <asp:DropDownList ID="DropDownList1" runat="server" Height="16px" Width="83px">
-                    </asp:DropDownList>
+                    
+                    <asp:Button ID="Button6" runat="server" OnClick="Button6_Click" Text="Button" />
+                    <asp:Button ID="Button7" runat="server" OnClick="Button7_Click1" Text="Button" />
+                    
                     
                 </td>
                 <td class="auto-style18">
@@ -133,7 +136,6 @@
                 </td>
                 <td>
                     <asp:Button ID="Button5" runat="server" Text="Skip" />
-                    <asp:Label ID="Label10" runat="server"></asp:Label>
                     
                     <br />
                 </td>
@@ -143,5 +145,30 @@
        
         </ContentTemplate>
     </asp:UpdatePanel>
+    <asp:UpdatePanel runat="server" ID="Cronometros" UpdateMode="Conditional">
+        <ContentTemplate>
+            <asp:Timer ID="Cronometro1" runat="server" Interval="900" OnTick="Timer1_Tick">
+             </asp:Timer>
+    <div>
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                            <asp:Label ID="Label9" runat="server"></asp:Label>
+                             </td>
+                <td>
+                    <asp:Label ID="Label10" runat="server"></asp:Label>
+                    
+                    </td>
+            </tr>
+            </table>
+    </div>
 
+
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="Cronometro1" EventName="Tick" />
+        </Triggers>
+    </asp:UpdatePanel>
+
+    
 </asp:Content>

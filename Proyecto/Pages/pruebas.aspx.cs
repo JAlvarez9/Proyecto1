@@ -24,11 +24,13 @@ namespace Proyecto.Pages
         static ImageButton[,] botones;
         static ImageButton[,] botones2;
         List<Ficaha> change;
-        public int columnas = 8;
+        public int columnas = 6;
         public int fila = 6;
         static int firstmoves = 0;
         int enmedioX;
         int enmedioY;
+        static int segundos = 0;
+        static int minutos = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -100,9 +102,7 @@ namespace Proyecto.Pages
             Label1.Text = actual.NmUsuario;
 
         }
-
-
-
+        
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
             
@@ -127,11 +127,13 @@ namespace Proyecto.Pages
                     
                     if (player.color == "negro")
                     {
+                        Cronometro1.Enabled = false;
                         Label6.Text = "Blanco" + "<--";
                         Label3.Text = "Negro";
                     }
                     else if (player.color != "negro")
                     {
+                        Cronometro1.Enabled = true;
                         Label3.Text = "Blanco" + "<--";
                         Label6.Text = "Negro";
                     }
@@ -154,11 +156,13 @@ namespace Proyecto.Pages
                     }
                     if (player.color == "blanco")
                     {
+                        Cronometro1.Enabled = false;
                         Label6.Text = "Negro" + "<--";
                         Label3.Text = "Blanco";
                     }
                     else if (player.color != "blanco")
                     {
+                        Cronometro1.Enabled = true;
                         Label3.Text = "Negro" + "<--";
                         Label6.Text = "Blanco";
                     }
@@ -237,8 +241,7 @@ namespace Proyecto.Pages
 
 
         }
-
-
+        
         public Ficaha Creacion(int id, string color)
         {
             Ficaha nueva = new Ficaha();
@@ -372,8 +375,7 @@ namespace Proyecto.Pages
             }
             return x1;
         }
-
-
+        
         public void Bloqueo()
         {
             tablero = (Ficaha[,])Session["tab"];
@@ -1130,7 +1132,7 @@ namespace Proyecto.Pages
                     niu.Controls.Add(ibt);
                     r.Cells.Add(niu);
                     ListItem li = new ListItem(ibt.ID, cont.ToString()); ;
-                    DropDownList1.Items.Add(li);
+                    //DropDownList1.Items.Add(li);
                     //Page.Controls.Add(ibt);
                     cont++;
                     
@@ -1188,7 +1190,7 @@ namespace Proyecto.Pages
                     niu.Controls.Add(ibt);
                     r.Cells.Add(niu);
                     ListItem li = new ListItem(ibt.ID, cont.ToString()); ;
-                    DropDownList1.Items.Add(li);
+                    //DropDownList1.Items.Add(li);
                     //Page.Controls.Add(ibt);
                     cont++;
 
@@ -1203,5 +1205,26 @@ namespace Proyecto.Pages
 
         }
 
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            Label9.Text = minutos.ToString() + ":" + segundos.ToString();
+            segundos += 1;
+            if (segundos > 59)
+            {
+                segundos = 0;
+                minutos += 1;
+            }
+        }
+       
+
+        protected void Button7_Click1(object sender, EventArgs e)
+        {
+            Cronometro1.Enabled = true;
+        }
+
+        protected void Button6_Click(object sender, EventArgs e)
+        {
+            Cronometro1.Enabled = false;
+        }
     }
 }

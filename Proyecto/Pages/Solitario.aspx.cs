@@ -26,13 +26,15 @@ namespace Proyecto.Pages
         static Ficaha[,] tablero;
         static ImageButton[,] botones = new ImageButton[8, 8];
         List<Ficaha> change;
-        static int firstmoves = 0;
+        static int segundos = 0;
+        static int minutos = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
             if (!IsPostBack)
             {
+                //Cronometro1.Enabled = false;
                 //Label4.Text = "Primer carga";
                 Session["botones"] = botones;
                 Session["tab"] = tablero;
@@ -110,6 +112,7 @@ namespace Proyecto.Pages
             turnoactual = "negro";
             if (player.color == "negro")
             {
+                Cronometro1.Enabled = true;
                 Label3.Text = "Negro <--";
             }
             else if (player.color != "negro")
@@ -329,7 +332,7 @@ namespace Proyecto.Pages
                 //Bloqueo();
                 Puntuaciones();
                 Button3.Enabled = true;
-                firstmoves = 5;
+                
             }
             else
             {
@@ -859,14 +862,12 @@ namespace Proyecto.Pages
                                 }
                                 if (turnoactual == player.color)
                                 {
-                                    string javaScript4 = "parar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script34", javaScript4, true);
+                                    Cronometro1.Enabled = false;
 
                                 }
                                 else
                                 {
-                                    string javaScript = "cronometrar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script5", javaScript, true);
+                                    Cronometro1.Enabled = true;
                                 }
                                 for (int p = 0; p < 8; p++)
                                 {
@@ -882,7 +883,7 @@ namespace Proyecto.Pages
                             }
                             else
                             {
-                                turnoactual = "blanco";
+                                //turnoactual = "blanco";
                             }
 
                         }
@@ -982,6 +983,7 @@ namespace Proyecto.Pages
                                     Label3.Text = "Negro" + "<--";
                                     Label6.Text = "Blanco";
                                 }
+
                                 yes = true;
                             }
                             else
@@ -1081,14 +1083,12 @@ namespace Proyecto.Pages
                                 }
                                 if (turnoactual == player.color)
                                 {
-                                    string javaScript4 = "parar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script4", javaScript4, true);
+                                    Cronometro1.Enabled = false;
 
                                 }
                                 else
                                 {
-                                    string javaScript = "cronometrar();";
-                                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
+                                    Cronometro1.Enabled = true;
                                 }
                                 for (int p = 0; p < 8; p++)
                                 {
@@ -1104,7 +1104,7 @@ namespace Proyecto.Pages
                             }
                             else
                             {
-                                turnoactual = "negro";
+                                //turnoactual = "negro";
                             }
                         }
                     }
@@ -1543,8 +1543,6 @@ namespace Proyecto.Pages
             
             if (turnoactual == "negro")
             {
-                string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
                 Boolean salir = false;
                 List<Ficaha> list = new List<Ficaha>();
                 for (int i = 0; i < 8; i++)
@@ -1563,6 +1561,7 @@ namespace Proyecto.Pages
                             salir = MovimientoNegro2((int)nueva.y, nueva.x1, nueva);
                             if (salir)
                             {
+                                Cronometro1.Enabled = true;
                                 break;
                             }
 
@@ -1601,6 +1600,7 @@ namespace Proyecto.Pages
                             salir = MovimientoBlanco2((int)nueva.y, nueva.x1, nueva);
                             if (salir)
                             {
+                                Cronometro1.Enabled = true;
                                 break;
                             }
 
@@ -1768,6 +1768,17 @@ namespace Proyecto.Pages
 
                     }
                 }
+            }
+        }
+
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            Label8.Text = minutos.ToString() + ":" + segundos.ToString();
+            segundos += 1;
+            if(segundos > 60)
+            {
+                segundos = 0;
+                minutos += 1;
             }
         }
     }

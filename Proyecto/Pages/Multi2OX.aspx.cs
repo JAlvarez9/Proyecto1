@@ -33,12 +33,18 @@ namespace Proyecto.Pages
         static int color1 = 0;
         static int color2 = 0;
         Boolean cargar;
+        static int segundos1 = 0;
+        static int segundos2 = 0;
+        static int minutos1 = 0;
+        static int minutos2 = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             cargar = (Boolean)Session["cargar"];
             if (!IsPostBack)
             {
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = false;
                 if (cargar)
                 {
                     
@@ -68,6 +74,7 @@ namespace Proyecto.Pages
             }
             else
             {
+                
                 if (cargar)
                 {
                     jugador1 = (Jugador1OX)Session["jugador1"];
@@ -121,11 +128,15 @@ namespace Proyecto.Pages
             
             if (turnoactual == "player1")
             {
+                Cronometro1.Enabled = true;
+                Cronometro2.Enabled = false;
                 Label3.Text = jugador1.colors[color1] + "<--";
                 Label6.Text = jugador2.colors[color2];
             }
             else if (turnoactual == "player2")
             {
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = true;
                 Label3.Text = jugador1.colors[color1];
                 Label6.Text = jugador2.colors[color2] + "<--";
             }
@@ -337,7 +348,6 @@ namespace Proyecto.Pages
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
         {
             ImageButton clickedButton = (ImageButton)sender;
-            //clickedButton.ImageUrl = ("stuff/amarillo.jpg");
             if (firstmoves < 4 & apertura == true)
             {
                 if (turnoactual == "player1")
@@ -545,6 +555,8 @@ namespace Proyecto.Pages
             }
             if (next)
             {
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = true;
                 color1 += 1;
                 TurnosColores();
                 PintarTablero();
@@ -643,6 +655,8 @@ namespace Proyecto.Pages
             }
             if (next)
             {
+                Cronometro1.Enabled = true;
+                Cronometro2.Enabled = false;
                 color2 += 1;
                 TurnosColores();
                 PintarTablero();
@@ -771,6 +785,7 @@ namespace Proyecto.Pages
         
         public void PintarTablero()
         {
+            
             for (int i = 0; i < fila; i++)
             {
                 for (int j = 0; j < columnas; j++)
@@ -778,40 +793,49 @@ namespace Proyecto.Pages
                     switch (tablero[i, j].color)
                     {
                         case "blanco":
-                            botones[i, j].ImageUrl = ("stuff/blanca.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\blanca.jpg");
                             break;
                         case "negro":
-                            botones[i, j].ImageUrl = ("stuff/negra.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\negra.jpg");
                             break;
                         case "rojo":
-                            botones[i, j].ImageUrl = ("stuff/roja.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\roja.jpg");
                             break;
                         case "amarillo":
-                            botones[i, j].ImageUrl = ("stuff/amarillo.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\amarillo.jpg");
+                            
                             break;
                         case "azul":
-                            botones[i, j].ImageUrl = ("stuff/azul.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\azul.jpg");
                             break;
                         case "anaranjado":
-                            botones[i, j].ImageUrl = ("stuff/anaranjado.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\anaranjado.jpg");
+                            
                             break;
                         case "verde":
-                            botones[i, j].ImageUrl = ("stuff/verde.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\verde.jpg");
+                            
                             break;
                         case "violeta":
-                            botones[i, j].ImageUrl = ("stuff/violeta.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\violeta.jpg");
+                            
                             break;
                         case "celeste":
-                            botones[i, j].ImageUrl = ("stuff/celeste.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\celeste.jpg");
+                            
                             break;
                         case "gris":
-                            botones[i, j].ImageUrl = ("stuff/gris.jpg");
+                            botones[i, j].ImageUrl = ("stuff\\gris.jpg");
+                            
                             break;
                     }
                     
                 }
             }
+
+           
         }
+        
 
         public void VerificarJuego()
         {
@@ -1043,7 +1067,6 @@ namespace Proyecto.Pages
             int cont = 0;
             string[] abece = new string[20] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "U" };
             
-            botones2 = new ImageButton[fila, columnas];
             TableRow first = new TableRow();
             TableCell fas = new TableCell();
             fas.Text = ".";
@@ -1076,7 +1099,7 @@ namespace Proyecto.Pages
                         ImageUrl = "stuff\\tans.png"
                     };
                     ibt.Click += new ImageClickEventHandler(ImageButton1_Click);
-                    botones2[i, j] = ibt;
+                    botones[i, j] = ibt;
                     niu.Controls.Add(ibt);
                     r.Cells.Add(niu);
                     
@@ -1087,10 +1110,11 @@ namespace Proyecto.Pages
                 }
 
                 Table1.Rows.Add(r);
-                botones2 = botones;
                 
             }
-            for(int i = 0; i<fila; i++)
+            
+            
+            for (int i = 0; i<fila; i++)
             {
                 for(int j =0; j < columnas; j++)
                 {
@@ -1162,11 +1186,15 @@ namespace Proyecto.Pages
             Label4.Text = jugador2.name;
             if (turnoactual == "player1")
             {
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = true;
                 Label3.Text = jugador1.colors[color1] + "<--";
                 Label6.Text = jugador2.colors[color2];
             }
             else if (turnoactual == "player2")
             {
+                Cronometro1.Enabled = true;
+                Cronometro2.Enabled = false;
                 Label3.Text = jugador1.colors[color1];
                 Label6.Text = jugador2.colors[color2] + "<--";
             }
@@ -1186,8 +1214,26 @@ namespace Proyecto.Pages
             }
         }
 
-        
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            Label7.Text = minutos1.ToString() + ':' + segundos1.ToString();
+            segundos1 += 1;
+            if(segundos1 > 60)
+            {
+                segundos1 = 0;
+                minutos1 += 1;
+            }
+        }
 
-        
+        protected void Cronometro2_Tick(object sender, EventArgs e)
+        {
+            Label9.Text = minutos2.ToString() + ':' + segundos2.ToString();
+            segundos2 += 1;
+            if (segundos2 > 60)
+            {
+                segundos2 = 0;
+                minutos2 += 1;
+            }
+        }
     }
 }
