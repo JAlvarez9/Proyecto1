@@ -34,12 +34,22 @@ namespace Proyecto.Pages
         static int color1 = 0;
         static int color2 = 0;
         Boolean cargar;
+        static int segundos1 = 0;
+        static int segundos2 = 0;
+        static int minutos1 = 0;
+        static int minutos2 = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             cargar = (Boolean)Session["cargar"];
             if (!IsPostBack)
             {
+                minutos1 = 0;
+                minutos2 = 0;
+                segundos1 = 0;
+                segundos2 = 0;
+                Cronometro1.Enabled = false;
+                Cronometro1.Enabled = false;
                 if (cargar)
                 {
 
@@ -122,11 +132,15 @@ namespace Proyecto.Pages
 
             if (turnoactual == "player1")
             {
+                Cronometro1.Enabled = true;
+                Cronometro2.Enabled = false;
                 Label3.Text = jugador1.colors[color1] + "<--";
                 Label6.Text = jugador2.colors[color2];
             }
             else if (turnoactual == "player2")
             {
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = true;
                 Label3.Text = jugador1.colors[color1];
                 Label6.Text = jugador2.colors[color2] + "<--";
             }
@@ -547,6 +561,8 @@ namespace Proyecto.Pages
             }
             if (next)
             {
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = true;
                 color1 += 1;
                 TurnosColores();
                 PintarTablero();
@@ -645,6 +661,8 @@ namespace Proyecto.Pages
             }
             if (next)
             {
+                Cronometro1.Enabled = true;
+                Cronometro2.Enabled = false;
                 color2 += 1;
                 TurnosColores();
                 PintarTablero();
@@ -932,7 +950,7 @@ namespace Proyecto.Pages
             {
                 this.error = ex.Message;
             }
-            Label8.Text = this.error;
+            Label10.Text = this.error;
         }
 
         public void SQLcreationsLoose()
@@ -954,7 +972,7 @@ namespace Proyecto.Pages
             {
                 this.error = ex.Message;
             }
-            Label8.Text = this.error;
+            Label10.Text = this.error;
         }
 
         public void SQLcreationsDraw()
@@ -976,7 +994,7 @@ namespace Proyecto.Pages
             {
                 this.error = ex.Message;
             }
-            Label8.Text = this.error;
+            Label10.Text = this.error;
 
         }
 
@@ -1045,7 +1063,7 @@ namespace Proyecto.Pages
             int cont = 0;
             string[] abece = new string[20] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "U" };
 
-            botones2 = new ImageButton[fila, columnas];
+            
             TableRow first = new TableRow();
             TableCell fas = new TableCell();
             fas.Text = ".";
@@ -1078,7 +1096,7 @@ namespace Proyecto.Pages
                         ImageUrl = "stuff\\tans.png"
                     };
                     ibt.Click += new ImageClickEventHandler(ImageButton1_Click);
-                    botones2[i, j] = ibt;
+                    botones[i, j] = ibt;
                     niu.Controls.Add(ibt);
                     r.Cells.Add(niu);
 
@@ -1089,7 +1107,7 @@ namespace Proyecto.Pages
                 }
 
                 Table1.Rows.Add(r);
-                botones2 = botones;
+                
 
             }
             for (int i = 0; i < fila; i++)
@@ -1164,11 +1182,15 @@ namespace Proyecto.Pages
             Label4.Text = jugador2.name;
             if (turnoactual == "player1")
             {
+                Cronometro1.Enabled = true;
+                Cronometro2.Enabled = false;
                 Label3.Text = jugador1.colors[color1] + "<--";
                 Label6.Text = jugador2.colors[color2];
             }
             else if (turnoactual == "player2")
             {
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = true;
                 Label3.Text = jugador1.colors[color1];
                 Label6.Text = jugador2.colors[color2] + "<--";
             }
@@ -1188,6 +1210,26 @@ namespace Proyecto.Pages
             }
         }
 
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            Label7.Text = minutos1.ToString() + ':' + segundos1.ToString();
+            segundos1 += 1;
+            if (segundos1 > 59)
+            {
+                segundos1 = 0;
+                minutos1 += 1;
+            }
+        }
 
+        protected void Cronometro2_Tick(object sender, EventArgs e)
+        {
+            Label9.Text = minutos2.ToString() + ':' + segundos2.ToString();
+            segundos2 += 1;
+            if (segundos2 > 59)
+            {
+                segundos2 = 0;
+                minutos2 += 1;
+            }
+        }
     }
 }

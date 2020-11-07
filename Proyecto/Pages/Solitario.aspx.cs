@@ -34,7 +34,9 @@ namespace Proyecto.Pages
 
             if (!IsPostBack)
             {
-                //Cronometro1.Enabled = false;
+                segundos = 0;
+                minutos = 0;
+                Cronometro1.Enabled = false;
                 //Label4.Text = "Primer carga";
                 Session["botones"] = botones;
                 Session["tab"] = tablero;
@@ -173,12 +175,8 @@ namespace Proyecto.Pages
             //Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
 
-            Session["botones"] = botones;
-            if (player.color == "negro")
-            {
-                string javaScript = "cronometrar();";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", javaScript, true);
-            }
+            //Session["botones"] = botones;
+           
 
             //Bloqueo();
             //HabilitarBotones();
@@ -1775,7 +1773,7 @@ namespace Proyecto.Pages
         {
             Label8.Text = minutos.ToString() + ":" + segundos.ToString();
             segundos += 1;
-            if(segundos > 60)
+            if(segundos > 59)
             {
                 segundos = 0;
                 minutos += 1;

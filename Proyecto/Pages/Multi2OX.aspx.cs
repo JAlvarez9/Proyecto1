@@ -1186,15 +1186,15 @@ namespace Proyecto.Pages
             Label4.Text = jugador2.name;
             if (turnoactual == "player1")
             {
-                Cronometro1.Enabled = false;
-                Cronometro2.Enabled = true;
+                Cronometro1.Enabled = true;
+                Cronometro2.Enabled = false;
                 Label3.Text = jugador1.colors[color1] + "<--";
                 Label6.Text = jugador2.colors[color2];
             }
             else if (turnoactual == "player2")
             {
-                Cronometro1.Enabled = true;
-                Cronometro2.Enabled = false;
+                Cronometro1.Enabled = false;
+                Cronometro2.Enabled = true;
                 Label3.Text = jugador1.colors[color1];
                 Label6.Text = jugador2.colors[color2] + "<--";
             }
@@ -1218,7 +1218,7 @@ namespace Proyecto.Pages
         {
             Label7.Text = minutos1.ToString() + ':' + segundos1.ToString();
             segundos1 += 1;
-            if(segundos1 > 60)
+            if(segundos1 > 59)
             {
                 segundos1 = 0;
                 minutos1 += 1;
@@ -1229,7 +1229,7 @@ namespace Proyecto.Pages
         {
             Label9.Text = minutos2.ToString() + ':' + segundos2.ToString();
             segundos2 += 1;
-            if (segundos2 > 60)
+            if (segundos2 > 59)
             {
                 segundos2 = 0;
                 minutos2 += 1;

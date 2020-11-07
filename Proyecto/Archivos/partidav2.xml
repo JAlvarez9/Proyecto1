@@ -9,7 +9,7 @@
 	    <color>negro</color>
 	    <color>verde</color>
     </Jugador2>
-    <Modalidad>Normal</Modalidad>
+    <Modalidad>Inversa</Modalidad>
     <tablero>
         <ficha>
             <color>negro</color>
