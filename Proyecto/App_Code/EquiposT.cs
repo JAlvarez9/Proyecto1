@@ -10,7 +10,7 @@ namespace Proyecto.App_Code
         public string name;
         public List<JugadoresT> jugadores = new List<JugadoresT>();
         Boolean vivo;
-        public int score;
+        public int score =0;
         public EquiposT()
         {
 

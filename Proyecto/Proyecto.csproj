@@ -82,6 +82,13 @@
     <Compile Include="Pages\InicioOX.aspx.designer.cs">
       <DependentUpon>InicioOX.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\JuegoTorneo.aspx.cs">
+      <DependentUpon>JuegoTorneo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\JuegoTorneo.aspx.designer.cs">
+      <DependentUpon>JuegoTorneo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MenuSolitarioOX.aspx.cs">
       <DependentUpon>MenuSolitarioOX.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -184,6 +191,7 @@
     <Content Include="Pages\Formulario.aspx" />
     <Content Include="Pages\Inicio.aspx" />
     <Content Include="Pages\InicioOX.aspx" />
+    <Content Include="Pages\JuegoTorneo.aspx" />
     <Content Include="Pages\Login.aspx" />
     <Content Include="Pages\MenuSolitarioOX.aspx" />
     <Content Include="Pages\Multi1.aspx" />

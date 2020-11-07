@@ -75,6 +75,7 @@ namespace Proyecto.Pages
                         break;
 
                 }
+                
                 Session["torneo"] = torneo;
                 Response.Redirect("Torneo2.aspx");
             }

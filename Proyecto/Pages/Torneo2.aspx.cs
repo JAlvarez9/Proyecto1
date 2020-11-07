@@ -22,13 +22,14 @@ namespace Proyecto.Pages
             }
             else
             {
-
+                torneo = (Torneos)Session["torneo"];
             }
         }
 
         protected void Button_Octavos(object sender, EventArgs e)
         {
             Button clickButton =(Button)sender;
+            
             switch (clickButton.ID)
             {
                 case "Button1":
@@ -84,6 +85,10 @@ namespace Proyecto.Pages
 
         protected void Button_Cuartos(object sender, EventArgs e)
         {
+            for (int i = 0; i < torneo.cuartos.Count; i++)
+            {
+                torneo.cuartos[i].score = 0;
+            }
             Button clickButton = (Button)sender;
             switch (clickButton.ID)
             {
@@ -117,6 +122,10 @@ namespace Proyecto.Pages
 
         protected void Button_Semis(object sender, EventArgs e)
         {
+            for (int i = 0; i < torneo.semis.Count; i++)
+            {
+                torneo.semis[i].score = 0;
+            }
             Button clickButton = (Button)sender;
             switch (clickButton.ID)
             {
@@ -139,7 +148,14 @@ namespace Proyecto.Pages
         }
         protected void Button_Final(object sender, EventArgs e)
         {
-
+            for (int i = 0; i < torneo.final.Count; i++)
+            {
+                torneo.final[i].score = 0;
+            }
+            Session["equipo1"] = torneo.final[0];
+            Session["equipo2"] = torneo.final[1];
+            Session["tipo"] = "final";
+            Response.Redirect("TorneoPartida.aspx");
         }
         public void ColocarImagen()
         {
@@ -207,22 +223,22 @@ namespace Proyecto.Pages
 
         public void Octavos()
         {
-            Label1.Text = torneo.equipos[0].name + " vs " + torneo.equipos[1].name;
-            Label2.Text = torneo.equipos[2].name + " vs " + torneo.equipos[3].name;
-            Label3.Text = torneo.equipos[4].name + " vs " + torneo.equipos[5].name;
-            Label4.Text = torneo.equipos[6].name + " vs " + torneo.equipos[7].name;
-            Label5.Text = torneo.equipos[8].name + " vs " + torneo.equipos[9].name;
-            Label6.Text = torneo.equipos[10].name + " vs " + torneo.equipos[11].name;
-            Label7.Text = torneo.equipos[12].name + " vs " + torneo.equipos[13].name;
-            Label8.Text = torneo.equipos[14].name + " vs " + torneo.equipos[15].name;
+            Label1.Text = torneo.octavos[0].name + " vs " + torneo.octavos[1].name;
+            Label2.Text = torneo.octavos[2].name + " vs " + torneo.octavos[3].name;
+            Label3.Text = torneo.octavos[4].name + " vs " + torneo.octavos[5].name;
+            Label4.Text = torneo.octavos[6].name + " vs " + torneo.octavos[7].name;
+            Label5.Text = torneo.octavos[8].name + " vs " + torneo.octavos[9].name;
+            Label6.Text = torneo.octavos[10].name + " vs " + torneo.octavos[11].name;
+            Label7.Text = torneo.octavos[12].name + " vs " + torneo.octavos[13].name;
+            Label8.Text = torneo.octavos[14].name + " vs " + torneo.octavos[15].name;
         }
 
         public void Cuartos()
         {
-            Label9.Text = torneo.equipos[0].name + " vs " + torneo.equipos[1].name;
-            Label10.Text = torneo.equipos[2].name + " vs " + torneo.equipos[3].name;
-            Label11.Text = torneo.equipos[4].name + " vs " + torneo.equipos[5].name;
-            Label12.Text = torneo.equipos[6].name + " vs " + torneo.equipos[7].name;
+            Label9.Text = torneo.cuartos[0].name + " vs " + torneo.cuartos[1].name;
+            Label10.Text = torneo.cuartos[2].name + " vs " + torneo.cuartos[3].name;
+            Label11.Text = torneo.cuartos[4].name + " vs " + torneo.cuartos[5].name;
+            Label12.Text = torneo.cuartos[6].name + " vs " + torneo.cuartos[7].name;
             Button1.Enabled = false;
             Button2.Enabled = false;
             Button3.Enabled = false;
@@ -236,8 +252,8 @@ namespace Proyecto.Pages
 
         public void Semis()
         {
-            Label13.Text = torneo.equipos[0].name + " vs " + torneo.equipos[1].name;
-            Label14.Text = torneo.equipos[2].name + " vs " + torneo.equipos[3].name;
+            Label13.Text = torneo.semis[0].name + " vs " + torneo.semis[1].name;
+            Label14.Text = torneo.semis[2].name + " vs " + torneo.semis[3].name;
             Button1.Enabled = false;
             Button2.Enabled = false;
             Button3.Enabled = false;

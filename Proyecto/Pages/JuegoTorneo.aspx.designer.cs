@@ -10,7 +10,7 @@
 namespace Proyecto.Pages {
     
     
-    public partial class Multi2 {
+    public partial class JuegoTorneo {
         
         /// <summary>
         /// Control UpdatePanel1.

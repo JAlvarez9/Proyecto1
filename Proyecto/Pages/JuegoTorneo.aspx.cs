@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
 namespace Proyecto.Pages
 {
-    public partial class Multi2 : System.Web.UI.Page
+    public partial class JuegoTorneo : System.Web.UI.Page
     {
         public string error;
         public SqlConnection conexion;
@@ -27,12 +27,16 @@ namespace Proyecto.Pages
         static int segundos2 = 0;
         static int minutos1 = 0;
         static int minutos2 = 0;
+        JugadoresT jugador1;
+        JugadoresT jugador2;
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
             if (!IsPostBack)
             {
+                jugador1 = (JugadoresT)Session["jugador1"];
+                jugador2 = (JugadoresT)Session["jugador2"];
                 Cronometro1.Enabled = false;
                 Cronometro2.Enabled = false;
                 //Label4.Text = "Primer carga";
@@ -42,18 +46,19 @@ namespace Proyecto.Pages
                 {
                     llenado();
 
-
                 }
                 catch (Exception asa)
                 {
 
                 }
-                
+
                 Session["tab"] = tablero;
                 Button3.Enabled = false;
             }
             else
             {
+                jugador1 = (JugadoresT)Session["jugador1"];
+                jugador2 = (JugadoresT)Session["jugador2"];
                 llenado();
 
             }
@@ -95,9 +100,10 @@ namespace Proyecto.Pages
             turnos[0] = "blanco";
             turnos[1] = "negro";
             int aux = rnd.Next(turnos.Length);
+            //JugadoresT = (Session)
             player.color = turnos[aux];
 
-            Label4.Text = "Maquina";
+            Label1.Text = jugador1.name;
             if (player.color == "blanco")
             {
                 Label3.Text = player.color;
@@ -120,7 +126,7 @@ namespace Proyecto.Pages
                 Cronometro2.Enabled = true;
                 Label6.Text = "Negro <--";
             }
-            actual = (Usuario)Session["Usuario"];
+            //actual = (Usuario)Session["Usuario"];
 
             Ficaha pred1 = new Ficaha();
             pred1.color = "blanco";
@@ -170,7 +176,7 @@ namespace Proyecto.Pages
                 }
             }
 
-            Label1.Text = actual.NmUsuario;
+            Label4.Text = jugador2.name;
             //Label3.Text = numjugadas1.ToString();  
             Button3.Enabled = true;
 
@@ -315,7 +321,7 @@ namespace Proyecto.Pages
                         {
 
                         }
-                        
+
 
                         color = "";
                         x = "";
@@ -407,12 +413,12 @@ namespace Proyecto.Pages
             string idaux;
             int id;
             //turnoactual = (string)Session["turnac"];
-            
+
             //Label4.Text = turnoactual;
             ImageButton clickedButton = (ImageButton)sender;
             botones = (ImageButton[,])Session["botones"];
             tablero = (Ficaha[,])Session["tab"];
-            
+
             if (turnoactual == "negro")
             {
                 idaux = clickedButton.ID;
@@ -422,7 +428,7 @@ namespace Proyecto.Pages
                 nueva = Creacion(id, "negro");
                 nueva.llenado = true;
                 MovimientoNegro((int)nueva.y, nueva.x1, nueva);
-                
+
             }
             else if (turnoactual == "blanco")
             {
@@ -433,7 +439,7 @@ namespace Proyecto.Pages
                 nueva = Creacion(id, "blanco");
                 nueva.llenado = true;
                 MovimientoBlanco((int)nueva.y, nueva.x1, nueva);
-                
+
 
             }
             Button3.Enabled = true;
@@ -840,7 +846,7 @@ namespace Proyecto.Pages
                                 }
                                 if (player.color == "blanco")
                                 {
-                                    
+
                                     Label6.Text = "Negro" + "<--";
                                     Label3.Text = "Blanco";
                                 }
@@ -854,7 +860,7 @@ namespace Proyecto.Pages
                                     Cronometro1.Enabled = false;
                                     Cronometro2.Enabled = true;
                                 }
-                                else if(player.color != turnoactual)
+                                else if (player.color != turnoactual)
                                 {
                                     Cronometro1.Enabled = true;
                                     Cronometro2.Enabled = false;
@@ -864,7 +870,7 @@ namespace Proyecto.Pages
                                 turnoactual = "negro";
                                 Session["tab"] = tablero;
                                 Session["botones"] = botones;
-                            }   
+                            }
                             else
                             {
                                 //turnoactual = "blanco";
@@ -966,7 +972,7 @@ namespace Proyecto.Pages
                                     Cronometro1.Enabled = false;
                                     Cronometro2.Enabled = true;
                                 }
-                                else if(player.color != turnoactual)
+                                else if (player.color != turnoactual)
                                 {
                                     Cronometro1.Enabled = true;
                                     Cronometro2.Enabled = false;
@@ -1142,6 +1148,8 @@ namespace Proyecto.Pages
 
         public void VerificarJuego()
         {
+            EquiposT equipo1 = (EquiposT)Session["equipo1"];
+            EquiposT equipo2 = (EquiposT)Session["equipo2"];
             int verfi = 0;
             for (int i = 0; i < 8; i++)
             {
@@ -1154,29 +1162,90 @@ namespace Proyecto.Pages
                     }
                 }
             }
-            
+
             actual = (Usuario)Session["Usuario"];
             if (verfi == 64)
             {
                 if (player.score > score2)
                 {
-                    string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                    actual.PartidasGanadas += 1;
-                    SQLcreationsWin();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador1 gano');", true);
+                    
+                    jugador1.pts += 3;
+                    jugador1.gano = true;
+                    jugador2.gano = false;
+                    equipo1.score += 3;
+                    for (int i = 0; i < equipo1.jugadores.Count; i++)
+                    {
+                        if (equipo1.jugadores[i].name == jugador1.name)
+                        {
+                            equipo1.jugadores[i] = jugador1;
+                        }
+                    }
+                    for (int i = 0; i < equipo2.jugadores.Count; i++)
+                    {
+                        if (equipo2.jugadores[i].name == jugador2.name)
+                        {
+                            equipo2.jugadores[i] = jugador2;
+                        }
+                    }
+                    Session["equipo1"] = equipo1;
+                    Session["equipo2"] = equipo2;
+                    Response.Redirect("TorneoPartida.aspx");
+                    
+                    
                 }
-                else if(player.score < score2)
+                else if (player.score < score2)
                 {
-                    string script = string.Format("alert('El jugador perdio:{0}');", actual.NmUsuario);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                    actual.PartidasPerdidas += 1;
-                    SQLcreationsLoose();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador2 gano');", true);
+                    jugador2.pts += 3;
+                    jugador2.gano = true;
+                    jugador1.gano = false;
+                    equipo2.score += 3;
+                    for (int i = 0; i < equipo1.jugadores.Count; i++)
+                    {
+                        if (equipo1.jugadores[i].name == jugador1.name)
+                        {
+                            equipo1.jugadores[i] = jugador1;
+                        }
+                    }
+                    for (int i = 0; i < equipo2.jugadores.Count; i++)
+                    {
+                        if (equipo2.jugadores[i].name == jugador2.name)
+                        {
+                            equipo2.jugadores[i] = jugador2;
+                        }
+                    }
+                    Session["equipo1"] = equipo1;
+                    Session["equipo2"] = equipo2;
+                    Response.Redirect("TorneoPartida.aspx");
+                    
 
-                }else if(player.score == score2)
+                }
+                else if (player.score == score2)
                 {
                     string script = string.Format("alert('El jugador empato:{0}');", actual.NmUsuario);
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
-                    actual.PartidasEmpatadas += 1;
+                    jugador1.pts += 1;
+                    jugador2.pts += 1;
+                    equipo1.score += 1;
+                    equipo2.score += 1;
+                    for (int i = 0; i < equipo1.jugadores.Count; i++)
+                    {
+                        if (equipo1.jugadores[i].name == jugador1.name)
+                        {
+                            equipo1.jugadores[i] = jugador1;
+                        }
+                    }
+                    for (int i = 0; i < equipo2.jugadores.Count; i++)
+                    {
+                        if (equipo2.jugadores[i].name == jugador2.name)
+                        {
+                            equipo2.jugadores[i] = jugador2;
+                        }
+                    }
+                    Session["equipo1"] = equipo1;
+                    Session["equipo2"] = equipo2;
+                    Response.Redirect("TorneoPartida.aspx");
 
                 }
             }
@@ -1201,34 +1270,106 @@ namespace Proyecto.Pages
             {
                 if (player.color == "blanco")
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa perdio');", true);
-                    
-                    actual.PartidasPerdidas += 1;
-                    //SQLcreationsWin();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador2 gano');", true);
+                    jugador2.pts += 3;
+                    jugador2.gano = true;
+                    jugador1.gano = false;
+                    equipo2.score += 3;
+                    for (int i = 0; i < equipo1.jugadores.Count; i++)
+                    {
+                        if (equipo1.jugadores[i].name == jugador1.name)
+                        {
+                            equipo1.jugadores[i] = jugador1;
+                        }
+                    }
+                    for (int i = 0; i < equipo2.jugadores.Count; i++)
+                    {
+                        if (equipo2.jugadores[i].name == jugador2.name)
+                        {
+                            equipo2.jugadores[i] = jugador2;
+                        }
+                    }
+                    Session["equipo1"] = equipo1;
+                    Session["equipo2"] = equipo2;
+                    Response.Redirect("TorneoPartida.aspx");
                 }
-                else if(player.color != "blanco")
+                else if (player.color != "blanco")
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa gano');", true);
-
-                    actual.PartidasGanadas += 1;
-                    //SQLcreationsLoose();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador1 gano');", true);
+                    jugador1.pts += 3;
+                    jugador1.gano = true;
+                    jugador2.gano = false;
+                    equipo1.score += 3;
+                    for (int i = 0; i < equipo1.jugadores.Count; i++)
+                    {
+                        if (equipo1.jugadores[i].name == jugador1.name)
+                        {
+                            equipo1.jugadores[i] = jugador1;
+                        }
+                    }
+                    for (int i = 0; i < equipo2.jugadores.Count; i++)
+                    {
+                        if (equipo2.jugadores[i].name == jugador2.name)
+                        {
+                            equipo2.jugadores[i] = jugador2;
+                        }
+                    }
+                    Session["equipo1"] = equipo1;
+                    Session["equipo2"] = equipo2;
+                    Response.Redirect("TorneoPartida.aspx");
                 }
             }
             else if (black == 0)
             {
                 if (player.color == "negro")
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa perdio');", true);
-
-                    actual.PartidasPerdidas += 1;
-                    //SQLcreationsWin();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador2 gano');", true);
+                    jugador2.pts += 3;
+                    jugador2.gano = true;
+                    jugador1.gano = false;
+                    equipo2.score += 3;
+                    for (int i = 0; i < equipo1.jugadores.Count; i++)
+                    {
+                        if (equipo1.jugadores[i].name == jugador1.name)
+                        {
+                            equipo1.jugadores[i] = jugador1;
+                        }
+                    }
+                    for (int i = 0; i < equipo2.jugadores.Count; i++)
+                    {
+                        if (equipo2.jugadores[i].name == jugador2.name)
+                        {
+                            equipo2.jugadores[i] = jugador2;
+                        }
+                    }
+                    Session["equipo1"] = equipo1;
+                    Session["equipo2"] = equipo2;
+                    Response.Redirect("TorneoPartida.aspx");
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador casa gano');", true);
-
-                    actual.PartidasGanadas += 1;
-                    //SQLcreationsLoose();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('El jugador1 gano');", true);
+                    jugador1.pts += 3;
+                    jugador1.gano = true;
+                    jugador2.gano = false;
+                    equipo1.score += 3;
+                    for (int i = 0; i < equipo1.jugadores.Count; i++)
+                    {
+                        if (equipo1.jugadores[i].name == jugador1.name)
+                        {
+                            equipo1.jugadores[i] = jugador1;
+                        }
+                    }
+                    for (int i = 0; i < equipo2.jugadores.Count; i++)
+                    {
+                        if (equipo2.jugadores[i].name == jugador2.name)
+                        {
+                            equipo2.jugadores[i] = jugador2;
+                        }
+                    }
+                    Session["equipo1"] = equipo1;
+                    Session["equipo2"] = equipo2;
+                    Response.Redirect("TorneoPartida.aspx");
                 }
             }
             Session["Usuario"] = actual;
@@ -1259,90 +1400,23 @@ namespace Proyecto.Pages
             Label2.Text = player.score.ToString();
             Label5.Text = score2.ToString();
         }
-
-        public void SQLcreationsWin()
-        {
-            this.conexion = Conexion.getConexion();
-            Usuario actual = (Usuario)Session["Usuario"];
-            SqlCommand comand = new SqlCommand();
-            comand.Connection = conexion;
-            comand.CommandText = "UPDATE Usuario set PartidasGanadas = @partidasganadas " +
-                "where NombreUsuario = @nmusuario ;" ;
-            comand.Parameters.AddWithValue("@nmusuario", actual.NmUsuario);
-            comand.Parameters.AddWithValue("@partidasganadas", actual.PartidasGanadas);
-            try
-            {
-                comand.ExecuteNonQuery();
-                
-            }
-            catch (SqlException ex)
-            {
-                this.error = ex.Message;
-            }
-            Label8.Text = this.error;
-        }
-
-        public void SQLcreationsLoose()
-        {
-            this.conexion = Conexion.getConexion();
-            Usuario actual = (Usuario)Session["Usuario"];
-            SqlCommand comand = new SqlCommand();
-            comand.Connection = conexion;
-            comand.CommandText = "UPDATE Usuario set PartidasPerdidas = @partidasperdidas " +
-                "where NombreUsuario = @nmusuario ;";
-            comand.Parameters.AddWithValue("@nmusuario", actual.NmUsuario);
-            comand.Parameters.AddWithValue("@partidasperdidas", actual.PartidasPerdidas);
-            try
-            {
-                comand.ExecuteNonQuery();
-                
-            }
-            catch (SqlException ex)
-            {
-                this.error = ex.Message;
-            }
-            Label8.Text = this.error;
-        }
-
-        public void SQLcreationsDraw()
-        {
-            this.conexion = Conexion.getConexion();
-            Usuario actual = (Usuario)Session["Usuario"];
-            SqlCommand comand = new SqlCommand();
-            comand.Connection = conexion;
-            comand.CommandText = "UPDATE Usuario set PartidasEmpatadas = @partidasempatadas " +
-                "where NombreUsuario = @nmusuario ;";
-            comand.Parameters.AddWithValue("@nmusuario", actual.NmUsuario);
-            comand.Parameters.AddWithValue("@partidasempatadas", actual.PartidasEmpatadas);
-            try
-            {
-                comand.ExecuteNonQuery();
-
-            }
-            catch (SqlException ex)
-            {
-                this.error = ex.Message;
-            }
-            Label8.Text = this.error;
-
-        }
-
+        
         protected void Button4_Click(object sender, EventArgs e)
         {
-          
+
             actual = (Usuario)Session["Usuario"];
             int fill = 0;
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if(tablero[i,j].llenado == true)
+                    if (tablero[i, j].llenado == true)
                     {
                         fill += 1;
                     }
                 }
             }
-            if(fill == 63)
+            if (fill == 63)
             {
                 player.score = 0;
                 score2 = 0;
@@ -1360,7 +1434,7 @@ namespace Proyecto.Pages
                         }
                     }
                 }
-                if(player.score > score2)
+                if (player.score > score2)
                 {
                     player.score += 1;
                     string script = string.Format("alert('El jugador gano:{0}');", actual.NmUsuario);
@@ -1427,7 +1501,7 @@ namespace Proyecto.Pages
             {
                 if (player.color == "blanco")
                 {
-                    
+
                     Label6.Text = "Negro" + "<--";
                     Label3.Text = "Blanco";
                 }
